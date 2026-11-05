@@ -1,0 +1,369 @@
+[
+  {
+    "label": "setup",
+    "title": "Prepare a clean and documented R session",
+    "objective": "Make the analysis repeatable and identify the software actually used.",
+    "what": "Loads installed packages, sets readable plotting defaults, and records existing package-build warnings.",
+    "why": "Use the course's familiar packages and preserve environment warnings transparently.",
+    "expected": "A package-version table and a recorded environment status, without installing anything.",
+    "interpretation": "The verified executable is R 4.5.0. Some existing packages were built under a newer patch release; their warnings are preserved in the final environment record. Successful execution of this report does not certify every possible package operation.",
+    "hypothesis": "This establishes a reproducible environment; it supplies no evidence about housing costs.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 14,
+        "explanation": "Load only installed dependencies. The handler records the known package-build warnings instead of filling the report with repeated messages; other warnings remain visible. No package is downloaded."
+      },
+      {
+        "start": 16,
+        "end": 29,
+        "explanation": "Set a consistent chart style and seed for reproducible point jitter, create output folders, and list actual package versions. The seed affects visual jitter, not rental observations or scenario assumptions."
+      }
+    ]
+  },
+  {
+    "label": "load-evidence",
+    "title": "Read the frozen evidence",
+    "objective": "Identify the observations and official facts available for this study.",
+    "what": "Reads the agency facts, two-direction route results, tariff extraction and Armstat wage series from relative paths.",
+    "why": "Frozen local inputs and explicit checks are simpler and more reproducible than downloading during rendering.",
+    "expected": "A small evidence-count table; invalid IDs or quantities stop execution.",
+    "interpretation": "The raw facts include other room counts, currencies and locations so exclusions remain auditable. The source's active status is catalogue status, not confirmation of immediate vacancy. Creation dates are not verified price-update dates.",
+    "hypothesis": "These are usable advertised market records, but their existence does not establish the research conclusion.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 8,
+        "explanation": "Read preserved files, make join IDs the same type, and interpret both textual and numeric source flags. Loading uses no live API, so future catalogue changes cannot silently alter these results."
+      },
+      {
+        "start": 10,
+        "end": 17,
+        "explanation": "Check unique source IDs, positive basic quantities and rental-apartment tags. These checks detect some errors; unique IDs alone do not prove distinct dwellings."
+      }
+    ]
+  },
+  {
+    "label": "screen-listings",
+    "title": "Select comparable advertised apartments",
+    "objective": "Reduce obvious differences in rooms, area, currency, furnishing and geography before comparing prices.",
+    "what": "Applies predeclared screens, removes known ambiguous geography and one mixed-term offer, and conservatively screens possible duplicates.",
+    "why": "Original AMD quotes avoid undocumented currency conversion; transparent narrow screens are preferable to unsupported quality adjustment.",
+    "expected": "A sequential sample-flow table with all denominators visible.",
+    "interpretation": "Absent furniture features mean unknown, not proven unfurnished. The signature screen removes a possible duplicate; distinct units can share building characteristics. Renovation remains unobserved, so the selected apartments are only partially comparable. Some ads have future or limited availability.",
+    "hypothesis": "This reduces several alternative explanations for rent differences, while leaving important quality and selection bias unresolved.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 10,
+        "explanation": "Limit the primary design to two rooms, the fixed size band, original AMD quotes and advertised furniture. Exclude flagged placeholders, town mismatches and boundary-ambiguous cases. The coordinate box is a broad error screen, not proof of district membership."
+      },
+      {
+        "start": 12,
+        "end": 23,
+        "explanation": "Exclude ID 11834 because its public page offers daily as well as long-term availability. Source page labels support monthly asking-price interpretation for the rental category. Keep one record per possible-property signature using a deterministic creation-date order; this is a conservative screen, not proof that two ads are the same dwelling."
+      }
+    ]
+  },
+  {
+    "label": "network-sample",
+    "title": "Check both directions of each journey",
+    "objective": "Use network distances without silently replacing missing journeys with straight-line distance.",
+    "what": "Joins cached car-network outputs, checks both directions and snap distances, and fixes one primary analytical sample.",
+    "why": "Two-direction cached network queries preserve road structure and provide an explicit missingness rule.",
+    "expected": "A district route-exclusion table and reproducible processed files.",
+    "interpretation": "OSRM supplies a car-road model, not measured peak travel. Approximate listing points and agency district tags remain uncertain even after snapping. Public-transport times below are separate road-distance-based assumptions, not these car durations relabeled as transit.",
+    "hypothesis": "The route inputs allow conditional commuting comparisons, but do not prove actual daily travel burdens.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 12,
+        "explanation": "Require route outputs and origin snapping within 250m in each direction. Add outward and return lengths/times before converting metres to kilometres and seconds to minutes; one-way streets can make the two legs different."
+      },
+      {
+        "start": 14,
+        "end": 26,
+        "explanation": "Translate source district labels for presentation and preserve both the analytical table and a membership log. Every primary rent and budget comparison uses this same sample, avoiding hidden denominator changes."
+      }
+    ]
+  },
+  {
+    "label": "district-summary",
+    "title": "Summarize rent and remaining comparability",
+    "objective": "Describe how the selected advertisements differ across named districts.",
+    "what": "Calculates counts, rent spread, area spread and medians of already-summed round-trip road inputs.",
+    "why": "Medians are readable and less sensitive to extreme advertisements; showing IQRs and area spread prevents a misleading single-number comparison.",
+    "expected": "A rent-and-area summary table, with sample counts for each district.",
+    "interpretation": "Unobserved renovation and partially missing building type remain competing explanations. Higher district rent can reflect location, quality, building mix or agency selection. The table is descriptive and cannot separate those effects.",
+    "hypothesis": "Rent savings are one side of the hypothesis; this table alone cannot determine whether commuting costs outweigh them.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 12,
+        "explanation": "Group by each named district and calculate sample medians and quartiles. Quartiles describe the middle half of these advertisements; they are not confidence intervals. Check area differences inside the allowed band rather than claiming all apartments are identical."
+      },
+      {
+        "start": 14,
+        "end": 16,
+        "explanation": "Record the central comparison and sparse-group warning for the executed narrative. The fewer-than-ten flag is a presentation caution, not a formal statistical cutoff."
+      }
+    ]
+  },
+  {
+    "label": "rent-distribution",
+    "title": "Visualize the asking-rent distributions",
+    "objective": "See both the rent differences and the variation hidden by district medians.",
+    "what": "Draws horizontal boxplots and individual advertisement points, with sample counts in district labels.",
+    "why": "A distribution chart preserves heterogeneity that a bar chart of medians would hide.",
+    "expected": "One distribution chart, not a predicted price pattern.",
+    "interpretation": "Overlapping distributions mean a household could find an unusually cheap central listing or an expensive noncentral one. District median differences are not guarantees for a specific available apartment.",
+    "hypothesis": "This tests the descriptive premise of cheaper rents away from the central comparator, not the full hidden-cost claim.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 13,
+        "explanation": "Map AMD rent to the horizontal axis and named districts to the vertical axis. Boxes and points show sample spread; transparent jitter separates overlapping points without changing the rent values. Save the same plot used in the report."
+      }
+    ]
+  },
+  {
+    "label": "rent-and-journey",
+    "title": "Compare rents with the road-journey model",
+    "objective": "Explore whether lower asking rents accompany longer modeled car-network journeys.",
+    "what": "Plots individual rents against half of each two-way free-flow duration, highlighting Kentron.",
+    "why": "A scatterplot makes variation visible without implying an unsupported regression or population test.",
+    "expected": "A scatterplot showing the observed asking-price and modeled-route combinations.",
+    "interpretation": "The plot can suggest an association, but does not control dwelling quality or validate peak commuting times. It cannot establish that distance caused a rent reduction.",
+    "hypothesis": "Even an apparent rent–journey tradeoff needs the cost model to assess whether savings survive.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 14,
+        "explanation": "Use actual listing rents and cached route-model outputs. Half the round-trip duration is an average of the two legs, not an assumption that the legs match. Color highlights the central comparator without pooling other districts for estimation."
+      }
+    ]
+  },
+  {
+    "label": "scenario-inputs",
+    "title": "Separate verified tariffs from assumed consumption",
+    "objective": "Define an explicit winter-month household and time-value benchmark.",
+    "what": "Uses official tariff facts while keeping consumption, working hours and travel assumptions visible.",
+    "why": "Observed unit tariffs and modeled quantities must remain distinguishable so readers can replace assumptions with their own.",
+    "expected": "A modeled utility-cost table and a wage-based time-value scenario table.",
+    "interpretation": "Equal consumption makes baseline utility costs equal across districts. That is an assumption, not evidence that bills are geographically equal. The model excludes internet, building fees and other unsupported charges, and represents a winter month rather than an annual average.",
+    "hypothesis": "This prevents a hidden heating difference from being invented and lets the importance of time depend on explicit assumptions.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 14,
+        "explanation": "Read verified rates, select the 2025 gross national wage, and divide it by an assumed 176 paid hours. Compute winter electricity/gas/water costs from declared usage. Electricity uses the tariff band for 200 kWh total, not a progressive first-block calculation."
+      },
+      {
+        "start": 16,
+        "end": 20,
+        "explanation": "Show zero, quarter, half and full benchmark values. None is an observed willingness to pay or renter wage; zero time value remains a separate cash-cost comparison."
+      }
+    ]
+  },
+  {
+    "label": "cost-functions",
+    "title": "Define the financial calculations",
+    "objective": "Translate the economic model into short reusable R functions.",
+    "what": "Defines five transparent calculations, using named units and special-case handling.",
+    "why": "Small named functions keep repeated sensitivity calculations consistent while retaining beginner-readable arithmetic.",
+    "expected": "Function definitions; numerical behavior is checked later against hand-calculated cases.",
+    "interpretation": "Private-car costs are a marginal operating scenario, not depreciation, financing, insurance or an observed fuel bill. Two-commuter car scenarios assume independent journeys/vehicles; shared-car savings are not modeled.",
+    "hypothesis": "These calculations operationalize both outcomes without double-counting transport or time.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 6,
+        "explanation": "Choose pay-per-ride or one 30-day pass per commuter. Multiply two directions by return-commute days and boardings once. This does not optimize all quarterly or annual ticket products."
+      },
+      {
+        "start": 8,
+        "end": 11,
+        "explanation": "Multiply already-summed road kilometres by days, the operating allowance and independent commuters, then add each commuter's assumed destination parking. Zero commuting days incur no modeled parking subscription."
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "explanation": "Convert already-round-trip minutes to household monthly hours; the two legs have already been added, so there is no further factor of two."
+      },
+      {
+        "start": 18,
+        "end": 20,
+        "explanation": "Add housing/utilities, transport and the optional value of commuting hours. When the time value is zero the last term vanishes exactly."
+      },
+      {
+        "start": 22,
+        "end": 27,
+        "explanation": "Calculate a positive time-value crossing only if the comparison is directly cheaper and takes more time. Return missing for other cases so they receive their own interpretation rather than a misleading negative or infinite threshold."
+      },
+      {
+        "start": 29,
+        "end": 29,
+        "explanation": "Record which financial operations were defined; these functions do not themselves contain housing observations."
+      }
+    ]
+  },
+  {
+    "label": "district-budgets",
+    "title": "Build consistent district budget examples",
+    "objective": "Compare direct and generalized selected costs under identical household rules.",
+    "what": "Applies each mode to the district median inputs and compares every example with the same-mode Kentron example.",
+    "why": "One explicit archetype makes additive cost differences and break-even equations exactly consistent.",
+    "expected": "A table of district examples for both modes, showing direct and time-valued outcomes separately.",
+    "interpretation": "A flat city fare can leave monetary transit spending unchanged even when travel takes longer. The central comparator also has transport costs and time. Medians of rent, road length and road time need not come from the same apartment, so this is not a median observed total budget.",
+    "hypothesis": "Negative cost differences contradict the strong claim that savings always disappear; positive differences support it only for the stated district example and scenario.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 10,
+        "explanation": "Construct a public-road-distance scenario at 12 km/h plus 15 minutes access/wait per leg, and a car scenario at 1.5times free-flow duration plus 5 minutes per leg. Both use each district's own journeys. The car allowance is 60 AMD/km plus 10000 AMD parking per commuter; these values are assumptions."
+      },
+      {
+        "start": 12,
+        "end": 25,
+        "explanation": "Match central comparisons by mode and calculate rent saved, extra spending and extra hours. These are differences between modeled district examples, not paired moving-household effects. Summarize the executed sign comparisons without a significance test."
+      }
+    ]
+  },
+  {
+    "label": "cost-visuals",
+    "title": "Show costs and the rent-saving tradeoff",
+    "objective": "Make clear how much of the rent saving is consumed by modeled extra transport and time.",
+    "what": "Plots direct versus generalized examples and compares rent saved with extra commuting burden.",
+    "why": "Use budget levels and one explicit equality comparison instead of redundant bar charts.",
+    "expected": "Two complementary figures: budget levels and saving-versus-extra-cost comparisons.",
+    "interpretation": "The dashed line explains the model's decision rule. It does not estimate a causal relationship. A point below the line can still reverse under a larger time value, greater heating use or different commuting assumptions.",
+    "hypothesis": "These charts directly assess the conditional hidden-cost claim and show which component changes the answer.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 13,
+        "explanation": "Reshape only the two outcomes into a plotting table; these extra rows are not new observations. Use a separate panel for each transport mode and label both outcomes explicitly."
+      },
+      {
+        "start": 15,
+        "end": 32,
+        "explanation": "The equality line is an algebraic reference, not a fitted trend. Below it, rent saving exceeds extra transport and valued time. Equal axes preserve an honest visual comparison; the preceding district table identifies every point without overlapping text labels."
+      }
+    ]
+  },
+  {
+    "label": "break-even",
+    "title": "Calculate conditional time-value thresholds",
+    "objective": "Find where the district example stops being cheaper as commuting time becomes more valuable.",
+    "what": "Computes positive break-even values and plots cost differences across a continuous time-value range.",
+    "why": "A simple additive model permits an exact, understandable break-even equation without statistical theatre.",
+    "expected": "A threshold table and a cost-difference curve, including no-crossing cases.",
+    "interpretation": "Time value, not physical distance alone, determines these crossings. Car costs and journeys vary together, so a universal kilometre threshold is unsupported. A threshold outside the plotted range still exists algebraically when the table reports it.",
+    "hypothesis": "This identifies when the hidden-cost claim can become true under changed preferences rather than presuming one answer for every household.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 12,
+        "explanation": "Use the exact direct-cost difference and extra household hours from the same archetype. Missing thresholds are interpreted by direction of costs/time, rather than displayed as misleading negative or infinite solutions. The plotted 0–10000 AMD/hour range is a scenario axis, not an observed wage distribution."
+      },
+      {
+        "start": 14,
+        "end": 27,
+        "explanation": "Plot each named comparison as its own line. The crossing is a model threshold under fixed other costs; no citywide distance threshold is inferred. Save exactly the plotted figure."
+      }
+    ]
+  },
+  {
+    "label": "sensitivity",
+    "title": "Vary household, heating and travel assumptions",
+    "objective": "Check whether the conclusion depends on a narrow choice of assumptions.",
+    "what": "Builds household/wage/heating scenarios and separately changes transit access, transfers and driving costs.",
+    "why": "Separate uncertainty in assumptions from variation between rental ads; neither is a manufactured sampling confidence interval.",
+    "expected": "A sensitivity heatmap and retained scenario/travel tables, without interpreting grid size as sample size.",
+    "interpretation": "The grid exposes dependence on time, workers and heating. It does not assign probabilities to scenarios. Two-car cases assume separate commuting vehicles; shared rides could lower costs. Real traffic, timetables, taxi fares, social discounts and every possible household are not observed or exhaustively modeled.",
+    "hypothesis": "A finding that reverses in plausible scenarios supports a conditional recommendation; it cannot justify a universal claim about peripheral living.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 15,
+        "explanation": "Cross declared assumptions, not sampled households. Extra gas is imposed only on noncentral examples as a stress test, not estimated from district location. Match each example to Kentron with exactly the same mode/household/time assumptions."
+      },
+      {
+        "start": 17,
+        "end": 32,
+        "explanation": "Display one explicit stress slice, with a diverging color scale centered at zero. The cells are modeled differences, not probabilities or independent observations. Negative cells indicate a cheaper district example."
+      },
+      {
+        "start": 34,
+        "end": 54,
+        "explanation": "Check paired fast/base/slow road-based travel assumptions and car allowances. Separately test two boardings outside Kentron, with the central comparator kept at one, so a flat fare does not silently hide transfer spending. Annual-pass amortization is reported separately because paying yearly is not the same 30-day purchasing strategy."
+      }
+    ]
+  },
+  {
+    "label": "robustness",
+    "title": "Check aggregation and the narrower area band",
+    "objective": "Assess whether a different summary construction changes the comparison.",
+    "what": "Calculates listing-level modeled totals as an alternative summary and reports rent-only summaries for a narrower area band.",
+    "why": "A direct alternative-summary check is more honest than attaching unjustified inferential precision to convenience data.",
+    "expected": "An aggregation-sensitivity table and a clearly separate narrower-band rent table.",
+    "interpretation": "If signs remain unchanged, that supports stability to this particular summary choice, not robustness to unobserved renovation, agency selection or real congestion. A narrow size band can greatly reduce district support.",
+    "hypothesis": "This checks whether the conditional finding is an artifact of one aggregation rule while acknowledging remaining confounding.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 19,
+        "explanation": "Calculate a modeled total for each advertisement before taking its district median. Compare the sign with the primary median-input archetype. These totals are still hypothetical budgets, not observed household bills; the exercise tests aggregation sensitivity."
+      },
+      {
+        "start": 21,
+        "end": 25,
+        "explanation": "Show a narrower 55–65 m² rent-only check with its own counts. Do not silently substitute these rents into the primary budget or imply that absent/very small districts have reliable estimates."
+      }
+    ]
+  },
+  {
+    "label": "validation",
+    "title": "Verify formulas and study boundaries",
+    "objective": "Ensure reported conclusions follow from executed calculations.",
+    "what": "Runs hand-calculated cost checks, algebraic identities, sample checks and break-even substitution.",
+    "why": "Hand-derived examples and algebraic invariants can catch double-counting and unit mistakes with no additional test packages.",
+    "expected": "Execution continues only if all stated checks pass; otherwise rendering stops.",
+    "interpretation": "Numerical correctness and scientific validity are different. Correct arithmetic cannot repair a nonrepresentative sample or turn modeled utility use into observed spending. Independent QA also checks the source/code/document correspondence.",
+    "hypothesis": "This protects the link between evidence and conclusions without claiming more validity than the study design permits.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 10,
+        "explanation": "Check literal hand-derived examples, the winter utility sum, the zero-time identity, the rent-saving identity, and zero generalized difference at each positive crossing. A small numerical tolerance handles floating-point arithmetic."
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "explanation": "Ensure excluded IDs remain excluded and every primary observation obeys the declared selection rule. Only claim these executed checks passed; they do not certify the website's coordinates or all economic assumptions."
+      }
+    ]
+  },
+  {
+    "label": "export-results",
+    "title": "Save the executed results and provenance",
+    "objective": "Keep the Word companion and final conclusions tied to this exact executed analysis.",
+    "what": "Exports tables, actual-result narratives, references and environment information for verification and documentation.",
+    "why": "Use one executed source of results and one source of chunk code rather than manually maintaining conflicting documents.",
+    "expected": "Supporting CSV/JSON/session files and a final conditional sign-count table.",
+    "interpretation": "The Word builder reads these executed narratives and extracts the code from this Rmd, reducing the chance of mismatched values or chunk names. Re-render this analysis before rebuilding the companion after any substantive change.",
+    "hypothesis": "This preserves an auditable path from source records through calculations to the stated conclusion.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 12,
+        "explanation": "Write supporting results with row names disabled so no artificial observation column is introduced. These are supporting reproducibility files, not extra principal deliverables. Record the actual R session."
+      },
+      {
+        "start": 14,
+        "end": 28,
+        "explanation": "Export actual values and per-chunk narratives for the code companion. Explicitly state why p-values and population intervals were not estimated; no missing significance result is replaced with a fabricated one."
+      }
+    ]
+  }
+]

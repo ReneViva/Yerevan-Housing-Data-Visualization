@@ -1,0 +1,75 @@
+{
+  "publisher": "WSE.AM real estate agency",
+  "source_api_url": "https://wse.am/api/properties",
+  "source_catalogue_url": "https://wse.am/en/apartments-for-rent-yerevan",
+  "retrieved_at_utc": "2026-11-05T14:57:52.1641557+00:00",
+  "response_content_sha256_utf8": "f24d76f059c6951611a08878dfd041a39b0e84f13d78260b61b7dfb55cbe7959",
+  "saved_facts_sha256": "575908f93da83b25f830a24086c51ef753d414c1b85b56b8e5022da8080fbf1e",
+  "total_api_objects": 1808,
+  "retained_rent_apartments_all_cities": 949,
+  "retained_yerevan_rent_apartments": 933,
+  "preliminary_two_room_45_75_m2_yerevan_n": 323,
+  "preliminary_district_counts": [
+    {
+      "district_source": "Аван",
+      "n": 15
+    },
+    {
+      "district_source": "Арабкир",
+      "n": 80
+    },
+    {
+      "district_source": "Ачапняк",
+      "n": 27
+    },
+    {
+      "district_source": "Давташен",
+      "n": 10
+    },
+    {
+      "district_source": "Канакер-Зейтун",
+      "n": 12
+    },
+    {
+      "district_source": "Кентрон",
+      "n": 120
+    },
+    {
+      "district_source": "Малатия-Себастия",
+      "n": 21
+    },
+    {
+      "district_source": "Нор Норк",
+      "n": 17
+    },
+    {
+      "district_source": "Норк-Мараш",
+      "n": 6
+    },
+    {
+      "district_source": "Шенгавит",
+      "n": 8
+    },
+    {
+      "district_source": "Эребуни",
+      "n": 7
+    }
+  ],
+  "source_created_at_min": "2026-06-03 09:48:15",
+  "source_created_at_max": "2026-11-05 14:39:58",
+  "time_semantics": "Retrieved active catalogue as published; created_at is a source field, not verified price-update or tenancy date. Price observation date is unknown.",
+  "extraction": "One public API GET; retain rent apartment factual whitelist only. No descriptions, images, agent records, contacts or unredacted address/house numbers saved. All cities retained to support exclusions.",
+  "source_access": "robots.txt explicitly allows /api/properties and AI crawlers. No login, tokens, CAPTCHA workaround, or disabled TLS checks.",
+  "rights": "No open-data redistribution license established. Site footer reserves rights. Limited factual academic extraction with attribution; do not republish the catalogue or claim CC licensing.",
+  "robots_url": "https://wse.am/robots.txt",
+  "privacy_url": "https://wse.am/en/privacy",
+  "frozen_index_url": "https://wse.am/indeks-arendy-erevana/2026-11.csv",
+  "frozen_index_page_url": "https://wse.am/en/indeks-arendy-erevana/2026-11",
+  "frozen_index_effective_date": "2026-11-01",
+  "frozen_index_warning": "Agency aggregate medians by district/rooms, separate from listing sample. CSV also contains a later sale-price section; never parse it as rents.",
+  "price_usd_warning": "source_price_usd is a website conversion, not a verified historical FX series. Use original AMD prices for primary analysis or independently document FX.",
+  "feature_warning": "Feature presence is observed advertising text; absent feature does not establish absence of furnishing/equipment. Renovation condition is unknown.",
+  "coordinate_warning": "Source coordinates may be approximate/geocoded/placeholder. Repeated centre coordinate is flagged; obvious non-Yerevan towns can be incorrectly tagged city/district. No point is independently ground-truthed.",
+  "signature_warning": "Hashed source city/district/address/area/rooms/floor is a possible-property duplicate screen, not proof of distinct apartments. Several units at same building can legitimately share a signature.",
+  "sampling_warning": "Single-agency convenience catalogue; not probability sampling, completed leases, or all Yerevan rentals. All counts are snapshot-specific."
+}

@@ -1,0 +1,30 @@
+WSE.AM rental price-period semantic audit
+Checked 2026-11-05 using normal HTTPS GETs; all five listing pages below returned HTTP 200.
+This is a minimal factual evidence record. No descriptions, photographs or contact records are reproduced.
+
+General source landing:
+https://wse.am/en/apartments-for-rent-yerevan
+The public heading/body identifies this as long-term rental apartments. Its FAQ states that rent is paid monthly and the lease is usually 6-12 months.
+This establishes the publisher's category convention, not each individual contract's actual duration or availability.
+
+Three saved, comparable advertisements checked:
+14552: https://wse.am/en/snyat/2-komn-kentron-argishti-7-10-14552
+14529: https://wse.am/en/snyat/2-komn-nor-nork-lvovyan-7-10-14529
+14394: https://wse.am/en/snyat/2-komn-malatia-sebastia-kirka-kerkoryan-23-7b-14394
+For each, the page's property details label the deal Long-term rent, and the page title expresses the AMD asking price per month (AMD/mo).
+14552 additionally indicates future availability, and 14529 describes rental only until May. Source active status does not establish immediate availability or an unrestricted year-long lease.
+
+Daily comparator, excluded from the saved rent-apartment extraction:
+13697: https://wse.am/en/posutochno/3-komn-arabkir-bratev-orbeli-67-2-13697
+The public API classifies this object daily_rent. Its page has a daily-rental heading, a per-night title, and an explicit per-day price label. The source distinguishes daily_rent from rent.
+
+Mixed-offer caveat:
+11834: https://wse.am/en/snyat/2-komn-kentron-surb-grigora-lusavoricha-8-11834
+This saved 2-room 60 m2 AMD-priced record is API-classified rent. Its public page explicitly labels the displayed price per month. Its description also offers both daily and long-term rental.
+Thus the displayed asking price is monthly, while the property is not offered exclusively for long-term use. Conservative primary-sample exclusion or a mixed-offer sensitivity flag is appropriate.
+
+Follow-up in-memory keyword screening of current descriptions for the saved 949 listing IDs found daily-rental terms in IDs 11834 and 12292. ID 12292 is five rooms and already outside the comparable sample. Only these IDs and the factual semantic finding are retained; source descriptions are not saved.
+Keyword screening is incomplete evidence: it is not a guarantee that every other listing has no alternative short-term offer. Source pages can change after the original snapshot.
+
+Interpretation for the analysis:
+Describe the observed variable as the agency's advertised monthly asking rent in its long-term-rent category. Do not claim that all 949 are independently confirmed exclusive long-term leases, current vacancies, completed transactions, or measured household spending. Preserve the distinction between observed monthly price labels, source category, and unknown realized lease conditions.

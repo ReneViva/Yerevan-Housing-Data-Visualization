@@ -1,0 +1,92 @@
+[
+  {
+    "source_id": "transport",
+    "publisher": "Yerevan Municipality",
+    "url": "https://transport.yerevan.am/",
+    "local_file": "data/raw/official/transport.html",
+    "retrieved_utc": "2026-11-05T14:58:05.1399053Z",
+    "bytes": 1517,
+    "sha256": "26bedc6d0367f8a60c9501599ca22ddcef9580ed26d234f6a9fbaef8370df945",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "transport_150",
+    "publisher": "Yerevan Municipality",
+    "url": "https://www.yerevan.am/en/news/150-dram-mek-owgheworowt-yan-hamar-ew-ansahmanap-ak-p-at-et-neri-erkarats-owm/",
+    "local_file": "data/raw/official/transport-150.html",
+    "retrieved_utc": "2026-11-05T14:58:05.4084335Z",
+    "bytes": 66366,
+    "sha256": "acd132a890bcc1c9a6666eccd55f8c64ba0c1e39953c2bf24896cb78e437b7db",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "electricity",
+    "publisher": "Electric Networks of Armenia",
+    "url": "https://www.ena.am/Info.aspx?id=11&lang=2",
+    "local_file": "data/raw/official/electricity.html",
+    "retrieved_utc": "2026-11-05T14:58:05.5294593Z",
+    "bytes": 34586,
+    "sha256": "8baea694ac2d7612736efe89101e433158a924960b108de624b74b94ee290386",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "gas",
+    "publisher": "Public Services Regulatory Commission",
+    "url": "https://www.psrc.am/contents/newsPress/gas-tariff-22",
+    "local_file": "data/raw/official/gas.html",
+    "retrieved_utc": "2026-11-05T14:58:05.6464744Z",
+    "bytes": 52512,
+    "sha256": "3c89f679fb149f9405878fcaabc9c92cff4c891239a43708b4bd33ec8bf01a35",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "gas_2026",
+    "publisher": "Public Services Regulatory Commission",
+    "url": "https://psrc.am/contents/page/posts/natural-gas-tariffs-for-residents-will-stay-unchanged",
+    "local_file": "data/raw/official/gas-2026.html",
+    "retrieved_utc": "2026-11-05T15:01:30.7788100Z",
+    "bytes": 50145,
+    "sha256": "1a524b2022580725cd875a0f4694ee7fa11f8374b91c2a8c8ae1758aa17d2599",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "water",
+    "publisher": "Veolia Djur",
+    "url": "https://www.veolia.am/en/news/2026-drinking-water-tariff-consumers-will-not-increase",
+    "local_file": "data/raw/official/water.html",
+    "retrieved_utc": "2026-11-05T14:58:06.2686358Z",
+    "bytes": 49186,
+    "sha256": "3f33eebd08841ed83d985a2360d6b490f65c1f1e34b48e139d55dfbfae91c277",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "water_units",
+    "publisher": "Veolia Djur",
+    "url": "https://www.veolia.am/en/consumers/frequently-asked-questions",
+    "local_file": "data/raw/official/water-units.html",
+    "retrieved_utc": "2026-11-05T15:01:31.3467943Z",
+    "bytes": 68723,
+    "sha256": "5c6044bf994b3383dd38e68b524d61f301dc64db81a053b71ed6db551dc911e3",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "wage",
+    "publisher": "Armstat",
+    "url": "https://armstat.github.io/sdg-data-armenia/prod/en/headline/8-5-1-a.csv",
+    "local_file": "data/raw/official/wage.csv",
+    "retrieved_utc": "2026-11-05T14:58:06.7282868Z",
+    "bytes": 204,
+    "sha256": "91bfcfcce802ccb228a7da6cd25c5cbce111aebc43361433b9ab4cc16bf29620",
+    "status": "downloaded; extraction and relevance require separate validation"
+  },
+  {
+    "source_id": "wage_metadata",
+    "publisher": "Armstat",
+    "url": "https://sdg.armstat.am/8-5-1-a-iframe/",
+    "local_file": "data/raw/official/wage-metadata.html",
+    "retrieved_utc": "2026-11-05T14:58:06.7852327Z",
+    "bytes": 81351,
+    "sha256": "a9e4f066bf6eb4a44fe73ac8929fef5e4fbbc539b19a62bd832b48623eb09a0b",
+    "status": "downloaded; extraction and relevance require separate validation"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "source_url": "https://transport.yerevan.am/",
+  "method": "Chrome DevTools rendered public page body text; no login or personal input",
+  "verified_at_utc": "2026-11-05T14:59:23.614Z",
+  "local_file": "data/raw/official/transport-rendered.txt",
+  "sha256": "2dcb59fb2399a56953c8fb30f4d5e037f63d7b49a39ba12533ed48e1ef392b8b",
+  "reproduction": "Open public page, wait for content, save fare-comparison text. Plain HTML is an SPA shell.",
+  "status": "downloaded and validated against rendered public fare table"
+}

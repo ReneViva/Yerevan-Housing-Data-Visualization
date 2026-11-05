@@ -1,0 +1,27 @@
+# RStudio and local R session state
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Credentials and machine-local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated outputs and setup smoke fixtures
+outputs/*
+!outputs/.gitkeep
+validation/.setup-smoke/
+validation/*.log
+validation/final-docx-render/
+validation/lo-render-attempt/
+__pycache__/
+.tools/
+
+# Operating system files
+Thumbs.db
+Desktop.ini
+.DS_Store

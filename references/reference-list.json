@@ -1,0 +1,107 @@
+[
+  {
+    "title": "WSE.AM rental catalogue and public property API",
+    "publisher": "WSE.AM",
+    "date": "Snapshot 2026-11-05",
+    "url": "https://wse.am/en/apartments-for-rent-yerevan",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "Public property API access rules",
+    "publisher": "WSE.AM",
+    "date": "Accessed 2026-11-05",
+    "url": "https://wse.am/robots.txt",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "Unified public transport ticket comparison",
+    "publisher": "Yerevan Municipality",
+    "date": "2025 onward",
+    "url": "https://transport.yerevan.am/",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "Household electricity tariffs",
+    "publisher": "Electric Networks of Armenia",
+    "date": "2022 rates with 2025 amendments",
+    "url": "https://www.ena.am/Info.aspx?id=11&lang=2",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "Natural gas tariff decision",
+    "publisher": "Public Services Regulatory Commission",
+    "date": "2022-03-01",
+    "url": "https://www.psrc.am/contents/newsPress/gas-tariff-22",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "Resident gas tariffs unchanged from August 2026",
+    "publisher": "Public Services Regulatory Commission",
+    "date": "2026",
+    "url": "https://psrc.am/contents/page/posts/natural-gas-tariffs-for-residents-will-stay-unchanged",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "2026 drinking water tariff",
+    "publisher": "Veolia Djur",
+    "date": "2025-11-26",
+    "url": "https://www.veolia.am/en/news/2026-drinking-water-tariff-consumers-will-not-increase",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "Water tariff units and metering FAQ",
+    "publisher": "Veolia Djur",
+    "date": "2025 tariff description",
+    "url": "https://www.veolia.am/en/consumers/frequently-asked-questions",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "SDG8.5.1.a average monthly nominal wages and metadata",
+    "publisher": "Armstat",
+    "date": "Data updated 2026-06-10; observation 2025",
+    "url": "https://sdg.armstat.am/8-5-1-a-iframe/",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "OSRM HTTP API table service",
+    "publisher": "Project OSRM",
+    "date": "v26.5.0 documentation",
+    "url": "https://project-osrm.org/docs/v26.5.0/http",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "OpenStreetMap data attribution and license",
+    "publisher": "OpenStreetMap contributors",
+    "date": "Accessed 2026-11-05",
+    "url": "https://www.openstreetmap.org/copyright",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "DS116 lecture materials",
+    "publisher": "Habet Madoyan, American University of Armenia",
+    "date": "Repository commit 1a74f34584c85b08b0f9a87d055b663d209df9de",
+    "url": "https://github.com/ReneViva/DS116-Data-Visualization/tree/1a74f34584c85b08b0f9a87d055b663d209df9de",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "ggplot2 reference",
+    "publisher": "ggplot2 authors",
+    "date": "Installed version recorded in report",
+    "url": "https://ggplot2.tidyverse.org/reference/",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "dplyr reference",
+    "publisher": "dplyr authors",
+    "date": "Installed version recorded in report",
+    "url": "https://dplyr.tidyverse.org/reference/",
+    "accessed": "2026-11-05"
+  },
+  {
+    "title": "knitr documentation",
+    "publisher": "Yihui Xie and contributors",
+    "date": "Installed version recorded in report",
+    "url": "https://yihui.org/knitr/",
+    "accessed": "2026-11-05"
+  }
+]

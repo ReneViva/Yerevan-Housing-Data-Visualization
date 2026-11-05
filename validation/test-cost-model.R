@@ -1,0 +1,18 @@
+# Hand-derived tests of the actual financial helper functions; no new packages.
+source("scripts/cost-model.R")
+stopifnot(transit_cost(22, 1, 1, 150, 9000) == 6600)
+stopifnot(transit_cost(22, 1, 2, 150, 9000) == 9000)
+stopifnot(transit_cost(22, 2, 1, 150, 9000) == 13200)
+stopifnot(transit_cost(0, 1, 2, 150, 9000) == 0)
+stopifnot(transit_cost(22, 0, 2, 150, 9000) == 0)
+stopifnot(car_cost(10, 22, 1, 60, 10000) == 23200)
+stopifnot(car_cost(10, 22, 2, 60, 10000) == 46400)
+stopifnot(monthly_hours(60, 22, 1) == 22)
+stopifnot(generalized_cost(250000, 25000, 6600, 22, 0) == 281600)
+stopifnot(generalized_cost(250000, 25000, 6600, 22, 1000) == 303600)
+stopifnot(break_even_value(-40000, 20) == 2000)
+stopifnot(is.na(break_even_value(-40000, 0)))
+stopifnot(is.na(break_even_value(40000, 20)))
+# Substituting a break-even value must recover equal generalized costs.
+stopifnot(-40000 + break_even_value(-40000, 20) * 20 == 0)
+cat("PASS: cost identities, fare caps, scaling, and break-even spot-checks.\n")
