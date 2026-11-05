@@ -1,0 +1,12 @@
+parameter,value,unit,source_id,coverage
+fare_single,150,AMD/boarding,transport,2025 onward; accessed 2026-11-05
+fare_30day,9000,AMD/commuter/30 days,transport,2025 onward; accessed 2026-11-05
+fare_365day,90000,AMD/commuter/365 days,transport,2025 onward; accessed 2026-11-05
+electric_day_low,46.48,AMD/kWh,electricity,monthly total <=200 kWh
+electric_night_low,36.48,AMD/kWh,electricity,monthly total <=200 kWh
+electric_day_mid,48.48,AMD/kWh,electricity,monthly total >200 and <=400 kWh
+electric_night_mid,38.48,AMD/kWh,electricity,monthly total >200 and <=400 kWh
+electric_day_high,53.48,AMD/kWh,electricity,monthly total >400 kWh
+electric_night_high,43.48,AMD/kWh,electricity,monthly total >400 kWh
+gas_per_1000m3,143700,AMD/1000 m3,gas,standard household; 2022 rate and 2026 no-change announcement
+water_per_m3,200.42,AMD/m3,water,2026 standard metered water plus wastewater; including VAT

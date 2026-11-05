@@ -1,0 +1,54 @@
+1/19             
+2/19 [prepare]   
+3/19             
+4/19 [rent]      
+5/19             
+6/19 [commute]   
+7/19             
+8/19 [budgets]   
+9/19             
+10/19 [savings]   
+11/19             
+12/19 [stress]    
+13/19             
+14/19 [threshold] 
+15/19             
+16/19 [checks]    
+17/19             
+18/19 [references]
+19/19             
+"D:\Softwares\Applications\RStudio\resources\app\bin\quarto\bin\tools/pandoc" +RTS -K512m -RTS "C:\Users\Raven\AppData\Local\Temp\RtmpoTUpgs\Yerevan_Housing_Research.knit.md" --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output pandoc2355410b04885.html --lua-filter "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmarkdown\lua\pagebreak.lua" --lua-filter "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmarkdown\lua\latex-div.lua" --lua-filter "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmarkdown\lua\table-classes.lua" --embed-resources --standalone --variable bs3=TRUE --section-divs --template "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmd\h\default.html" --syntax-highlighting none --variable highlightjs=1 --variable theme=readable --include-in-header "C:\Users\Raven\AppData\Local\Temp\RtmpoTUpgs\rmarkdown-str2355479b44db0.html" --variable code_folding=hide --variable code_menu=1 
+1/19             
+2/19 [prepare]   
+3/19             
+4/19 [rent]      
+5/19             
+6/19 [commute]   
+7/19             
+8/19 [budgets]   
+9/19             
+10/19 [savings]   
+11/19             
+12/19 [stress]    
+13/19             
+14/19 [threshold] 
+15/19             
+16/19 [checks]    
+17/19             
+18/19 [references]
+19/19             
+"D:\Softwares\Applications\RStudio\resources\app\bin\quarto\bin\tools/pandoc" +RTS -K512m -RTS "C:\Users\Raven\AppData\Local\Temp\RtmpoTUpgs\Yerevan_Housing_Research.knit.md" --to latex --from markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures --output pandoc235544d6f5a7c.tex --lua-filter "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmarkdown\lua\pagebreak.lua" --lua-filter "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmarkdown\lua\latex-div.lua" --embed-resources --standalone --syntax-highlighting tango --pdf-engine xelatex --variable graphics --lua-filter "D:\Softwares\Applications\AppData\R\win-library\4.5\rmarkdown\rmarkdown\lua\extract-data-uri.lua" 
+
+
+processing file: Yerevan_Housing_Research.Rmd
+output file: C:/Users/Raven/AppData/Local/Temp/RtmpoTUpgs/Yerevan_Housing_Research.knit.md
+
+
+Output created: outputs/Yerevan_Housing_Research.html
+
+
+processing file: Yerevan_Housing_Research.Rmd
+output file: C:/Users/Raven/AppData/Local/Temp/RtmpoTUpgs/Yerevan_Housing_Research.knit.md
+
+
+Output created: outputs/Yerevan_Housing_Research.pdf

@@ -1,0 +1,15 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+mainfont: Calibri
+---
+
+Cyrillic text check: Кентрон и Ереван.
+
+```{r, echo=FALSE, dev="png"}
+Sys.setlocale("LC_CTYPE", "English_United States.utf8")
+plot(1, 1, type="n", axes=FALSE, xlab="", ylab="")
+text(1, 1, "Кентрон и Ереван", cex=1.5)
+```
+

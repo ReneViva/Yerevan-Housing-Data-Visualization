@@ -1,0 +1,204 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - button "Code" [ref=e5] [cursor=pointer]
+    - heading "Does cheaper housing make life more expensive?" [level=1] [ref=e7]
+    - heading "Yerevan · 5 November 2026" [level=4] [ref=e8]
+  - paragraph [ref=e9]:
+    - strong [ref=e10]: Lower rent survives the baseline comparison.
+    - text: These six charts explain why—and when the answer can change. They use real advertisements and explicitly modeled travel and winter bills.
+  - paragraph [ref=e11]: Select a chart to open its full-size image.
+  - generic [ref=e12]:
+    - heading "Where is rent cheaper?" [level=2] [ref=e13]
+    - button "Show" [ref=e16] [cursor=pointer]
+    - paragraph [ref=e17]:
+      - link [ref=e18] [cursor=pointer]:
+        - /url: ../figures/01-rent.png
+        - img "Open full-size chart of median asking rents and listing quartiles by district" [ref=e19]
+    - paragraph [ref=e21]:
+      - strong [ref=e22]: Kentron has the highest median asking rent.
+      - text: Its median is 500,000 AMD, compared with 350,000–400,000 AMD elsewhere in this sample. The whiskers show that prices still vary within each district.
+  - generic [ref=e23]:
+    - heading "How much longer is the commute?" [level=2] [ref=e24]
+    - button "Show" [ref=e27] [cursor=pointer]
+    - paragraph [ref=e28]:
+      - link [ref=e29] [cursor=pointer]:
+        - /url: ../figures/02-commute.png
+        - img "Open full-size chart of modeled one-way commute minutes by district and mode" [ref=e30]
+    - paragraph [ref=e32]:
+      - strong [ref=e33]: The rent saving comes with more modeled travel time.
+      - text: Kentron is closer to the shared destination in these district examples. These are road-based scenarios—not timed journeys, live traffic, or actual bus routes.
+  - generic [ref=e34]:
+    - heading "What does the monthly budget include?" [level=2] [ref=e35]
+    - button "Show" [ref=e38] [cursor=pointer]
+    - paragraph [ref=e39]:
+      - link [ref=e40] [cursor=pointer]:
+        - /url: ../figures/03-budget.png
+        - img "Open full-size chart of modeled rent, utility and transport components" [ref=e41]
+    - paragraph [ref=e43]:
+      - strong [ref=e44]: Rent is the largest part of the selected budget.
+      - text: Modeled winter utilities add 24,769 AMD everywhere. Public fares can be the same despite a longer journey; driving adds distance-dependent costs. Time is not a cash cost and is added in the next chart.
+  - generic [ref=e45]:
+    - heading "How much saving remains after valuing time?" [level=2] [ref=e46]
+    - button "Show" [ref=e49] [cursor=pointer]
+    - paragraph [ref=e50]:
+      - link [ref=e51] [cursor=pointer]:
+        - /url: ../figures/04-saving.png
+        - img "Open full-size chart of monthly saving relative to Kentron after valuing time" [ref=e52]
+    - paragraph [ref=e54]:
+      - strong [ref=e55]: The baseline rent savings survive the extra costs.
+      - text: All 20 district–mode examples remain cheaper than Kentron when time is valued at about 861 AMD/hour. That finding applies to this sample and these assumptions, not every apartment or household.
+  - generic [ref=e56]:
+    - heading "When can the answer change?" [level=2] [ref=e57]
+    - button "Show" [ref=e60] [cursor=pointer]
+    - paragraph [ref=e61]:
+      - link [ref=e62] [cursor=pointer]:
+        - /url: ../figures/05-sensitivity.png
+        - img "Open full-size heatmap of savings under heavier winter and commuting assumptions" [ref=e63]
+    - paragraph [ref=e65]:
+      - strong [ref=e66]: More commuting and heating can erase the saving in some cases.
+      - text: The chosen grid contains 2 more-expensive cases. The chart shows one heavy-commuting winter example; it does not estimate how often households face those conditions. Two-car cases assume separate journeys and vehicles.
+  - generic [ref=e67]:
+    - heading "When would the saving disappear?" [level=2] [ref=e68]
+    - button "Show" [ref=e71] [cursor=pointer]
+    - paragraph [ref=e72]:
+      - link [ref=e73] [cursor=pointer]:
+        - /url: ../figures/06-break-even.png
+        - img "Open full-size chart of break-even time values and the gross wage benchmark" [ref=e74]
+    - paragraph [ref=e76]:
+      - strong [ref=e77]: The answer depends on how you value extra time.
+      - text: The lowest positive threshold is about 4,555 AMD/hour, above the 1,722 AMD/hour gross benchmark used here. This is a conditional calculation, and some district samples are small.
+  - generic [ref=e78]:
+    - heading "What should a renter take from this?" [level=2] [ref=e79]
+    - paragraph [ref=e80]: In the baseline model, the rent saving is large enough to cover the selected extra costs. A renter should still compare a real quote with their own commute, heating needs and value of time. The stress chart shows why the conclusion should remain conditional.
+    - paragraph [ref=e81]:
+      - text: The evidence does
+      - strong [ref=e82]: not
+      - text: support a blanket claim that cheaper noncentral housing always becomes more expensive. It also does not prove that every noncentral apartment is cheaper overall.
+  - generic [ref=e83]:
+    - heading "Assumptions and sources" [level=2] [ref=e84]
+    - group [ref=e85]:
+      - generic "Read the household and travel assumptions" [ref=e86] [cursor=pointer]
+    - group [ref=e87]:
+      - generic "Read about the sample, statistics and checks" [ref=e88] [cursor=pointer]
+  - generic [ref=e89]:
+    - heading "Data and limitations" [level=3] [ref=e90]
+    - paragraph [ref=e91]:
+      - text: The four CSVs in
+      - code [ref=e92]: data/
+      - text: are the complete inputs.
+      - code [ref=e93]: rentals.csv
+      - text: "is already cleaned: 276 native-AMD, two-room, 45–75 m² advertisements with furniture advertised and usable route inputs. The original 949-record extraction, exclusion evidence and route replies are preserved in"
+      - code [ref=e94]: _archive/previous-version/
+      - text: .
+    - paragraph [ref=e95]: This is one agency’s catalogue, retrieved on 5 November 2026—not random sampling or completed leases. Availability and last price-update dates are unverified. Condition and building information are incomplete, and district labels/coordinates may be approximate. These comparisons are not quality-adjusted or causal. Outside Kentron is not outside the Yerevan municipality; Abovyan and Masis are not compared.
+    - paragraph [ref=e96]: Whiskers show listing quartiles, not confidence intervals. We do not manufacture population p-values from convenience advertisements or scenario rows. The graphs communicate descriptive statistics and sensitivity to assumptions.
+    - paragraph [ref=e97]: The original broader checks included faster/slower travel, transfers, a narrower size band and alternative aggregation. Their evidence remains archived; the simplified report retains the same primary sample, baseline calculations and full household/heating/time grid.
+  - generic [ref=e98]:
+    - heading "Reproduce the report" [level=3] [ref=e99]
+    - paragraph [ref=e100]:
+      - text: Open
+      - code [ref=e101]: YerevanHousing.Rproj
+      - text: ", open this Rmd, then click"
+      - strong [ref=e102]: Knit
+      - text: . Both HTML and Unicode-capable PDF go into
+      - code [ref=e103]: outputs/
+      - text: ; the six chart images go into
+      - code [ref=e104]: figures/
+      - text: . All calculations run here using local CSVs. No development scripts, downloads or new package installations are required during knitting. HTML code is folded; use its Code buttons to reveal the chart code. The matching Word file explains every chunk.
+    - paragraph [ref=e105]: AI assistance was used for research, coding, writing and verification. The student should understand the work and confirm the instructor’s submission and AI policies. Existing package-build warnings from newer R patch versions are a known environment limitation; the report is checked by actual execution.
+    - group [ref=e106]:
+      - generic "Open the reference list" [ref=e107] [cursor=pointer]
+  - generic [ref=e108]:
+    - heading "References" [level=3] [ref=e109]
+    - list [ref=e110]:
+      - listitem [ref=e111]:
+        - paragraph [ref=e112]:
+          - text: WSE.AM.
+          - link "WSE.AM rental catalogue and public property API" [ref=e113] [cursor=pointer]:
+            - /url: https://wse.am/en/apartments-for-rent-yerevan
+          - text: . Snapshot 2026-11-05. Accessed 2026-11-05.
+      - listitem [ref=e114]:
+        - paragraph [ref=e115]:
+          - text: WSE.AM.
+          - link "Public property API access rules" [ref=e116] [cursor=pointer]:
+            - /url: https://wse.am/robots.txt
+          - text: . Accessed 2026-11-05. Accessed 2026-11-05.
+      - listitem [ref=e117]:
+        - paragraph [ref=e118]:
+          - text: Yerevan Municipality.
+          - link "Unified public transport ticket comparison" [ref=e119] [cursor=pointer]:
+            - /url: https://transport.yerevan.am/
+          - text: . 2025 onward. Accessed 2026-11-05.
+      - listitem [ref=e120]:
+        - paragraph [ref=e121]:
+          - text: Electric Networks of Armenia.
+          - link "Household electricity tariffs" [ref=e122] [cursor=pointer]:
+            - /url: https://www.ena.am/Info.aspx?id=11&lang=2
+          - text: . 2022 rates with 2025 amendments. Accessed 2026-11-05.
+      - listitem [ref=e123]:
+        - paragraph [ref=e124]:
+          - text: Public Services Regulatory Commission.
+          - link "Natural gas tariff decision" [ref=e125] [cursor=pointer]:
+            - /url: https://www.psrc.am/contents/newsPress/gas-tariff-22
+          - text: . 2022-03-01. Accessed 2026-11-05.
+      - listitem [ref=e126]:
+        - paragraph [ref=e127]:
+          - text: Public Services Regulatory Commission.
+          - link "Resident gas tariffs unchanged from August 2026" [ref=e128] [cursor=pointer]:
+            - /url: https://psrc.am/contents/page/posts/natural-gas-tariffs-for-residents-will-stay-unchanged
+          - text: . 2026. Accessed 2026-11-05.
+      - listitem [ref=e129]:
+        - paragraph [ref=e130]:
+          - text: Veolia Djur.
+          - link "2026 drinking water tariff" [ref=e131] [cursor=pointer]:
+            - /url: https://www.veolia.am/en/news/2026-drinking-water-tariff-consumers-will-not-increase
+          - text: . 2025-11-26. Accessed 2026-11-05.
+      - listitem [ref=e132]:
+        - paragraph [ref=e133]:
+          - text: Veolia Djur.
+          - link "Water tariff units and metering FAQ" [ref=e134] [cursor=pointer]:
+            - /url: https://www.veolia.am/en/consumers/frequently-asked-questions
+          - text: . 2025 tariff description. Accessed 2026-11-05.
+      - listitem [ref=e135]:
+        - paragraph [ref=e136]:
+          - text: Armstat.
+          - link "SDG8.5.1.a average monthly nominal wages and metadata" [ref=e137] [cursor=pointer]:
+            - /url: https://sdg.armstat.am/8-5-1-a-iframe/
+          - text: . Data updated 2026-06-10; observation 2025. Accessed 2026-11-05.
+      - listitem [ref=e138]:
+        - paragraph [ref=e139]:
+          - text: Project OSRM.
+          - link "OSRM HTTP API table service" [ref=e140] [cursor=pointer]:
+            - /url: https://project-osrm.org/docs/v26.5.0/http
+          - text: . v26.5.0 documentation. Accessed 2026-11-05.
+      - listitem [ref=e141]:
+        - paragraph [ref=e142]:
+          - text: OpenStreetMap contributors.
+          - link "OpenStreetMap data attribution and license" [ref=e143] [cursor=pointer]:
+            - /url: https://www.openstreetmap.org/copyright
+          - text: . Accessed 2026-11-05. Accessed 2026-11-05.
+      - listitem [ref=e144]:
+        - paragraph [ref=e145]:
+          - text: Habet Madoyan, American University of Armenia.
+          - link "DS116 lecture materials" [ref=e146] [cursor=pointer]:
+            - /url: https://github.com/ReneViva/DS116-Data-Visualization/tree/1a74f34584c85b08b0f9a87d055b663d209df9de
+          - text: . Repository commit 1a74f34584c85b08b0f9a87d055b663d209df9de. Accessed 2026-11-05.
+      - listitem [ref=e147]:
+        - paragraph [ref=e148]:
+          - text: ggplot2 authors.
+          - link "ggplot2 reference" [ref=e149] [cursor=pointer]:
+            - /url: https://ggplot2.tidyverse.org/reference/
+          - text: . Documentation accessed 2026-11-05. Accessed 2026-11-05.
+      - listitem [ref=e150]:
+        - paragraph [ref=e151]:
+          - text: dplyr authors.
+          - link "dplyr reference" [ref=e152] [cursor=pointer]:
+            - /url: https://dplyr.tidyverse.org/reference/
+          - text: . Documentation accessed 2026-11-05. Accessed 2026-11-05.
+      - listitem [ref=e153]:
+        - paragraph [ref=e154]:
+          - text: Yihui Xie and contributors.
+          - link "knitr documentation" [ref=e155] [cursor=pointer]:
+            - /url: https://yihui.org/knitr/
+          - text: . Documentation accessed 2026-11-05. Accessed 2026-11-05.
+    - paragraph [ref=e156]: Network estimates use OpenStreetMap contributors’ data through OSRM. Source access does not establish an open redistribution license for the agency catalogue.

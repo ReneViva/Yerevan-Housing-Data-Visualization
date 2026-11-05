@@ -13,7 +13,11 @@
 
 # Generated outputs and setup smoke fixtures
 outputs/*
-!outputs/.gitkeep
+!outputs/Yerevan_Housing_Research.html
+!outputs/Yerevan_Housing_Research.pdf
+_archive/revision-checks/word-pages/
+_archive/revision-checks/report-pages/
+_archive/revision-checks/browser-*.png
 validation/.setup-smoke/
 validation/*.log
 validation/final-docx-render/

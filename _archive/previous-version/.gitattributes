@@ -1,0 +1,9 @@
+# Preserve code/document hashes and original downloaded evidence across checkouts.
+*.Rmd -text
+*.R text eol=lf
+*.ps1 text eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.json -text
+/data/raw/** -text

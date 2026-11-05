@@ -1,0 +1,110 @@
+{
+  "rmd_sha256": "ce22b64d4728e6fb719d3c50d432dd509bd69e19ee2688c6f43531e391594134",
+  "guide_sha256": "3f532f856390ebef82aa3dd12199516f17bd7368a82661fa05be2fa373284b89",
+  "results_sha256": "d4a8eb5573020f8118afb85833a3d25184c2ae5ea09e0de9800516411d84a27b",
+  "docx_sha256": "be7407161ffac759c12f5de49a7e1fb02b24b00e3516d9347caa18b214254bd2",
+  "code_style": "Exact R code",
+  "number_separator": "TAB",
+  "code_line_paragraphs": 168,
+  "code_hash_convention": "UTF-8 with normalized LF; chunk terminal LF retained",
+  "chunks": [
+    {
+      "label": "prepare",
+      "code": "if (.Platform$OS.type == \"windows\") Sys.setlocale(\"LC_CTYPE\", \"English_United States.utf8\")\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(tidyr)\noptions(tinytex.install_packages = FALSE, scipen = 999)\nrentals <- read.csv(\"data/rentals.csv\", stringsAsFactors = FALSE)\ntariffs <- read.csv(\"data/tariffs.csv\")\nwages <- read.csv(\"data/wages.csv\")\nsources <- read.csv(\"data/sources.csv\", stringsAsFactors = FALSE)\nrate <- setNames(tariffs$value, tariffs$parameter)\nknitr::opts_chunk$set(echo = knitr::is_html_output(), message = FALSE,\n  warning = TRUE, dev = \"png\", dpi = 160, fig.show = \"hold\", fig.width = 9, fig.height = 5.5,\n  fig.path = file.path(normalizePath(tempdir(), winslash = \"/\"), \"yerevan-chart-\"),\n  out.width = \"100%\")\ndir.create(\"figures\", showWarnings = FALSE)\ntheme_set(theme_minimal(base_size = 12, base_family = \"sans\") + theme(plot.margin = margin(8, 24, 8, 8)))\nblue <- \"#286C8E\"\norange <- \"#AF572E\"\namd <- scales::label_number(scale = 0.001, suffix = \"k\", accuracy = 1)\n",
+      "code_sha256": "894a4429bd18bfe79b5f374cef4d8a3a29cae1c09b04e3001c7d4d5f388e80d3",
+      "rmd_first_line": 61,
+      "rmd_last_line": 79,
+      "line_count": 19
+    },
+    {
+      "label": "rent",
+      "code": "districts <- rentals %>% group_by(district) %>% summarise(\n  n = n(), rent = median(rent_amd), q1 = quantile(rent_amd, 0.25),\n  q3 = quantile(rent_amd, 0.75), area = median(area_m2),\n  km = median(round_trip_km), minutes = median(freeflow_minutes), .groups = \"drop\")\norder <- districts$district[order(districts$rent)]\ndistrict_labels <- setNames(paste0(districts$district, \"  ·  n=\", districts$n,\n  ifelse(districts$n < 10, \"*\", \"\")), districts$district)\nrent_plot <- ggplot(rentals, aes(rent_amd, factor(district, levels = order))) +\n  geom_boxplot(aes(fill = district == \"Kentron\"), width = 0.55, outlier.size = 1.3) +\n  scale_fill_manual(values = c(\"FALSE\" = blue, \"TRUE\" = \"#374151\"), guide = \"none\") +\n  scale_y_discrete(labels = district_labels) + scale_x_continuous(labels = amd) +\n  labs(x = \"Monthly asking rent (AMD)\", y = NULL,\n       caption = \"Boxes: middle 50% of ads. Line: median. Whiskers: up to 1.5 box lengths beyond box edges.\\nDots: beyond whiskers. Two rooms, 45–75 m², furniture advertised. *Fewer than 10 ads: read cautiously.\")\nrent_plot\nggsave(\"figures/01-rent.png\", rent_plot, width = 9, height = 5.5, dpi = 180)\n",
+      "code_sha256": "70b4c880d820b9b0f6381c5210e36c9979b0479f29da3a709c6f81d180ab664d",
+      "rmd_first_line": 85,
+      "rmd_last_line": 99,
+      "line_count": 15
+    },
+    {
+      "label": "commute",
+      "code": "travel <- bind_rows(\n  districts %>% mutate(mode = \"Public transport\", trip_minutes = km / 12 * 60 + 30),\n  districts %>% mutate(mode = \"Private car\", trip_minutes = minutes * 1.5 + 10))\ncommute_pairs <- travel %>% select(district, mode, trip_minutes) %>%\n  pivot_wider(names_from = mode, values_from = trip_minutes)\ncommute_plot <- ggplot(travel, aes(trip_minutes / 2,\n  factor(district, levels = order), color = mode, shape = mode)) +\n  geom_segment(data = commute_pairs,\n    aes(x = `Private car` / 2, xend = `Public transport` / 2,\n        y = factor(district, levels = order), yend = factor(district, levels = order)), inherit.aes = FALSE,\n    color = \"#BAC6CE\", linewidth = 1.2) +\n  geom_point(size = 3.2) +\n  scale_color_manual(values = c(\"Private car\" = blue, \"Public transport\" = \"#657580\"), name = NULL) +\n  scale_shape_manual(values = c(\"Private car\" = 16, \"Public transport\" = 17), name = NULL) +\n  labs(x = \"Modeled minutes per one-way journey\", y = NULL,\n       caption = \"Each connecting line shows the difference between the two modeled travel modes.\\nDestination: Republic Square. Transit: 12 km/h + 15 min per leg; car: 1.5 × free-flow + 5 min per leg.\") +\n  theme(legend.position = \"bottom\")\ncommute_plot\nggsave(\"figures/02-commute.png\", commute_plot, width = 9, height = 5.5, dpi = 180)\n",
+      "code_sha256": "1a0378d3af62267447b46c95e0a5aabfc296d470e590ed493f17738954b74341",
+      "rmd_first_line": 115,
+      "rmd_last_line": 133,
+      "line_count": 19
+    },
+    {
+      "label": "budgets",
+      "code": "days <- 22\ncommuters <- 1\nwage <- wages$Value[wages$Year == 2025]\nhourly <- wage / (22 * 8)\ntime_value <- hourly / 2\nutilities <- 150 * rate[\"electric_day_low\"] + 50 * rate[\"electric_night_low\"] +\n  100 * rate[\"gas_per_1000m3\"] / 1000 + 8 * rate[\"water_per_m3\"]\nbudgets <- travel %>% mutate(\n  transport = ifelse(mode == \"Public transport\",\n    commuters * pmin(2 * days * rate[\"fare_single\"], rate[\"fare_30day\"]),\n    commuters * (km * days * 60 + 10000)),\n  hours = trip_minutes * days * commuters / 60,\n  direct = rent + utilities + transport,\n  with_time = direct + hours * time_value)\ncentral <- budgets %>% filter(district == \"Kentron\") %>%\n  select(mode, central_direct = direct, central_hours = hours, central_total = with_time)\ncomparisons <- budgets %>% left_join(central, by = \"mode\") %>% mutate(\n  saving = central_total - with_time, direct_difference = direct - central_direct,\n  extra_hours = hours - central_hours)\ncomponents <- budgets %>% mutate(utilities = utilities) %>%\n  select(district, mode, rent, utilities, transport) %>%\n  pivot_longer(c(rent, utilities, transport), names_to = \"component\", values_to = \"amd\")\ncomponents$component <- factor(components$component, levels = c(\"transport\", \"utilities\", \"rent\"))\nbudget_plot <- ggplot(components, aes(amd, factor(district, levels = order), fill = component)) +\n  geom_col(width = 0.65) + facet_wrap(~mode, nrow = 1) +\n  scale_fill_manual(values = c(rent = \"#AFC8D5\", utilities = \"#657580\", transport = blue), name = NULL) +\n  scale_x_continuous(labels = amd) +\n  labs(x = \"Selected cash costs per month (AMD)\", y = NULL,\n       caption = \"Rent + modeled electricity, gas, water and commuting. One commuter, 22 return-commute days.\\nSame winter consumption in every district; heating is included once through gas.\") +\n  theme(legend.position = \"bottom\")\nbudget_plot\nggsave(\"figures/03-budget.png\", budget_plot, width = 9, height = 5.5, dpi = 180)\n",
+      "code_sha256": "91f2de671d48fd15b1b03ef7c32d0210ff929b2dc72930406213fc8004057d9d",
+      "rmd_first_line": 149,
+      "rmd_last_line": 180,
+      "line_count": 32
+    },
+    {
+      "label": "savings",
+      "code": "noncentral <- comparisons %>% filter(district != \"Kentron\")\nfocus_district <- noncentral$district[which.min(noncentral$saving)]\ncentral_transport <- budgets %>% filter(district == \"Kentron\") %>%\n  select(mode, transport_kentron = transport)\nfocus <- noncentral %>% filter(district == focus_district) %>%\n  left_join(central_transport, by = \"mode\") %>% mutate(\n    rent_saved = districts$rent[districts$district == \"Kentron\"] - rent,\n    transport_added = transport - transport_kentron, time_added = extra_hours * time_value)\nwaterfall <- focus %>% select(mode, rent_saved, transport_added, time_added, saving) %>%\n  mutate(transport_added = -transport_added, time_added = -time_added) %>%\n  pivot_longer(-mode, names_to = \"step_name\", values_to = \"amount\") %>%\n  group_by(mode) %>% mutate(step = row_number(),\n    end = ifelse(step == 4, amount, cumsum(amount)),\n    start = ifelse(step %in% c(1, 4), 0, end - amount),\n    kind = ifelse(step %in% c(1, 4), \"Saving\", \"Added cost\")) %>% ungroup()\nsaving_plot <- ggplot(waterfall) +\n  geom_hline(yintercept = 0, color = \"#374151\") +\n  geom_rect(aes(xmin = step - 0.32, xmax = step + 0.32,\n    ymin = pmin(start, end), ymax = pmax(start, end), fill = kind)) +\n  geom_segment(data = filter(waterfall, step < 4),\n    aes(x = step + 0.32, xend = step + 0.68, y = end, yend = end), color = \"#657580\") +\n  geom_text(aes(step, pmax(start, end), label = amd(amount)), vjust = -0.6, size = 3.8) +\n  facet_wrap(~mode, nrow = 1) +\n  scale_fill_manual(values = c(\"Saving\" = blue, \"Added cost\" = orange), guide = \"none\") +\n  scale_x_continuous(breaks = 1:4, labels = c(\"Rent\\nsaved\", \"Extra\\ntransport\", \"Extra\\ntime\", \"Saving\\nleft\")) +\n  scale_y_continuous(labels = amd, expand = expansion(mult = c(0, 0.16))) +\n  labs(x = NULL, y = \"Monthly saving relative to Kentron (AMD)\",\n       subtitle = paste(\"Focus:\", focus_district, \"— the smallest remaining baseline saving\"),\n       caption = \"Blue: savings. Orange: extra costs. Equal utilities cancel in this comparison.\\nTime is valued at half the gross hourly wage benchmark. These are modeled budgets, not observed bills.\")\nsaving_plot\nggsave(\"figures/04-saving.png\", saving_plot, width = 9, height = 5.5, dpi = 180)\ncheaper <- sum(noncentral$saving > 0)\n",
+      "code_sha256": "1611d82af429a97f5685b52df4a0af27e8f4cd00bd9bba0b9cf4bb2caa128ee1",
+      "rmd_first_line": 196,
+      "rmd_last_line": 227,
+      "line_count": 32
+    },
+    {
+      "label": "stress",
+      "code": "grid <- expand.grid(workers = c(1, 2), workdays = c(16, 22, 26),\n                    fraction = c(0, 0.25, 0.5, 1), extra_gas = c(0, 75, 150))\nscenarios <- merge(travel, grid, by = NULL) %>% mutate(\n  fare = workers * pmin(2 * workdays * rate[\"fare_single\"], rate[\"fare_30day\"]),\n  car = workers * (km * workdays * 60 + 10000),\n  gas_extra = ifelse(district == \"Kentron\", 0, extra_gas * rate[\"gas_per_1000m3\"] / 1000),\n  total = rent + utilities + gas_extra + ifelse(mode == \"Public transport\", fare, car) +\n    trip_minutes * workdays * workers / 60 * fraction * hourly)\nscenario_central <- scenarios %>% filter(district == \"Kentron\") %>%\n  select(mode, workers, workdays, fraction, extra_gas, reference = total)\nscenarios <- scenarios %>% left_join(scenario_central,\n  by = c(\"mode\", \"workers\", \"workdays\", \"fraction\", \"extra_gas\")) %>%\n  mutate(saving = reference - total)\nstress_rows <- scenarios %>% filter(workers == 2, workdays == 26,\n  extra_gas == 150, district != \"Kentron\")\nstress_plot <- ggplot(stress_rows, aes(factor(fraction),\n  factor(district, levels = order), fill = saving)) +\n  geom_tile(color = \"white\") + geom_text(aes(label = round(saving / 1000)), size = 3.5) +\n  facet_wrap(~mode, nrow = 1) +\n  scale_fill_gradient2(low = \"#B65D34\", mid = \"#FAF9F5\", high = \"#78A4B8\",\n    midpoint = 0, limits = c(-150000, 150000), breaks = c(-150000, 0, 150000), labels = amd) +\n  labs(x = \"Time value as a fraction of the gross hourly benchmark\", y = NULL, fill = \"Saving\",\n       caption = \"A stress example: 2 commuters, 26 days, +150 m³ gas outside Kentron.\\nCells show AMD thousands saved; negative values mean more expensive. These are assumptions, not probabilities.\") +\n  theme(legend.position = \"bottom\")\nstress_plot\nggsave(\"figures/05-sensitivity.png\", stress_plot, width = 9, height = 5.5, dpi = 180)\nreversals <- sum(scenarios$saving < 0 & scenarios$district != \"Kentron\")\n",
+      "code_sha256": "d95586597bcb4ffb9c5c9a659983d8086f8339b6b79bec963138acee9d7212d3",
+      "rmd_first_line": 243,
+      "rmd_last_line": 269,
+      "line_count": 27
+    },
+    {
+      "label": "threshold",
+      "code": "thresholds <- noncentral %>% mutate(\n  break_even = ifelse(direct_difference < 0 & extra_hours > 0,\n                     -direct_difference / extra_hours, NA_real_))\nthreshold_plot <- ggplot(thresholds, aes(break_even,\n  factor(district, levels = order))) +\n  geom_point(color = blue, size = 3.5) +\n  geom_vline(xintercept = hourly, linetype = \"dashed\", color = orange, linewidth = 0.8) +\n  facet_wrap(~mode, nrow = 1) + scale_x_continuous(labels = amd) +\n  labs(x = \"Break-even value of commuting time (AMD/hour)\", y = NULL,\n       caption = \"Each dot is a break-even threshold; below it, that district example remains cheaper.\\nDashed line: gross wage benchmark. Other costs are held fixed; this is not a universal distance threshold.\")\nthreshold_plot\nggsave(\"figures/06-break-even.png\", threshold_plot, width = 9, height = 5.5, dpi = 180)\nlowest_threshold <- min(thresholds$break_even, na.rm = TRUE)\n",
+      "code_sha256": "ac2053e5467d8534b9c11c31983fcf2895cb317488f9f4455ad4a268e8e8fb25",
+      "rmd_first_line": 285,
+      "rmd_last_line": 297,
+      "line_count": 13
+    },
+    {
+      "label": "checks",
+      "code": "stopifnot(nrow(rentals) == 276, !anyDuplicated(rentals$listing_id))\nstopifnot(all(rentals$rooms == 2), all(between(rentals$area_m2, 45, 75)))\nstopifnot(isTRUE(all.equal(as.numeric(utilities), 24769.36)))\nstopifnot(all(budgets$direct == budgets$rent + utilities + budgets$transport))\nstopifnot(all(abs(noncentral$direct_difference +\n  noncentral$extra_hours * thresholds$break_even) < 0.000001))\n",
+      "code_sha256": "cad68b29e0771bff131dd7b094bc9e996bb1e6117ca0494bad8c3d1226de53f5",
+      "rmd_first_line": 347,
+      "rmd_last_line": 352,
+      "line_count": 6
+    },
+    {
+      "label": "references",
+      "code": "for (i in seq_len(nrow(sources))) {\n  cat(sprintf(\"- %s. [%s](%s). %s. Accessed %s.\\n\\n\",\n    sources$publisher[i], sources$title[i], sources$url[i],\n    sources$date[i], sources$accessed[i]))\n}\n",
+      "code_sha256": "96dfb942818ecf592163e3e0c6659199b27c0bd4d8501fb8a4e5b3f0940827c8",
+      "rmd_first_line": 369,
+      "rmd_last_line": 373,
+      "line_count": 5
+    }
+  ],
+  "figures": [
+    {
+      "path": "figures/01-rent.png",
+      "sha256": "03ea702fc8325d6c2c28eeed0fbec3b883d41bf265225db623223880116b2ea1"
+    },
+    {
+      "path": "figures/02-commute.png",
+      "sha256": "f91093e670bf610236904c397cd40d48a88090770ef35189dba1a53c2f73f2fd"
+    },
+    {
+      "path": "figures/03-budget.png",
+      "sha256": "d7afd1675bbf82cea50494ca28ffc8867e7ab71cc9efa85eff84036f1a11ac99"
+    },
+    {
+      "path": "figures/04-saving.png",
+      "sha256": "4615b38ea2ae68af81b1c33350fbe9fb3cb78eb921a81f8e087ca6622ea2f4e3"
+    },
+    {
+      "path": "figures/05-sensitivity.png",
+      "sha256": "0c3a957bcdb29f0fcea868e57ca521b32a15c5a8e04d5ccb965ff2232d043f1a"
+    },
+    {
+      "path": "figures/06-break-even.png",
+      "sha256": "50e695ad00861b3f98bb8ef7d4881e711e3d683fee6aaf803300e64e1cef9d05"
+    }
+  ]
+}

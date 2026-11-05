@@ -6,4 +6,7 @@
 *.toml text eol=lf
 *.md text eol=lf
 *.json -text
+*.html -text
 /data/raw/** -text
+/data/*.csv -text
+/_archive/previous-version/** -text

@@ -1,0 +1,303 @@
+[
+  {
+    "label": "prepare",
+    "title": "Prepare the four inputs",
+    "purpose": "Load the local tables and choose a consistent visual style before drawing the charts.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 1,
+        "explanation": "On Windows, set this R process's character-handling locale to a UTF-8-compatible Windows locale. This keeps symbols and text readable when the report is knitted. It does not change Windows settings or other applications."
+      },
+      {
+        "start": 2,
+        "end": 4,
+        "explanation": "library loads ggplot2 for charts, dplyr for table operations and tidyr for reshaping. No package is installed here."
+      },
+      {
+        "start": 5,
+        "end": 5,
+        "explanation": "Disable automatic installation of LaTeX packages during rendering, so missing dependencies cause a clear failure instead of an unexpected download. scipen favors ordinary decimal notation in narrative numbers rather than compact scientific notation."
+      },
+      {
+        "start": 6,
+        "end": 9,
+        "explanation": "read.csv imports the four files from data. rentals holds the already-cleaned advertisement and road inputs; tariffs and wages hold source facts; sources supplies the references. stringsAsFactors = FALSE keeps text labels as text."
+      },
+      {
+        "start": 10,
+        "end": 10,
+        "explanation": "setNames turns tariff values into a named lookup. rate[\"fare_single\"] retrieves the verified single-boarding price without repeating that number in every formula."
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "explanation": "The knitr settings show code only in HTML, where it is folded by default. PNG dimensions and resolution are set once. Temporary knitting images use a forward-slash path so PDF rendering also works on Windows."
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "explanation": "Create figures if needed, select a shared plot theme and leave breathing room around the chart, then store the blue/orange colors. amd formats monetary axes in thousands: 350k means 350000 AMD. These settings change appearance, not research values."
+      }
+    ],
+    "expected": "Four R tables, a tariff lookup and shared plotting settings; this preparation chunk does not display a chart.",
+    "interpretation": "The analysis uses the documented cleaned sample rather than rebuilding the entire acquisition pipeline while the student reads. Original records and exclusion evidence remain archived. Chart style settings change appearance, not the data.",
+    "hypothesis": "Preparation makes the six comparisons reproducible; it does not itself support or contradict the housing-cost claim."
+  },
+  {
+    "label": "rent",
+    "title": "Where is rent cheaper",
+    "purpose": "Compare the full asking-rent distributions in each named district, keeping the median and small-sample cautions visible.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 4,
+        "explanation": "group_by separates records by district. summarise creates one row per district: n counts advertisements; median gives the middle rent, area and round-trip road inputs; quantile finds the 25th and 75th percentiles. .groups = \"drop\" returns an ordinary ungrouped table."
+      },
+      {
+        "start": 5,
+        "end": 7,
+        "explanation": "order arranges districts by median rent. paste0 adds each sample count to its label, and ifelse adds an asterisk below ten advertisements. That is a presentation caution, not a formal statistical threshold."
+      },
+      {
+        "start": 8,
+        "end": 11,
+        "explanation": "Plot the individual rental records with geom_boxplot. Each box covers the middle half of asking rents, with a median line. Whiskers reach the most extreme observations within 1.5 box lengths of the box edges; separate points show values beyond them. The fill condition highlights Kentron in dark gray, and the named labels preserve counts and district order."
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "explanation": "labs explains the monthly AMD axis, boxplot marks and comparable-property filter. Evaluating rent_plot displays it in the report. ggsave writes the same chart into figures/01-rent.png."
+      }
+    ],
+    "expected": "Sorted horizontal boxplots of asking rents, with medians, distribution spread, outlier points and district sample counts.",
+    "interpretation": "Kentron is the dark central-area comparator. Boxes and whiskers describe this agency sample; they are not population confidence intervals. An outlier point is a boxplot category, not evidence of a data error. Condition, building mix and agency selection can still explain some rent differences.",
+    "hypothesis": "Rent savings are the first part of the research question. This chart cannot decide whether transport, time and heating erase them.",
+    "figure": "figures/01-rent.png"
+  },
+  {
+    "label": "commute",
+    "title": "How much longer is the commute",
+    "purpose": "Compare two modeled travel modes directly on each district row, using the same road inputs and destination.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 3,
+        "explanation": "bind_rows stacks two modeled versions of each district. Public transport converts round-trip road kilometres to minutes at 12 km/h, then adds 30 minutes for access and waiting across the two legs. Car time multiplies round-trip free-flow minutes by 1.5 and adds ten minutes across the two legs."
+      },
+      {
+        "start": 4,
+        "end": 5,
+        "explanation": "select keeps district, mode and time. pivot_wider places the two mode values in separate columns on each district row, so a line can connect their endpoints."
+      },
+      {
+        "start": 6,
+        "end": 11,
+        "explanation": "Divide round-trip minutes by two to display the average one-way journey. geom_segment draws a horizontal connection from the car value to the public-transport value. Backticks refer to mode column names containing spaces. inherit.aes = FALSE prevents the connection layer from inheriting the point-only color and shape mappings."
+      },
+      {
+        "start": 12,
+        "end": 14,
+        "explanation": "geom_point marks both endpoints: blue circles for private car and gray triangles for public transport. The manual color and shape scales share a mode legend, so readers can distinguish endpoints without relying on color alone."
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "explanation": "The axis and caption label these as modeled minutes and identify Republic Square as the destination. The line length makes the difference between modes visible. Display the chart and save exactly that figure."
+      }
+    ],
+    "expected": "A dumbbell chart: one row per district, with connected car and public-transport endpoints measured in modeled one-way minutes.",
+    "interpretation": "These values are not timed commutes, live congested travel or actual bus itineraries. They combine cached car-road network inputs with explicit speed, waiting and congestion assumptions. Kentron retains its own journey rather than receiving a zero-time advantage.",
+    "hypothesis": "The comparison makes the potential time cost visible, while leaving its financial importance for the following budget calculations.",
+    "figure": "figures/02-commute.png"
+  },
+  {
+    "label": "budgets",
+    "title": "What does the monthly budget include",
+    "purpose": "Build the selected cash budget and prepare the central comparison without double-counting time or heating.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 5,
+        "explanation": "Set one commuter and 22 return-commute days. Select the 2025 national gross monthly wage, divide it by an assumed 22 × 8 paid hours, and use half that hourly value for the baseline time scenario. It is a benchmark, not the renter's observed net wage."
+      },
+      {
+        "start": 6,
+        "end": 7,
+        "explanation": "Multiply assumed consumption by verified tariffs: 150 daytime and 50 nighttime kWh, 100 m³ gas and 8 m³ water. Divide the gas tariff by 1000 because its source unit is AMD per 1000 m³. Heating is represented by gas and is not added again."
+      },
+      {
+        "start": 8,
+        "end": 14,
+        "explanation": "ifelse chooses the spending formula for each mode. pmin picks the lower of individual boardings and a 30-day pass per commuter. Car spending uses already-round-trip kilometres × commuting days × an assumed 60 AMD/km, plus 10000 AMD parking per commuter. Convert round-trip minutes into household monthly hours once. direct adds cash components; with_time adds hours × the assumed time value."
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "explanation": "Select Kentron's result separately for each mode. left_join attaches the appropriate central result to every district. Positive saving means that the district example costs less after time is valued. direct_difference and extra_hours use the opposite subtraction for the break-even equation."
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "explanation": "pivot_longer puts rent, utilities and transport into a single component column and an amount column so they can be stacked. This is a reshaping of calculated budgets, not additional apartment observations. The factor levels control stack and legend ordering."
+      },
+      {
+        "start": 24,
+        "end": 32,
+        "explanation": "geom_col stacks the three cash components and facet_wrap separates the two modes. Color, units and captions identify what is included. The final lines display and save the same budget chart."
+      }
+    ],
+    "expected": "A stacked chart of rent, modeled utilities and commuting spending for each district and mode.",
+    "interpretation": "Each district example combines median inputs that may come from different apartments. It is neither an observed household bill nor the median of listing-level total costs. Equal winter consumption produces the same utility component everywhere. Car spending is a marginal operating assumption, excluding full ownership.",
+    "hypothesis": "This shows whether lower asking rent survives the selected cash costs. Valued commuting time is a separate noncash component shown in the next chart.",
+    "figure": "figures/03-budget.png"
+  },
+  {
+    "label": "savings",
+    "title": "How much saving remains after valuing time",
+    "purpose": "Show how rent saved is reduced by extra transport and valued time for a transparently selected district example.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 2,
+        "explanation": "Remove Kentron because its saving relative to itself is zero. which.min finds the district-mode row with the smallest remaining baseline saving, and focus_district stores its district. This selects the most marginal baseline example rather than a convenient large saving."
+      },
+      {
+        "start": 3,
+        "end": 8,
+        "explanation": "Select Kentron transport spending separately for each mode. Keep both modes for the chosen district and join their matched central spending. rent_saved is the rent gap; transport_added is extra cash travel spending; time_added is extra monthly commuting hours multiplied by the chosen time value. Equal utility assumptions cancel."
+      },
+      {
+        "start": 9,
+        "end": 15,
+        "explanation": "Keep the four waterfall quantities in display order. Turn extra costs negative, then pivot_longer makes one row per step. Within each mode, row_number numbers the steps and cumsum tracks the saving as costs are deducted. The last step is the already-calculated final saving, drawn from zero rather than added to the running total. start and end define each rectangle; kind identifies savings and added costs."
+      },
+      {
+        "start": 16,
+        "end": 22,
+        "explanation": "geom_hline marks zero. geom_rect draws each waterfall step between start and end; pmin and pmax keep rectangle boundaries in the correct order when a cost is negative. geom_segment connects consecutive levels. geom_text labels each signed amount in AMD thousands."
+      },
+      {
+        "start": 23,
+        "end": 29,
+        "explanation": "facet_wrap puts the two travel modes side by side. Blue marks the initial and final savings; orange marks added costs. The step labels explain the subtraction, while the subtitle names the selected district and its selection rule. Extra headroom keeps value labels readable."
+      },
+      {
+        "start": 30,
+        "end": 32,
+        "explanation": "Display and save the waterfall. cheaper still counts positive savings across every noncentral district-mode example, rather than only the selected district. Its executed narrative therefore summarizes the wider comparison while the chart explains one example."
+      }
+    ],
+    "expected": "Two mode-specific waterfall panels showing rent saved, extra transport, extra valued time and the saving left for the selected district.",
+    "interpretation": "The focus is selected from the smallest remaining baseline district-mode saving, and both modes are shown for that district. This chart explains the calculation; it is not a complete plot of every district. Remaining saving combines cash costs and valued time, which is not a fare paid or a verified reduction in earnings. Equal baseline utilities cancel, while different heating assumptions are tested next.",
+    "hypothesis": "A positive saving contradicts the blanket claim that lower noncentral rents always disappear after extra costs; it does not establish that every noncentral apartment is cheaper.",
+    "figure": "figures/04-saving.png"
+  },
+  {
+    "label": "stress",
+    "title": "When can the answer change",
+    "purpose": "See whether heavier commuting, a different value of time and extra heating can change the cost comparison.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 2,
+        "explanation": "expand.grid lists the chosen combinations of commuter count, commuting days, time-value fraction and additional gas. A grid combination is an assumption set, not a new sampled household."
+      },
+      {
+        "start": 3,
+        "end": 8,
+        "explanation": "merge pairs every district–mode example with each assumption set. Recalculate fares, car spending, added noncentral gas and valued commuting hours. Car scenarios with two commuters assume separate journeys and vehicles. Added gas is a stress assumption applied outside Kentron, not a measured geographic effect."
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "explanation": "Attach the Kentron total with exactly the same mode, workers, days, time fraction and extra-gas setting. Subtract each district total from its matched central reference so positive saving keeps the same meaning as the previous chart."
+      },
+      {
+        "start": 14,
+        "end": 15,
+        "explanation": "Select one displayed slice: two commuters, 26 days and 150 m³ added gas outside Kentron. The complete grid still exists for checks; the chart does not try to display every row."
+      },
+      {
+        "start": 16,
+        "end": 24,
+        "explanation": "geom_tile draws one cell per district and time-value fraction. geom_text prints savings in AMD thousands. The diverging color scale is centered at zero: negative savings are more expensive. Both panels use the same scale and explicit assumptions."
+      },
+      {
+        "start": 25,
+        "end": 27,
+        "explanation": "Display and save the heatmap. Count the noncentral grid rows with negative savings for the result narrative. This count describes only the chosen grid, not the probability that a real household becomes worse off."
+      }
+    ],
+    "expected": "A readable heatmap for the stated heavy-commuting winter example, plus a retained scenario grid in R memory.",
+    "interpretation": "The heatmap reveals conditional reversals without estimating how common those households are. Actual household composition, car sharing, energy efficiency and observed travel could produce different costs. The chart does not turn scenarios into statistical observations.",
+    "hypothesis": "A reversal shows how the hidden-cost claim can hold under some assumptions, even when the baseline still favors noncentral district examples.",
+    "figure": "figures/05-sensitivity.png"
+  },
+  {
+    "label": "threshold",
+    "title": "When would the saving disappear",
+    "purpose": "Calculate the value of extra commuting time that makes a district example equal in cost to Kentron.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 3,
+        "explanation": "A positive crossing exists here when the district example is cheaper directly but uses more time. Dividing cash saving by extra monthly hours gives AMD per hour. ifelse returns NA for other cases instead of presenting a misleading negative or infinite threshold."
+      },
+      {
+        "start": 4,
+        "end": 10,
+        "explanation": "geom_point places each positive break-even threshold on an AMD-per-hour axis. The dashed orange line marks the gross hourly wage benchmark for context; it is not a fitted relationship. Separate mode panels and the shared district order make the position of each dot easy to compare."
+      },
+      {
+        "start": 11,
+        "end": 13,
+        "explanation": "Display and save the dot plot. min finds the lowest available positive threshold; na.rm = TRUE ignores cases without such a crossing."
+      }
+    ],
+    "expected": "Mode-specific break-even dot plots with a wage-benchmark reference line.",
+    "interpretation": "Below its threshold, the district example remains cheaper under the fixed other assumptions. A higher value of extra time can reverse that result. This is not a universal kilometre threshold or a guarantee for every home, particularly where the district sample is small.",
+    "hypothesis": "The threshold gives the rent-versus-time tradeoff a conditional decision rule without claiming statistical proof.",
+    "figure": "figures/06-break-even.png"
+  },
+  {
+    "label": "checks",
+    "title": "Check the sample and arithmetic",
+    "purpose": "Stop the report if a core sample or budget identity no longer holds.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 2,
+        "explanation": "Require 276 unique advertisement IDs and the declared two-room, 45–75 m² sample. anyDuplicated detects repeated IDs; between checks the size limits for every retained record."
+      },
+      {
+        "start": 3,
+        "end": 4,
+        "explanation": "Check the utility total against the independently hand-derived sum, and verify that direct cash cost equals rent plus utilities plus transport. all.equal permits normal floating-point comparison, wrapped in isTRUE for the assertion."
+      },
+      {
+        "start": 5,
+        "end": 6,
+        "explanation": "Substitute each positive break-even time value back into the cost-difference equation. The result should be zero within a tiny numerical tolerance. abs takes the size of the residual so either sign of an error is detected."
+      }
+    ],
+    "expected": "No visible chart; a failed condition stops knitting instead of producing an invalid report.",
+    "interpretation": "Passing arithmetic checks cannot repair selection bias, missing renovation information or inaccurate source coordinates. Independent comparison with the archived version checks that presentation simplification did not change the verified calculations.",
+    "hypothesis": "The checks protect the link between inputs and conclusions; they do not prove the research hypothesis or justify a population p-value."
+  },
+  {
+    "label": "references",
+    "title": "Print the source list",
+    "purpose": "Keep data and methodology citations tied to the local source table.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 5,
+        "explanation": "seq_len creates one index for each source row. The for loop formats each publisher, title, URL, date and access date as a Markdown reference. cat writes the text into the report; results = asis in the chunk header makes it render as references rather than printed console output."
+      }
+    ],
+    "expected": "A clickable reference list read from data/sources.csv.",
+    "interpretation": "The list records where evidence and methods came from. It does not establish an open redistribution license for the agency catalogue, and it does not turn source availability into independent validation of every advertisement.",
+    "hypothesis": "Traceable sources allow the evidence and assumptions behind the conditional conclusion to be checked."
+  }
+]

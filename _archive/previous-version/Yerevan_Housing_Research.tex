@@ -1,0 +1,1830 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={Does Cheaper Housing Make Life More Expensive?},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Does Cheaper Housing Make Life More Expensive?}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Yerevan asking rents and conditional commuting and winter
+utility costs}
+\author{}
+\date{\vspace{-2.5em}5 November 2026}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\subsection{Introduction}\label{introduction}
+
+A lower advertised rent may leave more money for other needs. A longer
+commute can consume some of that saving through transport spending and
+time. This study asks whether those extra costs outweigh the saving for
+comparable rental choices in Yerevan. The answer is allowed to be either
+yes or no.
+
+We study \textbf{advertisements from one agency}, not actual signed
+leases or a random sample of households. The main comparison uses
+two-room apartments, 45--75 m², advertised as furnished. Room and area
+filters improve comparability; missing renovation and energy-efficiency
+information prevents a quality-adjusted claim.
+
+For each named district we construct an \textbf{example monthly budget}
+from its sample-median asking rent, median round-trip road distance, and
+median route duration. These medians may describe different apartments.
+The result is a modeled district budget, not an observed household bill
+or the median of summed apartment-level costs. Kentron is the
+central-area comparator; its homes still have their own journeys to the
+common destination, Republic Square.
+
+\subsubsection{Research question and competing
+hypotheses}\label{research-question-and-competing-hypotheses}
+
+Does rent saved relative to Kentron exceed additional transport,
+selected utilities, and optionally valued commuting time? For each named
+comparison, define Delta as its modeled cost minus Kentron's. Negative
+Delta means the comparison is cheaper under that scenario; positive
+Delta means it is dearer. The competing possibilities are Delta
+\textless{} 0, Delta = 0, and Delta \textgreater{} 0.
+
+An inferential null would be H0: Delta = 0, versus H1: Delta is not
+zero, with alpha = 0.05 fixed before results. \textbf{We do not run a
+population hypothesis test here.} One agency's convenience catalogue,
+uncertain dwelling independence, and constructed budgets do not justify
+the intended citywide p-values or confidence intervals. This is a
+descriptive and sensitivity study. A p-value, even if available, would
+not establish causation or prove a hypothesis.
+
+\subsubsection{Two outcomes and their
+limits}\label{two-outcomes-and-their-limits}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Direct selected cost:} asking rent + modeled electricity, gas
+  and water + modeled commuting spending, in AMD per household per
+  30-day month.
+\item
+  \textbf{Generalized selected cost:} direct selected cost + modeled
+  commuting hours multiplied by an assumed AMD/hour value of time.
+\end{itemize}
+
+These are selected housing-and-commuting components, not a complete
+living-cost index. Food, internet, waste charges, building fees, moving
+costs, deposits, health costs and full car ownership are outside the
+measured model. Heating is included once through gas. Valued time is an
+opportunity-cost scenario, not an extra cash payment or a verified loss
+of earnings. A zero time value must give exactly the direct-cost
+outcome.
+
+\subsubsection{Sources and what they can
+establish}\label{sources-and-what-they-can-establish}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Evidence
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Coverage and use
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Important limitation
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{https://wse.am/en/apartments-for-rent-yerevan}{WSE.AM catalogue}
+and public API & Active catalogue retrieved 5 November 2026; asking
+prices, rooms, area, advertised furniture, district labels and
+approximate coordinates & Single agency; availability and last
+price-update date unverified; no open redistribution license
+established \\
+\href{https://transport.yerevan.am/}{Yerevan transport} & Public fare
+table inspected in the rendered official page & Fares do not provide
+observed trip times or household spending \\
+\href{https://www.ena.am/Info.aspx?id=11&lang=2}{Electric Networks of
+Armenia} & Standard household day/night tariffs by monthly consumption
+band & Tariffs are observed; our consumption amounts are assumptions \\
+\href{https://www.psrc.am/contents/newsPress/gas-tariff-22}{PSRC gas
+decision} and
+\href{https://psrc.am/contents/page/posts/natural-gas-tariffs-for-residents-will-stay-unchanged}{2026
+statement} & Standard gas rate and confirmation of unchanged resident
+payments from August 2026 & Household consumption and heating efficiency
+are not observed \\
+\href{https://www.veolia.am/en/news/2026-drinking-water-tariff-consumers-will-not-increase}{Veolia
+Djur} & Standard 2026 metered water/wastewater rate & Assumed household
+use; excludes special eligibility \\
+\href{https://sdg.armstat.am/8-5-1-a-iframe/}{Armstat wages} & 2025
+national gross monthly wage, used only as a time-value benchmark &
+Lagged national gross mean, not a renter's net wage \\
+\href{https://project-osrm.org/docs/v26.5.0/http}{OSRM} using
+OpenStreetMap & Two-way car-network distance and free-flow model
+duration, queried 5 November 2026 & Approximate origins, no live traffic
+and no transit itinerary \\
+\end{longtable}
+}
+
+All sources were accessed on 5 November 2026. Raw factual extracts,
+hashes, retrieval metadata and route replies are retained separately
+from processed tables. Only analytical housing fields were extracted;
+contacts, images, owner names and full address numbers were excluded.
+Source robots explicitly permits the public API, but that is not an
+open-data license. Do not republish the catalogue as an openly licensed
+dataset. The frozen 1 November agency district index is retained as
+separate context and is \textbf{not pooled} into this later listing
+sample.
+
+The geography is \textbf{named agency-labeled Yerevan districts}.
+Outside Kentron does not mean outside Yerevan. Abovyan and Masis are not
+compared: adequate matched town samples and journeys were not
+established. One Masis listing mislabeled as Kentron is excluded.
+District labels and origin coordinates are not ground-truthed
+administrative boundaries. No map is used to suggest precision we do not
+have.
+
+\subsection{Reproducible analysis}\label{reproducible-analysis}
+
+Run this file from the project root using the verified R launcher. It
+reads local snapshots and makes no network requests during rendering. It
+needs the existing ggplot2, dplyr, tidyr, knitr, scales and jsonlite
+packages. No package is installed automatically. All substantive
+analysis chunks run; no result is supplied by invented example
+observations.
+
+\subsubsection{Chunk 1 --- Prepare a clean and documented R
+session}\label{chunk-1-prepare-a-clean-and-documented-r-session}
+
+\textbf{Research objective:} Make the analysis repeatable and identify
+the software actually used.
+
+\textbf{What this code does:} Loads installed packages, sets readable
+plotting defaults, and records existing package-build warnings.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{options}\NormalTok{(}\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{scipen =} \DecValTok{999}\NormalTok{)}
+\NormalTok{packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"tidyr"}\NormalTok{, }\StringTok{"knitr"}\NormalTok{, }\StringTok{"scales"}\NormalTok{, }\StringTok{"jsonlite"}\NormalTok{)}
+\NormalTok{setup\_warnings }\OtherTok{\textless{}{-}} \FunctionTok{character}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{ (package }\ControlFlowTok{in}\NormalTok{ packages) \{}
+  \FunctionTok{withCallingHandlers}\NormalTok{(}
+    \FunctionTok{suppressPackageStartupMessages}\NormalTok{(}\FunctionTok{library}\NormalTok{(package, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{)),}
+    \AttributeTok{warning =} \ControlFlowTok{function}\NormalTok{(w) \{}
+      \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{grepl}\NormalTok{(}\StringTok{"was built under R version"}\NormalTok{, }\FunctionTok{conditionMessage}\NormalTok{(w))) \{}
+\NormalTok{        setup\_warnings }\OtherTok{\textless{}\textless{}{-}} \FunctionTok{c}\NormalTok{(setup\_warnings, }\FunctionTok{conditionMessage}\NormalTok{(w))}
+        \FunctionTok{invokeRestart}\NormalTok{(}\StringTok{"muffleWarning"}\NormalTok{)}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  )}
+\NormalTok{\}}
+
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{message =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{warning =} \ConstantTok{TRUE}\NormalTok{,}
+                      \AttributeTok{fig.width =} \DecValTok{9}\NormalTok{, }\AttributeTok{fig.height =} \FloatTok{5.5}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{140}\NormalTok{,}
+                      \AttributeTok{fig.align =} \StringTok{"center"}\NormalTok{, }\AttributeTok{out.width =} \StringTok{"100\%"}\NormalTok{)}
+\FunctionTok{dir.create}\NormalTok{(}\StringTok{"outputs/figures"}\NormalTok{, }\AttributeTok{recursive =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{showWarnings =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{theme\_set}\NormalTok{(}\FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{12}\NormalTok{))}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{116}\NormalTok{)}
+\NormalTok{money }\OtherTok{\textless{}{-}}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{label\_number}\NormalTok{(}\AttributeTok{accuracy =} \DecValTok{1}\NormalTok{, }\AttributeTok{big.mark =} \StringTok{","}\NormalTok{)}
+\NormalTok{chunk\_results }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{software }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{package =}\NormalTok{ packages,}
+                       \AttributeTok{version =} \FunctionTok{sapply}\NormalTok{(packages, }\ControlFlowTok{function}\NormalTok{(p) }\FunctionTok{as.character}\NormalTok{(}\FunctionTok{packageVersion}\NormalTok{(p))))}
+\FunctionTok{rownames}\NormalTok{(software) }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(software)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+package & version \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ggplot2 & 4.0.3 \\
+dplyr & 1.2.1 \\
+tidyr & 1.3.2 \\
+knitr & 1.52 \\
+scales & 1.4.0 \\
+jsonlite & 2.0.0 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chunk\_results[[}\StringTok{"setup"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"R"}\NormalTok{, }\FunctionTok{getRversion}\NormalTok{(), }\StringTok{"loaded"}\NormalTok{, }\FunctionTok{length}\NormalTok{(packages),}
+                                 \StringTok{"packages; recorded"}\NormalTok{, }\FunctionTok{length}\NormalTok{(setup\_warnings), }\StringTok{"package{-}build warnings."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A package-version table and a recorded
+environment status, without installing anything.
+
+\textbf{Actual result:} R 4.5.0 loaded 6 packages; recorded 6
+package-build warnings.
+
+\textbf{Interpretation:} The verified executable is R 4.5.0. Some
+existing packages were built under a newer patch release; their warnings
+are preserved in the final environment record. Successful execution of
+this report does not certify every possible package operation.
+
+\textbf{Connection to our hypothesis:} This establishes a reproducible
+environment; it supplies no evidence about housing costs.
+
+\subsubsection{Chunk 2 --- Read the frozen
+evidence}\label{chunk-2-read-the-frozen-evidence}
+
+\textbf{Research objective:} Identify the observations and official
+facts available for this study.
+
+\textbf{What this code does:} Reads the agency facts, two-direction
+route results, tariff extraction and Armstat wage series from relative
+paths.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{raw }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/raw/housing\_wse\_catalogue\_facts\_2026{-}11{-}05.csv"}\NormalTok{,}
+                \AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{, }\AttributeTok{check.names =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{routes }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/raw/routes\_2026{-}11{-}05/routes.csv"}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\NormalTok{tariffs }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/raw/official/tariffs.csv"}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\NormalTok{wages }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/raw/official/wage.csv"}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\NormalTok{raw}\SpecialCharTok{$}\NormalTok{listing\_id }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{listing\_id)}
+\NormalTok{routes}\SpecialCharTok{$}\NormalTok{listing\_id }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(routes}\SpecialCharTok{$}\NormalTok{listing\_id)}
+\NormalTok{flag }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{tolower}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(x)) }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"true"}\NormalTok{, }\StringTok{"1"}\NormalTok{)}
+
+\FunctionTok{stopifnot}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{anyDuplicated}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{listing\_id), }\SpecialCharTok{!}\FunctionTok{anyDuplicated}\NormalTok{(routes}\SpecialCharTok{$}\NormalTok{listing\_id))}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{price\_original }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{), }\FunctionTok{all}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{area\_m2 }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{))}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{transaction\_type }\SpecialCharTok{==} \StringTok{"rent"}\NormalTok{), }\FunctionTok{all}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{property\_type }\SpecialCharTok{==} \StringTok{"apartment"}\NormalTok{))}
+\NormalTok{evidence\_counts }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{evidence =} \FunctionTok{c}\NormalTok{(}\StringTok{"Retained rental facts"}\NormalTok{, }\StringTok{"Source{-}tagged Yerevan"}\NormalTok{, }\StringTok{"Routed origins"}\NormalTok{),}
+                              \AttributeTok{rows =} \FunctionTok{c}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(raw), }\FunctionTok{sum}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{city\_source }\SpecialCharTok{==} \StringTok{"Ереван"}\NormalTok{), }\FunctionTok{nrow}\NormalTok{(routes)))}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(evidence\_counts)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+evidence & rows \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Retained rental facts & 949 \\
+Source-tagged Yerevan & 933 \\
+Routed origins & 277 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chunk\_results[[}\StringTok{"load{-}evidence"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"Read \%s rental facts, including \%s tagged Yerevan, and \%s network origins."}\NormalTok{,}
+                                           \FunctionTok{nrow}\NormalTok{(raw), }\FunctionTok{sum}\NormalTok{(raw}\SpecialCharTok{$}\NormalTok{city\_source }\SpecialCharTok{==} \StringTok{"Ереван"}\NormalTok{), }\FunctionTok{nrow}\NormalTok{(routes))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A small evidence-count table; invalid IDs or
+quantities stop execution.
+
+\textbf{Actual result:} Read 949 rental facts, including 933 tagged
+Yerevan, and 277 network origins.
+
+\textbf{Interpretation:} The raw facts include other room counts,
+currencies and locations so exclusions remain auditable. The source's
+active status is catalogue status, not confirmation of immediate
+vacancy. Creation dates are not verified price-update dates.
+
+\textbf{Connection to our hypothesis:} These are usable advertised
+market records, but their existence does not establish the research
+conclusion.
+
+\subsubsection{Chunk 3 --- Select comparable advertised
+apartments}\label{chunk-3-select-comparable-advertised-apartments}
+
+\textbf{Research objective:} Reduce obvious differences in rooms, area,
+currency, furnishing and geography before comparing prices.
+
+\textbf{What this code does:} Applies predeclared screens, removes known
+ambiguous geography and one mixed-term offer, and conservatively screens
+possible duplicates.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yerevan }\OtherTok{\textless{}{-}}\NormalTok{ raw }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(city\_source }\SpecialCharTok{==} \StringTok{"Ереван"}\NormalTok{)}
+\NormalTok{room\_area }\OtherTok{\textless{}{-}}\NormalTok{ yerevan }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(rooms }\SpecialCharTok{==} \DecValTok{2}\NormalTok{, area\_m2 }\SpecialCharTok{\textgreater{}=} \DecValTok{45}\NormalTok{, area\_m2 }\SpecialCharTok{\textless{}=} \DecValTok{75}\NormalTok{)}
+\NormalTok{candidates }\OtherTok{\textless{}{-}}\NormalTok{ room\_area }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(currency\_original }\SpecialCharTok{==} \StringTok{"AMD"}\NormalTok{, }\SpecialCharTok{!}\FunctionTok{flag}\NormalTok{(is\_duplicate\_source),}
+         \SpecialCharTok{!}\FunctionTok{flag}\NormalTok{(is\_part\_of\_house\_source))}
+\NormalTok{furnished }\OtherTok{\textless{}{-}}\NormalTok{ candidates }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{flag}\NormalTok{(furniture\_feature\_present))}
+\NormalTok{located }\OtherTok{\textless{}{-}}\NormalTok{ furnished }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{flag}\NormalTok{(repeated\_centre\_coordinate\_flag), }\SpecialCharTok{!}\FunctionTok{flag}\NormalTok{(outside\_town\_name\_flag),}
+         \SpecialCharTok{!}\FunctionTok{flag}\NormalTok{(arinj\_border\_name\_flag), }\FunctionTok{between}\NormalTok{(latitude, }\FloatTok{40.05}\NormalTok{, }\FloatTok{40.30}\NormalTok{),}
+         \FunctionTok{between}\NormalTok{(longitude, }\FloatTok{44.35}\NormalTok{, }\FloatTok{44.70}\NormalTok{))}
+
+\NormalTok{long\_term }\OtherTok{\textless{}{-}}\NormalTok{ located }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(listing\_id }\SpecialCharTok{!=} \StringTok{"11834"}\NormalTok{)}
+\NormalTok{selected }\OtherTok{\textless{}{-}}\NormalTok{ long\_term }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(source\_created\_at), }\FunctionTok{desc}\NormalTok{(listing\_id)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{(property\_signature\_sha256, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{sample\_flow }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{stage =} \FunctionTok{c}\NormalTok{(}\StringTok{"All retained rental facts"}\NormalTok{, }\StringTok{"Tagged Yerevan"}\NormalTok{, }\StringTok{"Two rooms and 45–75 m2"}\NormalTok{, }\StringTok{"Native AMD, whole unit"}\NormalTok{,}
+            \StringTok{"Furniture advertised"}\NormalTok{, }\StringTok{"Geographic screen"}\NormalTok{, }\StringTok{"Mixed{-}term offer excluded"}\NormalTok{, }\StringTok{"Possible duplicate screen"}\NormalTok{),}
+  \AttributeTok{n =} \FunctionTok{c}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(raw), }\FunctionTok{nrow}\NormalTok{(yerevan), }\FunctionTok{nrow}\NormalTok{(room\_area), }\FunctionTok{nrow}\NormalTok{(candidates),}
+        \FunctionTok{nrow}\NormalTok{(furnished), }\FunctionTok{nrow}\NormalTok{(located), }\FunctionTok{nrow}\NormalTok{(long\_term), }\FunctionTok{nrow}\NormalTok{(selected)))}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(sample\_flow)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lr@{}}
+\toprule\noalign{}
+stage & n \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+All retained rental facts & 949 \\
+Tagged Yerevan & 933 \\
+Two rooms and 45--75 m2 & 323 \\
+Native AMD, whole unit & 302 \\
+Furniture advertised & 290 \\
+Geographic screen & 278 \\
+Mixed-term offer excluded & 277 \\
+Possible duplicate screen & 276 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chunk\_results[[}\StringTok{"screen{-}listings"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The fixed screens retain \%s advertised{-}furnished apartments from \%s native{-}AMD candidates."}\NormalTok{,}
+                                            \FunctionTok{nrow}\NormalTok{(selected), }\FunctionTok{nrow}\NormalTok{(candidates))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A sequential sample-flow table with all
+denominators visible.
+
+\textbf{Actual result:} The fixed screens retain 276
+advertised-furnished apartments from 302 native-AMD candidates.
+
+\textbf{Interpretation:} Absent furniture features mean unknown, not
+proven unfurnished. The signature screen removes a possible duplicate;
+distinct units can share building characteristics. Renovation remains
+unobserved, so the selected apartments are only partially comparable.
+Some ads have future or limited availability.
+
+\textbf{Connection to our hypothesis:} This reduces several alternative
+explanations for rent differences, while leaving important quality and
+selection bias unresolved.
+
+\subsubsection{Chunk 4 --- Check both directions of each
+journey}\label{chunk-4-check-both-directions-of-each-journey}
+
+\textbf{Research objective:} Use network distances without silently
+replacing missing journeys with straight-line distance.
+
+\textbf{What this code does:} Joins cached car-network outputs, checks
+both directions and snap distances, and fixes one primary analytical
+sample.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{joined }\OtherTok{\textless{}{-}}\NormalTok{ selected }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(routes, }\AttributeTok{by =} \StringTok{"listing\_id"}\NormalTok{)}
+\NormalTok{joined }\OtherTok{\textless{}{-}}\NormalTok{ joined }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{route\_valid =} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(outbound\_m) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(return\_m) }\SpecialCharTok{\&}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(outbound\_seconds) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(return\_seconds) }\SpecialCharTok{\&}
+\NormalTok{    outbound\_m }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ return\_m }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ outbound\_seconds }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ return\_seconds }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}
+\NormalTok{    outbound\_snap\_m }\SpecialCharTok{\textless{}=} \DecValTok{250} \SpecialCharTok{\&}\NormalTok{ return\_snap\_m }\SpecialCharTok{\textless{}=} \DecValTok{250}\NormalTok{)}
+\NormalTok{analysis }\OtherTok{\textless{}{-}}\NormalTok{ joined }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(route\_valid) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{round\_trip\_km =}\NormalTok{ (outbound\_m }\SpecialCharTok{+}\NormalTok{ return\_m) }\SpecialCharTok{/} \DecValTok{1000}\NormalTok{,}
+         \AttributeTok{round\_trip\_freeflow\_minutes =}\NormalTok{ (outbound\_seconds }\SpecialCharTok{+}\NormalTok{ return\_seconds) }\SpecialCharTok{/} \DecValTok{60}\NormalTok{)}
+\NormalTok{route\_audit }\OtherTok{\textless{}{-}}\NormalTok{ joined }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(district\_source) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{selected =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{excluded\_route =} \FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\NormalTok{route\_valid }\SpecialCharTok{|} \FunctionTok{is.na}\NormalTok{(route\_valid)), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{)}
+\FunctionTok{stopifnot}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{anyDuplicated}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{listing\_id), }\FunctionTok{all}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{round\_trip\_km }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{))}
+
+\NormalTok{district\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Кентрон"} \OtherTok{=} \StringTok{"Kentron"}\NormalTok{, }\StringTok{"Арабкир"} \OtherTok{=} \StringTok{"Arabkir"}\NormalTok{, }\StringTok{"Ачапняк"} \OtherTok{=} \StringTok{"Ajapnyak"}\NormalTok{,}
+  \StringTok{"Давташен"} \OtherTok{=} \StringTok{"Davtashen"}\NormalTok{, }\StringTok{"Канакер{-}Зейтун"} \OtherTok{=} \StringTok{"Kanaker{-}Zeytun"}\NormalTok{, }\StringTok{"Малатия{-}Себастия"} \OtherTok{=} \StringTok{"Malatia{-}Sebastia"}\NormalTok{,}
+  \StringTok{"Нор Норк"} \OtherTok{=} \StringTok{"Nor Nork"}\NormalTok{, }\StringTok{"Норк{-}Мараш"} \OtherTok{=} \StringTok{"Nork{-}Marash"}\NormalTok{, }\StringTok{"Шенгавит"} \OtherTok{=} \StringTok{"Shengavit"}\NormalTok{,}
+  \StringTok{"Эребуни"} \OtherTok{=} \StringTok{"Erebuni"}\NormalTok{, }\StringTok{"Аван"} \OtherTok{=} \StringTok{"Avan"}\NormalTok{)}
+\NormalTok{analysis}\SpecialCharTok{$}\NormalTok{district }\OtherTok{\textless{}{-}} \FunctionTok{unname}\NormalTok{(district\_names[analysis}\SpecialCharTok{$}\NormalTok{district\_source])}
+\FunctionTok{stopifnot}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{anyNA}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{district), }\StringTok{"Kentron"} \SpecialCharTok{\%in\%}\NormalTok{ analysis}\SpecialCharTok{$}\NormalTok{district)}
+\FunctionTok{write.csv}\NormalTok{(analysis, }\StringTok{"data/processed/analysis\_listings.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\NormalTok{exclusions }\OtherTok{\textless{}{-}}\NormalTok{ raw }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(listing\_id, district\_source, rooms, area\_m2, currency\_original) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{in\_primary\_sample =}\NormalTok{ listing\_id }\SpecialCharTok{\%in\%}\NormalTok{ analysis}\SpecialCharTok{$}\NormalTok{listing\_id)}
+\FunctionTok{write.csv}\NormalTok{(exclusions, }\StringTok{"data/processed/sample\_membership.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(route\_audit)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lrr@{}}
+\toprule\noalign{}
+district\_source & selected & excluded\_route \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Аван & 12 & 0 \\
+Арабкир & 75 & 0 \\
+Ачапняк & 25 & 0 \\
+Давташен & 9 & 0 \\
+Канакер-Зейтун & 11 & 0 \\
+Кентрон & 90 & 0 \\
+Малатия-Себастия & 19 & 0 \\
+Нор Норк & 15 & 0 \\
+Норк-Мараш & 6 & 0 \\
+Шенгавит & 7 & 0 \\
+Эребуни & 7 & 0 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chunk\_results[[}\StringTok{"network{-}sample"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The route{-}complete primary sample contains \%s listings in \%s agency{-}labeled districts; \%s selected origins failed route checks."}\NormalTok{,}
+                                          \FunctionTok{nrow}\NormalTok{(analysis), }\FunctionTok{n\_distinct}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{district), }\FunctionTok{nrow}\NormalTok{(selected) }\SpecialCharTok{{-}} \FunctionTok{nrow}\NormalTok{(analysis))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A district route-exclusion table and
+reproducible processed files.
+
+\textbf{Actual result:} The route-complete primary sample contains 276
+listings in 11 agency-labeled districts; 0 selected origins failed route
+checks.
+
+\textbf{Interpretation:} OSRM supplies a car-road model, not measured
+peak travel. Approximate listing points and agency district tags remain
+uncertain even after snapping. Public-transport times below are separate
+road-distance-based assumptions, not these car durations relabeled as
+transit.
+
+\textbf{Connection to our hypothesis:} The route inputs allow
+conditional commuting comparisons, but do not prove actual daily travel
+burdens.
+
+\subsubsection{Chunk 5 --- Summarize rent and remaining
+comparability}\label{chunk-5-summarize-rent-and-remaining-comparability}
+
+\textbf{Research objective:} Describe how the selected advertisements
+differ across named districts.
+
+\textbf{What this code does:} Calculates counts, rent spread, area
+spread and medians of already-summed round-trip road inputs.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{districts }\OtherTok{\textless{}{-}}\NormalTok{ analysis }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(district) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}
+  \AttributeTok{n =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{rent =} \FunctionTok{median}\NormalTok{(price\_original), }\AttributeTok{rent\_q1 =} \FunctionTok{quantile}\NormalTok{(price\_original, }\FloatTok{0.25}\NormalTok{),}
+  \AttributeTok{rent\_q3 =} \FunctionTok{quantile}\NormalTok{(price\_original, }\FloatTok{0.75}\NormalTok{), }\AttributeTok{area =} \FunctionTok{median}\NormalTok{(area\_m2),}
+  \AttributeTok{area\_q1 =} \FunctionTok{quantile}\NormalTok{(area\_m2, }\FloatTok{0.25}\NormalTok{), }\AttributeTok{area\_q3 =} \FunctionTok{quantile}\NormalTok{(area\_m2, }\FloatTok{0.75}\NormalTok{),}
+  \AttributeTok{round\_trip\_km =} \FunctionTok{median}\NormalTok{(round\_trip\_km),}
+  \AttributeTok{freeflow\_minutes =} \FunctionTok{median}\NormalTok{(round\_trip\_freeflow\_minutes),}
+  \AttributeTok{missing\_building =} \FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(building\_type\_source) }\SpecialCharTok{|}\NormalTok{ building\_type\_source }\SpecialCharTok{==} \StringTok{""}\NormalTok{), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(rent)}
+\NormalTok{district\_order }\OtherTok{\textless{}{-}}\NormalTok{ districts}\SpecialCharTok{$}\NormalTok{district}
+\NormalTok{district\_labels }\OtherTok{\textless{}{-}} \FunctionTok{setNames}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(districts}\SpecialCharTok{$}\NormalTok{district, }\StringTok{" (n="}\NormalTok{, districts}\SpecialCharTok{$}\NormalTok{n, }\StringTok{")"}\NormalTok{), districts}\SpecialCharTok{$}\NormalTok{district)}
+\NormalTok{summary\_display }\OtherTok{\textless{}{-}}\NormalTok{ districts }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, n, rent, rent\_q1, rent\_q3, area, area\_q1, area\_q3)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(summary\_display, }\AttributeTok{digits =} \DecValTok{0}\NormalTok{, }\AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{"District"}\NormalTok{, }\StringTok{"n"}\NormalTok{, }\StringTok{"Rent AMD"}\NormalTok{, }\StringTok{"Rent Q1"}\NormalTok{, }\StringTok{"Rent Q3"}\NormalTok{, }\StringTok{"Area m2"}\NormalTok{, }\StringTok{"Area Q1"}\NormalTok{, }\StringTok{"Area Q3"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.2464}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0435}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1304}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1159}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1159}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1159}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1159}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1159}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+District
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Rent AMD
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Rent Q1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Rent Q3
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Area m2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Area Q1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Area Q3
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Ajapnyak & 25 & 350000 & 300000 & 400000 & 55 & 50 & 65 \\
+Erebuni & 7 & 350000 & 275000 & 375000 & 60 & 48 & 66 \\
+Malatia-Sebastia & 19 & 350000 & 330000 & 450000 & 55 & 54 & 65 \\
+Nor Nork & 15 & 350000 & 265000 & 380000 & 56 & 52 & 61 \\
+Shengavit & 7 & 350000 & 302500 & 370000 & 53 & 51 & 58 \\
+Kanaker-Zeytun & 11 & 360000 & 280000 & 370000 & 58 & 56 & 65 \\
+Avan & 12 & 375000 & 315000 & 427500 & 60 & 56 & 63 \\
+Arabkir & 75 & 400000 & 350000 & 470000 & 60 & 55 & 62 \\
+Davtashen & 9 & 400000 & 350000 & 400000 & 72 & 60 & 74 \\
+Nork-Marash & 6 & 400000 & 370000 & 415000 & 55 & 50 & 62 \\
+Kentron & 90 & 500000 & 400000 & 587500 & 55 & 51 & 61 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{central\_rent }\OtherTok{\textless{}{-}}\NormalTok{ districts}\SpecialCharTok{$}\NormalTok{rent[districts}\SpecialCharTok{$}\NormalTok{district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{]}
+\NormalTok{chunk\_results[[}\StringTok{"district{-}summary"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"Kentron\textquotesingle{}s sample{-}median asking rent is \%s AMD. District sample sizes range from \%s to \%s; \%s districts have fewer than 10 records."}\NormalTok{,}
+  \FunctionTok{money}\NormalTok{(central\_rent), }\FunctionTok{min}\NormalTok{(districts}\SpecialCharTok{$}\NormalTok{n), }\FunctionTok{max}\NormalTok{(districts}\SpecialCharTok{$}\NormalTok{n), }\FunctionTok{sum}\NormalTok{(districts}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{\textless{}} \DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A rent-and-area summary table, with sample
+counts for each district.
+
+\textbf{Actual result:} Kentron's sample-median asking rent is 500,000
+AMD. District sample sizes range from 6 to 90; 4 districts have fewer
+than 10 records.
+
+\textbf{Interpretation:} Unobserved renovation and partially missing
+building type remain competing explanations. Higher district rent can
+reflect location, quality, building mix or agency selection. The table
+is descriptive and cannot separate those effects.
+
+\textbf{Connection to our hypothesis:} Rent savings are one side of the
+hypothesis; this table alone cannot determine whether commuting costs
+outweigh them.
+
+\subsubsection{Chunk 6 --- Visualize the asking-rent
+distributions}\label{chunk-6-visualize-the-asking-rent-distributions}
+
+\textbf{Research objective:} See both the rent differences and the
+variation hidden by district medians.
+
+\textbf{What this code does:} Draws horizontal boxplots and individual
+advertisement points, with sample counts in district labels.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rent\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(analysis, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ price\_original, }\AttributeTok{y =} \FunctionTok{factor}\NormalTok{(district, }\AttributeTok{levels =}\NormalTok{ district\_order))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#D9E6EC"}\NormalTok{, }\AttributeTok{outlier.shape =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{width =} \FloatTok{0.55}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{(}\AttributeTok{height =} \FloatTok{0.12}\NormalTok{, }\AttributeTok{width =} \DecValTok{0}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.1}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#244A60"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_discrete}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ district\_labels) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Asking rents differ, and each district has substantial spread"}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{"Two rooms, 45–75 m², furniture advertised; one agency snapshot"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Advertised monthly rent (AMD)"}\NormalTok{, }\AttributeTok{y =} \ConstantTok{NULL}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Boxes show listing quartiles, not confidence intervals.}\SpecialCharTok{\textbackslash{}n}\StringTok{Source: WSE.AM, 5 November 2026."}\NormalTok{)}
+\NormalTok{rent\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{Yerevan_Housing_Research_files/figure-latex/rent-distribution-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"outputs/figures/rent{-}distribution.png"}\NormalTok{, rent\_plot, }\AttributeTok{width =} \DecValTok{9}\NormalTok{, }\AttributeTok{height =} \FloatTok{6.4}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{160}\NormalTok{)}
+\NormalTok{chunk\_results[[}\StringTok{"rent{-}distribution"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The chart displays all \%s primary advertisements; Kentron\textquotesingle{}s median is \%s AMD and the lowest district median is \%s AMD."}\NormalTok{,}
+  \FunctionTok{nrow}\NormalTok{(analysis), }\FunctionTok{money}\NormalTok{(central\_rent), }\FunctionTok{money}\NormalTok{(}\FunctionTok{min}\NormalTok{(districts}\SpecialCharTok{$}\NormalTok{rent)))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} One distribution chart, not a predicted price
+pattern.
+
+\textbf{Actual result:} The chart displays all 276 primary
+advertisements; Kentron's median is 500,000 AMD and the lowest district
+median is 350,000 AMD.
+
+\textbf{Interpretation:} Overlapping distributions mean a household
+could find an unusually cheap central listing or an expensive noncentral
+one. District median differences are not guarantees for a specific
+available apartment.
+
+\textbf{Connection to our hypothesis:} This tests the descriptive
+premise of cheaper rents away from the central comparator, not the full
+hidden-cost claim.
+
+\subsubsection{Chunk 7 --- Compare rents with the road-journey
+model}\label{chunk-7-compare-rents-with-the-road-journey-model}
+
+\textbf{Research objective:} Explore whether lower asking rents
+accompany longer modeled car-network journeys.
+
+\textbf{What this code does:} Plots individual rents against half of
+each two-way free-flow duration, highlighting Kentron.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{journey\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(analysis, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ round\_trip\_freeflow\_minutes }\SpecialCharTok{/} \DecValTok{2}\NormalTok{, }\AttributeTok{y =}\NormalTok{ price\_original,}
+                                      \AttributeTok{color =}\NormalTok{ district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"FALSE"} \OtherTok{=} \StringTok{"\#25718B"}\NormalTok{, }\StringTok{"TRUE"} \OtherTok{=} \StringTok{"\#B75F28"}\NormalTok{),}
+                     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Other named Yerevan districts"}\NormalTok{, }\StringTok{"Kentron"}\NormalTok{), }\AttributeTok{name =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Rent and modeled road time are only part of the comparison"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Mean of outward and return free{-}flow car minutes"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Advertised monthly rent (AMD)"}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"OSRM road model, not observed congestion or public{-}transit time. No causal fit or confidence band."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\NormalTok{journey\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{Yerevan_Housing_Research_files/figure-latex/rent-and-journey-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"outputs/figures/rent{-}journey.png"}\NormalTok{, journey\_plot, }\AttributeTok{width =} \DecValTok{9}\NormalTok{, }\AttributeTok{height =} \FloatTok{5.3}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{160}\NormalTok{)}
+\NormalTok{chunk\_results[[}\StringTok{"rent{-}and{-}journey"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The plotted mean{-}leg free{-}flow estimates range from \%.1f to \%.1f minutes in the selected sample."}\NormalTok{,}
+  \FunctionTok{min}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{round\_trip\_freeflow\_minutes }\SpecialCharTok{/} \DecValTok{2}\NormalTok{), }\FunctionTok{max}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{round\_trip\_freeflow\_minutes }\SpecialCharTok{/} \DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A scatterplot showing the observed
+asking-price and modeled-route combinations.
+
+\textbf{Actual result:} The plotted mean-leg free-flow estimates range
+from 0.9 to 14.5 minutes in the selected sample.
+
+\textbf{Interpretation:} The plot can suggest an association, but does
+not control dwelling quality or validate peak commuting times. It cannot
+establish that distance caused a rent reduction.
+
+\textbf{Connection to our hypothesis:} Even an apparent rent--journey
+tradeoff needs the cost model to assess whether savings survive.
+
+\subsubsection{Chunk 8 --- Separate verified tariffs from assumed
+consumption}\label{chunk-8-separate-verified-tariffs-from-assumed-consumption}
+
+\textbf{Research objective:} Define an explicit winter-month household
+and time-value benchmark.
+
+\textbf{What this code does:} Uses official tariff facts while keeping
+consumption, working hours and travel assumptions visible.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rates }\OtherTok{\textless{}{-}} \FunctionTok{setNames}\NormalTok{(tariffs}\SpecialCharTok{$}\NormalTok{value, tariffs}\SpecialCharTok{$}\NormalTok{parameter)}
+\NormalTok{wage\_2025 }\OtherTok{\textless{}{-}}\NormalTok{ wages}\SpecialCharTok{$}\NormalTok{Value[wages}\SpecialCharTok{$}\NormalTok{Year }\SpecialCharTok{==} \DecValTok{2025}\NormalTok{]}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{length}\NormalTok{(wage\_2025) }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\NormalTok{paid\_hours\_assumed }\OtherTok{\textless{}{-}} \DecValTok{22} \SpecialCharTok{*} \DecValTok{8}
+\NormalTok{hourly\_benchmark }\OtherTok{\textless{}{-}}\NormalTok{ wage\_2025 }\SpecialCharTok{/}\NormalTok{ paid\_hours\_assumed}
+\NormalTok{time\_fractions }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{half\_time\_value }\OtherTok{\textless{}{-}} \FloatTok{0.5} \SpecialCharTok{*}\NormalTok{ hourly\_benchmark}
+\NormalTok{days }\OtherTok{\textless{}{-}} \DecValTok{22}
+\NormalTok{commuters }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{utility\_parts }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{component =} \FunctionTok{c}\NormalTok{(}\StringTok{"Electricity: 150 day + 50 night kWh"}\NormalTok{, }\StringTok{"Gas: 100 m3"}\NormalTok{, }\StringTok{"Water: 8 m3"}\NormalTok{),}
+  \AttributeTok{amd =} \FunctionTok{c}\NormalTok{(}\DecValTok{150} \SpecialCharTok{*}\NormalTok{ rates[}\StringTok{"electric\_day\_low"}\NormalTok{] }\SpecialCharTok{+} \DecValTok{50} \SpecialCharTok{*}\NormalTok{ rates[}\StringTok{"electric\_night\_low"}\NormalTok{],}
+          \DecValTok{100} \SpecialCharTok{*}\NormalTok{ rates[}\StringTok{"gas\_per\_1000m3"}\NormalTok{] }\SpecialCharTok{/} \DecValTok{1000}\NormalTok{, }\DecValTok{8} \SpecialCharTok{*}\NormalTok{ rates[}\StringTok{"water\_per\_m3"}\NormalTok{]))}
+\NormalTok{utilities }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(utility\_parts}\SpecialCharTok{$}\NormalTok{amd)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(utility\_parts, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llr@{}}
+\toprule\noalign{}
+& component & amd \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+electric\_day\_low & Electricity: 150 day + 50 night kWh & 8796.00 \\
+gas\_per\_1000m3 & Gas: 100 m3 & 14370.00 \\
+water\_per\_m3 & Water: 8 m3 & 1603.36 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{time\_value\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{fraction\_of\_gross\_hourly\_benchmark =}\NormalTok{ time\_fractions,}
+                               \AttributeTok{amd\_per\_hour =}\NormalTok{ time\_fractions }\SpecialCharTok{*}\NormalTok{ hourly\_benchmark)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(time\_value\_table, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}rr@{}}
+\toprule\noalign{}
+fraction\_of\_gross\_hourly\_benchmark & amd\_per\_hour \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.00 & 0.00 \\
+0.25 & 430.60 \\
+0.50 & 861.19 \\
+1.00 & 1722.39 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chunk\_results[[}\StringTok{"scenario{-}inputs"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The modeled winter utilities total \%s AMD. Armstat\textquotesingle{}s 2025 gross wage is \%s AMD/month; the assumed hourly benchmark is \%.2f AMD and its half{-}value is \%.2f AMD/hour."}\NormalTok{,}
+  \FunctionTok{money}\NormalTok{(utilities), }\FunctionTok{money}\NormalTok{(wage\_2025), hourly\_benchmark, half\_time\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A modeled utility-cost table and a wage-based
+time-value scenario table.
+
+\textbf{Actual result:} The modeled winter utilities total 24,769 AMD.
+Armstat's 2025 gross wage is 303,140 AMD/month; the assumed hourly
+benchmark is 1722.39 AMD and its half-value is 861.19 AMD/hour.
+
+\textbf{Interpretation:} Equal consumption makes baseline utility costs
+equal across districts. That is an assumption, not evidence that bills
+are geographically equal. The model excludes internet, building fees and
+other unsupported charges, and represents a winter month rather than an
+annual average.
+
+\textbf{Connection to our hypothesis:} This prevents a hidden heating
+difference from being invented and lets the importance of time depend on
+explicit assumptions.
+
+\subsubsection{Chunk 9 --- Define the financial
+calculations}\label{chunk-9-define-the-financial-calculations}
+
+\textbf{Research objective:} Translate the economic model into short
+reusable R functions.
+
+\textbf{What this code does:} Defines five transparent calculations,
+using named units and special-case handling.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Pure financial helpers. The Rmd embeds this exact code so it is self{-}contained.}
+\CommentTok{\# days = return{-}commute days in a 30{-}day month; commuters = household workers.}
+\NormalTok{transit\_cost }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(days, commuters, boardings, fare, pass\_price) \{}
+\NormalTok{  per\_person }\OtherTok{\textless{}{-}} \FunctionTok{pmin}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ days }\SpecialCharTok{*}\NormalTok{ boardings }\SpecialCharTok{*}\NormalTok{ fare, pass\_price)}
+\NormalTok{  commuters }\SpecialCharTok{*}\NormalTok{ per\_person}
+\NormalTok{\}}
+
+\CommentTok{\# The per{-}km amount is an assumed incremental operating rate, not ownership cost.}
+\NormalTok{car\_cost }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(round\_trip\_km, days, commuters, per\_km, parking) \{}
+\NormalTok{  commuters }\SpecialCharTok{*}\NormalTok{ (round\_trip\_km }\SpecialCharTok{*}\NormalTok{ days }\SpecialCharTok{*}\NormalTok{ per\_km }\SpecialCharTok{+} \FunctionTok{ifelse}\NormalTok{(days }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{, parking, }\DecValTok{0}\NormalTok{))}
+\NormalTok{\}}
+
+\CommentTok{\# Input minutes already contains BOTH directions; do not multiply by two again.}
+\NormalTok{monthly\_hours }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(round\_trip\_minutes, days, commuters) \{}
+\NormalTok{  round\_trip\_minutes }\SpecialCharTok{*}\NormalTok{ days }\SpecialCharTok{*}\NormalTok{ commuters }\SpecialCharTok{/} \DecValTok{60}
+\NormalTok{\}}
+
+\NormalTok{generalized\_cost }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(rent, utilities, transport, hours, time\_value) \{}
+\NormalTok{  rent }\SpecialCharTok{+}\NormalTok{ utilities }\SpecialCharTok{+}\NormalTok{ transport }\SpecialCharTok{+}\NormalTok{ hours }\SpecialCharTok{*}\NormalTok{ time\_value}
+\NormalTok{\}}
+
+\CommentTok{\# A positive threshold exists here only when the noncentral option is cheaper}
+\CommentTok{\# directly but consumes more commuting time. Other cases require separate labels.}
+\NormalTok{break\_even\_value }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(direct\_difference, extra\_hours) \{}
+  \FunctionTok{ifelse}\NormalTok{(direct\_difference }\SpecialCharTok{\textless{}} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ extra\_hours }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{,}
+         \SpecialCharTok{{-}}\NormalTok{direct\_difference }\SpecialCharTok{/}\NormalTok{ extra\_hours, }\ConstantTok{NA\_real\_}\NormalTok{)}
+\NormalTok{\}}
+
+\NormalTok{chunk\_results[[}\StringTok{"cost{-}functions"}\NormalTok{]] }\OtherTok{\textless{}{-}} \StringTok{"Five small functions define the fare cap, marginal driving cost, monthly hours, generalized cost and positive break{-}even value."}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} Function definitions; numerical behavior is
+checked later against hand-calculated cases.
+
+\textbf{Actual result:} Five small functions define the fare cap,
+marginal driving cost, monthly hours, generalized cost and positive
+break-even value.
+
+\textbf{Interpretation:} Private-car costs are a marginal operating
+scenario, not depreciation, financing, insurance or an observed fuel
+bill. Two-commuter car scenarios assume independent journeys/vehicles;
+shared-car savings are not modeled.
+
+\textbf{Connection to our hypothesis:} These calculations operationalize
+both outcomes without double-counting transport or time.
+
+\subsubsection{Chunk 10 --- Build consistent district budget
+examples}\label{chunk-10-build-consistent-district-budget-examples}
+
+\textbf{Research objective:} Compare direct and generalized selected
+costs under identical household rules.
+
+\textbf{What this code does:} Applies each mode to the district median
+inputs and compares every example with the same-mode Kentron example.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{public }\OtherTok{\textless{}{-}}\NormalTok{ districts }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{mode =} \StringTok{"Public transport"}\NormalTok{,}
+  \AttributeTok{transport =} \FunctionTok{transit\_cost}\NormalTok{(days, commuters, }\DecValTok{1}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{]),}
+  \AttributeTok{round\_trip\_minutes =}\NormalTok{ round\_trip\_km }\SpecialCharTok{/} \DecValTok{12} \SpecialCharTok{*} \DecValTok{60} \SpecialCharTok{+} \DecValTok{2} \SpecialCharTok{*} \DecValTok{15}\NormalTok{)}
+\NormalTok{car }\OtherTok{\textless{}{-}}\NormalTok{ districts }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{mode =} \StringTok{"Private car"}\NormalTok{,}
+  \AttributeTok{transport =} \FunctionTok{car\_cost}\NormalTok{(round\_trip\_km, days, commuters, }\DecValTok{60}\NormalTok{, }\DecValTok{10000}\NormalTok{),}
+  \AttributeTok{round\_trip\_minutes =}\NormalTok{ freeflow\_minutes }\SpecialCharTok{*} \FloatTok{1.5} \SpecialCharTok{+} \DecValTok{2} \SpecialCharTok{*} \DecValTok{5}\NormalTok{)}
+\NormalTok{budgets }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(public, car) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{hours =} \FunctionTok{monthly\_hours}\NormalTok{(round\_trip\_minutes, days, commuters),}
+  \AttributeTok{direct =}\NormalTok{ rent }\SpecialCharTok{+}\NormalTok{ utilities }\SpecialCharTok{+}\NormalTok{ transport,}
+  \AttributeTok{generalized\_half =} \FunctionTok{generalized\_cost}\NormalTok{(rent, utilities, transport, hours, half\_time\_value))}
+
+\NormalTok{central }\OtherTok{\textless{}{-}}\NormalTok{ budgets }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mode, }\AttributeTok{central\_rent =}\NormalTok{ rent, }\AttributeTok{central\_transport =}\NormalTok{ transport,}
+         \AttributeTok{central\_direct =}\NormalTok{ direct, }\AttributeTok{central\_hours =}\NormalTok{ hours, }\AttributeTok{central\_generalized =}\NormalTok{ generalized\_half)}
+\NormalTok{comparisons }\OtherTok{\textless{}{-}}\NormalTok{ budgets }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(central, }\AttributeTok{by =} \StringTok{"mode"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{rent\_saved =}\NormalTok{ central\_rent }\SpecialCharTok{{-}}\NormalTok{ rent,}
+  \AttributeTok{extra\_transport =}\NormalTok{ transport }\SpecialCharTok{{-}}\NormalTok{ central\_transport,}
+  \AttributeTok{direct\_difference =}\NormalTok{ direct }\SpecialCharTok{{-}}\NormalTok{ central\_direct,}
+  \AttributeTok{extra\_hours =}\NormalTok{ hours }\SpecialCharTok{{-}}\NormalTok{ central\_hours,}
+  \AttributeTok{generalized\_difference =}\NormalTok{ generalized\_half }\SpecialCharTok{{-}}\NormalTok{ central\_generalized)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(budgets }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, mode, rent, transport, hours, direct, generalized\_half), }\AttributeTok{digits =} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2099}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2099}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0864}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1235}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0741}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.0864}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.2099}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+district
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+mode
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+rent
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+transport
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+hours
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+direct
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+generalized\_half
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Ajapnyak & Public transport & 350000 & 6600 & 34 & 381369 & 410943 \\
+Erebuni & Public transport & 350000 & 6600 & 24 & 381369 & 401846 \\
+Malatia-Sebastia & Public transport & 350000 & 6600 & 32 & 381369 &
+409128 \\
+Nor Nork & Public transport & 350000 & 6600 & 40 & 381369 & 416225 \\
+Shengavit & Public transport & 350000 & 6600 & 27 & 381369 & 404459 \\
+Kanaker-Zeytun & Public transport & 360000 & 6600 & 39 & 391369 &
+424639 \\
+Avan & Public transport & 375000 & 6600 & 41 & 406369 & 442079 \\
+Arabkir & Public transport & 400000 & 6600 & 31 & 431369 & 458189 \\
+Davtashen & Public transport & 400000 & 6600 & 39 & 431369 & 464538 \\
+Nork-Marash & Public transport & 400000 & 6600 & 29 & 431369 & 456625 \\
+Kentron & Public transport & 500000 & 6600 & 17 & 531369 & 545632 \\
+Ajapnyak & Private car & 350000 & 26805 & 13 & 401575 & 413018 \\
+Erebuni & Private car & 350000 & 19199 & 9 & 393969 & 402007 \\
+Malatia-Sebastia & Private car & 350000 & 25287 & 14 & 400057 &
+411720 \\
+Nor Nork & Private car & 350000 & 31221 & 16 & 405991 & 419378 \\
+Shengavit & Private car & 350000 & 21384 & 11 & 396153 & 405654 \\
+Kanaker-Zeytun & Private car & 360000 & 29895 & 15 & 414664 & 427835 \\
+Avan & Private car & 375000 & 31935 & 16 & 431704 & 445476 \\
+Arabkir & Private car & 400000 & 24502 & 13 & 449272 & 460044 \\
+Davtashen & Private car & 400000 & 29810 & 16 & 454580 & 468166 \\
+Nork-Marash & Private car & 400000 & 23195 & 12 & 447964 & 457872 \\
+Kentron & Private car & 500000 & 14004 & 6 & 538774 & 544338 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cheaper\_half }\OtherTok{\textless{}{-}}\NormalTok{ comparisons }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(mode) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{cheaper =} \FunctionTok{sum}\NormalTok{(generalized\_difference }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{), }\AttributeTok{comparisons =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{)}
+\NormalTok{chunk\_results[[}\StringTok{"district{-}budgets"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"At half the hourly benchmark, cheaper non{-}Kentron district examples:"}\NormalTok{,}
+  \FunctionTok{paste0}\NormalTok{(cheaper\_half}\SpecialCharTok{$}\NormalTok{mode, }\StringTok{" "}\NormalTok{, cheaper\_half}\SpecialCharTok{$}\NormalTok{cheaper, }\StringTok{"/"}\NormalTok{, cheaper\_half}\SpecialCharTok{$}\NormalTok{comparisons, }\AttributeTok{collapse =} \StringTok{"; "}\NormalTok{), }\StringTok{"."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A table of district examples for both modes,
+showing direct and time-valued outcomes separately.
+
+\textbf{Actual result:} At half the hourly benchmark, cheaper
+non-Kentron district examples: Private car 10/10; Public transport 10/10
+.
+
+\textbf{Interpretation:} A flat city fare can leave monetary transit
+spending unchanged even when travel takes longer. The central comparator
+also has transport costs and time. Medians of rent, road length and road
+time need not come from the same apartment, so this is not a median
+observed total budget.
+
+\textbf{Connection to our hypothesis:} Negative cost differences
+contradict the strong claim that savings always disappear; positive
+differences support it only for the stated district example and
+scenario.
+
+\subsubsection{Chunk 11 --- Show costs and the rent-saving
+tradeoff}\label{chunk-11-show-costs-and-the-rent-saving-tradeoff}
+
+\textbf{Research objective:} Make clear how much of the rent saving is
+consumed by modeled extra transport and time.
+
+\textbf{What this code does:} Plots direct versus generalized examples
+and compares rent saved with extra commuting burden.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cost\_long }\OtherTok{\textless{}{-}}\NormalTok{ budgets }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, mode, direct, generalized\_half) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{c}\NormalTok{(direct, generalized\_half), }\AttributeTok{names\_to =} \StringTok{"outcome"}\NormalTok{, }\AttributeTok{values\_to =} \StringTok{"amd"}\NormalTok{)}
+\NormalTok{cost\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(cost\_long, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ amd, }\AttributeTok{y =} \FunctionTok{factor}\NormalTok{(district, }\AttributeTok{levels =}\NormalTok{ district\_order), }\AttributeTok{color =}\NormalTok{ outcome)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \FloatTok{2.4}\NormalTok{, }\AttributeTok{position =} \FunctionTok{position\_dodge}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.35}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{mode, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"direct"} \OtherTok{=} \StringTok{"\#25718B"}\NormalTok{, }\StringTok{"generalized\_half"} \OtherTok{=} \StringTok{"\#B75F28"}\NormalTok{),}
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Direct selected cost"}\NormalTok{, }\StringTok{"Including time at half benchmark"}\NormalTok{), }\AttributeTok{name =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Adding time changes the comparison without changing the rent"}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{"Modeled district budgets; one commuter, 22 days, equal winter consumption"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"AMD per household per modeled month"}\NormalTok{, }\AttributeTok{y =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\NormalTok{cost\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{Yerevan_Housing_Research_files/figure-latex/cost-visuals-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"outputs/figures/modeled{-}costs.png"}\NormalTok{, cost\_plot, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \FloatTok{6.3}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{160}\NormalTok{)}
+
+\NormalTok{tradeoff }\OtherTok{\textless{}{-}}\NormalTok{ comparisons }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{extra\_commuting =}\NormalTok{ extra\_transport }\SpecialCharTok{+}\NormalTok{ extra\_hours }\SpecialCharTok{*}\NormalTok{ half\_time\_value)}
+\NormalTok{tradeoff\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(tradeoff, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ rent\_saved, }\AttributeTok{y =}\NormalTok{ extra\_commuting, }\AttributeTok{color =}\NormalTok{ mode)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{slope =} \DecValTok{1}\NormalTok{, }\AttributeTok{intercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{, }\AttributeTok{color =} \StringTok{"grey45"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \FloatTok{2.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Private car"} \OtherTok{=} \StringTok{"\#B75F28"}\NormalTok{, }\StringTok{"Public transport"} \OtherTok{=} \StringTok{"\#25718B"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{coord\_equal}\NormalTok{(}\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{165000}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{165000}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Below the dashed line, rent savings exceed extra commuting burden"}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{"Time valued at half the gross hourly benchmark; utility consumption held equal"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Rent saved relative to Kentron (AMD/month)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Extra transport + valued time (AMD/month)"}\NormalTok{, }\AttributeTok{color =} \ConstantTok{NULL}\NormalTok{,}
+       \AttributeTok{caption =} \StringTok{"Each point is a named district–mode example; see the preceding table for names and values."}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\NormalTok{tradeoff\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{Yerevan_Housing_Research_files/figure-latex/cost-visuals-2} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"outputs/figures/savings{-}tradeoff.png"}\NormalTok{, tradeoff\_plot, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \FloatTok{6.1}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{160}\NormalTok{)}
+\NormalTok{chunk\_results[[}\StringTok{"cost{-}visuals"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"The tradeoff chart contains \%s named district–mode examples; \%s lie below the equality line at the half{-}benchmark time value."}\NormalTok{,}
+  \FunctionTok{nrow}\NormalTok{(tradeoff), }\FunctionTok{sum}\NormalTok{(tradeoff}\SpecialCharTok{$}\NormalTok{extra\_commuting }\SpecialCharTok{\textless{}}\NormalTok{ tradeoff}\SpecialCharTok{$}\NormalTok{rent\_saved))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} Two complementary figures: budget levels and
+saving-versus-extra-cost comparisons.
+
+\textbf{Actual result:} The tradeoff chart contains 20 named
+district--mode examples; 20 lie below the equality line at the
+half-benchmark time value.
+
+\textbf{Interpretation:} The dashed line explains the model's decision
+rule. It does not estimate a causal relationship. A point below the line
+can still reverse under a larger time value, greater heating use or
+different commuting assumptions.
+
+\textbf{Connection to our hypothesis:} These charts directly assess the
+conditional hidden-cost claim and show which component changes the
+answer.
+
+\subsubsection{Chunk 12 --- Calculate conditional time-value
+thresholds}\label{chunk-12-calculate-conditional-time-value-thresholds}
+
+\textbf{Research objective:} Find where the district example stops being
+cheaper as commuting time becomes more valuable.
+
+\textbf{What this code does:} Computes positive break-even values and
+plots cost differences across a continuous time-value range.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{thresholds }\OtherTok{\textless{}{-}}\NormalTok{ comparisons }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{value\_of\_time\_threshold =} \FunctionTok{break\_even\_value}\NormalTok{(direct\_difference, extra\_hours),}
+  \AttributeTok{threshold\_status =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    direct\_difference }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ extra\_hours }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\textasciitilde{}} \StringTok{"No saving at zero time value"}\NormalTok{,}
+\NormalTok{    direct\_difference }\SpecialCharTok{\textless{}} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ extra\_hours }\SpecialCharTok{\textless{}=} \DecValTok{0} \SpecialCharTok{\textasciitilde{}} \StringTok{"Cheaper for all nonnegative time values"}\NormalTok{,}
+\NormalTok{    direct\_difference }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ extra\_hours }\SpecialCharTok{\textless{}} \DecValTok{0} \SpecialCharTok{\textasciitilde{}} \StringTok{"May become cheaper as time value rises"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \StringTok{"Positive break{-}even time value"}\NormalTok{))}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(thresholds }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, mode, direct\_difference, extra\_hours,}
+\NormalTok{                                  value\_of\_time\_threshold, threshold\_status), }\AttributeTok{digits =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1429}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1513}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1008}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2017}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.2605}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+district
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+mode
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+direct\_difference
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+extra\_hours
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+value\_of\_time\_threshold
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+threshold\_status
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Ajapnyak & Public transport & -150000.0 & 17.8 & 8436.9 & Positive
+break-even time value \\
+Erebuni & Public transport & -150000.0 & 7.2 & 20789.8 & Positive
+break-even time value \\
+Malatia-Sebastia & Public transport & -150000.0 & 15.7 & 9572.0 &
+Positive break-even time value \\
+Nor Nork & Public transport & -150000.0 & 23.9 & 6272.9 & Positive
+break-even time value \\
+Shengavit & Public transport & -150000.0 & 10.2 & 14635.5 & Positive
+break-even time value \\
+Kanaker-Zeytun & Public transport & -140000.0 & 22.1 & 6343.4 & Positive
+break-even time value \\
+Avan & Public transport & -125000.0 & 24.9 & 5019.4 & Positive
+break-even time value \\
+Arabkir & Public transport & -100000.0 & 14.6 & 6858.5 & Positive
+break-even time value \\
+Davtashen & Public transport & -100000.0 & 22.0 & 4555.2 & Positive
+break-even time value \\
+Nork-Marash & Public transport & -100000.0 & 12.8 & 7834.0 & Positive
+break-even time value \\
+Ajapnyak & Private car & -137199.0 & 6.8 & 20096.9 & Positive break-even
+time value \\
+Erebuni & Private car & -144805.1 & 2.9 & 50413.0 & Positive break-even
+time value \\
+Malatia-Sebastia & Private car & -138717.0 & 7.1 & 19588.1 & Positive
+break-even time value \\
+Nor Nork & Private car & -132783.0 & 9.1 & 14617.7 & Positive break-even
+time value \\
+Shengavit & Private car & -142620.7 & 4.6 & 31201.5 & Positive
+break-even time value \\
+Kanaker-Zeytun & Private car & -124109.6 & 8.8 & 14051.4 & Positive
+break-even time value \\
+Avan & Private car & -107069.4 & 9.5 & 11234.3 & Positive break-even
+time value \\
+Arabkir & Private car & -89502.0 & 6.0 & 14799.3 & Positive break-even
+time value \\
+Davtashen & Private car & -84194.1 & 9.3 & 9037.9 & Positive break-even
+time value \\
+Nork-Marash & Private car & -90809.2 & 5.0 & 18006.8 & Positive
+break-even time value \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{curve }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(comparisons }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{),}
+               \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{time\_value =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{10000}\NormalTok{, }\AttributeTok{by =} \DecValTok{100}\NormalTok{)), }\AttributeTok{by =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{cost\_difference =}\NormalTok{ direct\_difference }\SpecialCharTok{+}\NormalTok{ extra\_hours }\SpecialCharTok{*}\NormalTok{ time\_value)}
+
+\NormalTok{threshold\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(curve, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ time\_value, }\AttributeTok{y =}\NormalTok{ cost\_difference, }\AttributeTok{color =}\NormalTok{ district)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{linewidth =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{mode, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_viridis\_d}\NormalTok{(}\AttributeTok{option =} \StringTok{"turbo"}\NormalTok{, }\AttributeTok{end =} \FloatTok{0.9}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"A break{-}even value is conditional on the household and mode"}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{"Negative difference means cheaper than the same{-}mode Kentron example"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Assumed value of commuting time (AMD/hour)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Cost difference from Kentron (AMD/month)"}\NormalTok{, }\AttributeTok{color =} \StringTok{"District"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{, }\AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{))}
+\NormalTok{threshold\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{Yerevan_Housing_Research_files/figure-latex/break-even-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"outputs/figures/time{-}thresholds.png"}\NormalTok{, threshold\_plot, }\AttributeTok{width =} \DecValTok{11}\NormalTok{, }\AttributeTok{height =} \FloatTok{6.5}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{160}\NormalTok{)}
+\NormalTok{finite\_thresholds }\OtherTok{\textless{}{-}}\NormalTok{ thresholds}\SpecialCharTok{$}\NormalTok{value\_of\_time\_threshold[}\FunctionTok{is.finite}\NormalTok{(thresholds}\SpecialCharTok{$}\NormalTok{value\_of\_time\_threshold)]}
+\NormalTok{chunk\_results[[}\StringTok{"break{-}even"}\NormalTok{]] }\OtherTok{\textless{}{-}} \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(finite\_thresholds)) }\FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%s examples have a positive time{-}value threshold; the smallest is \%.0f AMD/hour. Other examples require their stated special{-}case interpretation."}\NormalTok{,}
+  \FunctionTok{length}\NormalTok{(finite\_thresholds), }\FunctionTok{min}\NormalTok{(finite\_thresholds)) }\ControlFlowTok{else} \StringTok{"No positive threshold exists for the selected examples under the baseline model."}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A threshold table and a cost-difference curve,
+including no-crossing cases.
+
+\textbf{Actual result:} 20 examples have a positive time-value
+threshold; the smallest is 4555 AMD/hour. Other examples require their
+stated special-case interpretation.
+
+\textbf{Interpretation:} Time value, not physical distance alone,
+determines these crossings. Car costs and journeys vary together, so a
+universal kilometre threshold is unsupported. A threshold outside the
+plotted range still exists algebraically when the table reports it.
+
+\textbf{Connection to our hypothesis:} This identifies when the
+hidden-cost claim can become true under changed preferences rather than
+presuming one answer for every household.
+
+\subsubsection{Chunk 13 --- Vary household, heating and travel
+assumptions}\label{chunk-13-vary-household-heating-and-travel-assumptions}
+
+\textbf{Research objective:} Check whether the conclusion depends on a
+narrow choice of assumptions.
+
+\textbf{What this code does:} Builds household/wage/heating scenarios
+and separately changes transit access, transfers and driving costs.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scenario\_grid }\OtherTok{\textless{}{-}} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{commuters =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{days =} \FunctionTok{c}\NormalTok{(}\DecValTok{16}\NormalTok{, }\DecValTok{22}\NormalTok{, }\DecValTok{26}\NormalTok{),}
+  \AttributeTok{fraction =}\NormalTok{ time\_fractions, }\AttributeTok{extra\_gas =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{75}\NormalTok{, }\DecValTok{150}\NormalTok{))}
+\NormalTok{scenario\_rows }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(budgets }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, mode, rent, round\_trip\_km, freeflow\_minutes),}
+\NormalTok{                       scenario\_grid, }\AttributeTok{by =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{transport =} \FunctionTok{ifelse}\NormalTok{(mode }\SpecialCharTok{==} \StringTok{"Public transport"}\NormalTok{,}
+    \FunctionTok{transit\_cost}\NormalTok{(days, commuters, }\DecValTok{1}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{]),}
+    \FunctionTok{car\_cost}\NormalTok{(round\_trip\_km, days, commuters, }\DecValTok{60}\NormalTok{, }\DecValTok{10000}\NormalTok{)),}
+  \AttributeTok{minutes =} \FunctionTok{ifelse}\NormalTok{(mode }\SpecialCharTok{==} \StringTok{"Public transport"}\NormalTok{, round\_trip\_km }\SpecialCharTok{/} \DecValTok{12} \SpecialCharTok{*} \DecValTok{60} \SpecialCharTok{+} \DecValTok{30}\NormalTok{, freeflow\_minutes }\SpecialCharTok{*} \FloatTok{1.5} \SpecialCharTok{+} \DecValTok{10}\NormalTok{),}
+  \AttributeTok{hours =} \FunctionTok{monthly\_hours}\NormalTok{(minutes, days, commuters),}
+  \AttributeTok{utility\_scenario =}\NormalTok{ utilities }\SpecialCharTok{+} \FunctionTok{ifelse}\NormalTok{(district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{, }\DecValTok{0}\NormalTok{, extra\_gas }\SpecialCharTok{*}\NormalTok{ rates[}\StringTok{"gas\_per\_1000m3"}\NormalTok{] }\SpecialCharTok{/} \DecValTok{1000}\NormalTok{),}
+  \AttributeTok{total =}\NormalTok{ rent }\SpecialCharTok{+}\NormalTok{ utility\_scenario }\SpecialCharTok{+}\NormalTok{ transport }\SpecialCharTok{+}\NormalTok{ hours }\SpecialCharTok{*}\NormalTok{ fraction }\SpecialCharTok{*}\NormalTok{ hourly\_benchmark)}
+\NormalTok{scenario\_central }\OtherTok{\textless{}{-}}\NormalTok{ scenario\_rows }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mode, commuters, days, fraction, extra\_gas, }\AttributeTok{reference\_total =}\NormalTok{ total)}
+\NormalTok{scenario\_rows }\OtherTok{\textless{}{-}}\NormalTok{ scenario\_rows }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(scenario\_central,}
+  \AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"mode"}\NormalTok{, }\StringTok{"commuters"}\NormalTok{, }\StringTok{"days"}\NormalTok{, }\StringTok{"fraction"}\NormalTok{, }\StringTok{"extra\_gas"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{delta =}\NormalTok{ total }\SpecialCharTok{{-}}\NormalTok{ reference\_total)}
+
+\NormalTok{stress }\OtherTok{\textless{}{-}}\NormalTok{ scenario\_rows }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(commuters }\SpecialCharTok{==} \DecValTok{2}\NormalTok{, days }\SpecialCharTok{==} \DecValTok{26}\NormalTok{, extra\_gas }\SpecialCharTok{==} \DecValTok{150}\NormalTok{, district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{)}
+\NormalTok{stress\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(stress, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(fraction, }\AttributeTok{levels =}\NormalTok{ time\_fractions),}
+  \AttributeTok{y =} \FunctionTok{factor}\NormalTok{(district, }\AttributeTok{levels =}\NormalTok{ district\_order), }\AttributeTok{fill =}\NormalTok{ delta)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_tile}\NormalTok{(}\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{round}\NormalTok{(delta }\SpecialCharTok{/} \DecValTok{1000}\NormalTok{), }\AttributeTok{color =}\NormalTok{ delta }\SpecialCharTok{\textless{}} \SpecialCharTok{{-}}\DecValTok{90000}\NormalTok{), }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"FALSE"} \OtherTok{=} \StringTok{"black"}\NormalTok{, }\StringTok{"TRUE"} \OtherTok{=} \StringTok{"white"}\NormalTok{), }\AttributeTok{guide =} \StringTok{"none"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{mode, }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradient2}\NormalTok{(}\AttributeTok{low =} \StringTok{"\#246A82"}\NormalTok{, }\AttributeTok{mid =} \StringTok{"\#F5F4EF"}\NormalTok{, }\AttributeTok{high =} \StringTok{"\#B55B32"}\NormalTok{, }\AttributeTok{midpoint =} \DecValTok{0}\NormalTok{,}
+                       \AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{150000}\NormalTok{, }\DecValTok{150000}\NormalTok{), }\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{150000}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{150000}\NormalTok{),}
+                       \AttributeTok{labels =} \FunctionTok{label\_number}\NormalTok{(}\AttributeTok{scale =} \FloatTok{0.001}\NormalTok{, }\AttributeTok{suffix =} \StringTok{"k"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"A two{-}commuter winter stress can change the answer"}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{"26 days; +150 m³ gas outside Kentron; cell values are AMD thousands"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Fraction of gross hourly wage benchmark"}\NormalTok{, }\AttributeTok{y =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{fill =} \StringTok{"Difference"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\NormalTok{stress\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{Yerevan_Housing_Research_files/figure-latex/sensitivity-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"outputs/figures/sensitivity.png"}\NormalTok{, stress\_plot, }\AttributeTok{width =} \DecValTok{10}\NormalTok{, }\AttributeTok{height =} \FloatTok{6.4}\NormalTok{, }\AttributeTok{dpi =} \DecValTok{160}\NormalTok{)}
+
+\NormalTok{travel\_grid }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{travel\_case =} \FunctionTok{c}\NormalTok{(}\StringTok{"Faster"}\NormalTok{, }\StringTok{"Baseline"}\NormalTok{, }\StringTok{"Slower"}\NormalTok{),}
+  \AttributeTok{public\_speed =} \FunctionTok{c}\NormalTok{(}\DecValTok{16}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{8}\NormalTok{), }\AttributeTok{wait\_per\_leg =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{),}
+  \AttributeTok{congestion =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{car\_per\_km =} \FunctionTok{c}\NormalTok{(}\DecValTok{40}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{100}\NormalTok{))}
+\NormalTok{travel\_sensitivity }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(budgets }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, mode, rent, round\_trip\_km, freeflow\_minutes),}
+\NormalTok{                            travel\_grid, }\AttributeTok{by =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{minutes =} \FunctionTok{ifelse}\NormalTok{(mode }\SpecialCharTok{==} \StringTok{"Public transport"}\NormalTok{, round\_trip\_km }\SpecialCharTok{/}\NormalTok{ public\_speed }\SpecialCharTok{*} \DecValTok{60} \SpecialCharTok{+} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ wait\_per\_leg,}
+\NormalTok{                   freeflow\_minutes }\SpecialCharTok{*}\NormalTok{ congestion }\SpecialCharTok{+} \DecValTok{10}\NormalTok{),}
+  \AttributeTok{transport =} \FunctionTok{ifelse}\NormalTok{(mode }\SpecialCharTok{==} \StringTok{"Public transport"}\NormalTok{, }\FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{]),}
+                    \FunctionTok{car\_cost}\NormalTok{(round\_trip\_km, }\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, car\_per\_km, }\DecValTok{10000}\NormalTok{)),}
+  \AttributeTok{total =}\NormalTok{ rent }\SpecialCharTok{+}\NormalTok{ utilities }\SpecialCharTok{+}\NormalTok{ transport }\SpecialCharTok{+} \FunctionTok{monthly\_hours}\NormalTok{(minutes, }\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ half\_time\_value)}
+\NormalTok{travel\_central }\OtherTok{\textless{}{-}}\NormalTok{ travel\_sensitivity }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mode, travel\_case, }\AttributeTok{central\_total =}\NormalTok{ total)}
+\NormalTok{travel\_sensitivity }\OtherTok{\textless{}{-}}\NormalTok{ travel\_sensitivity }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(travel\_central, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"mode"}\NormalTok{, }\StringTok{"travel\_case"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{delta =}\NormalTok{ total }\SpecialCharTok{{-}}\NormalTok{ central\_total)}
+\NormalTok{transfer\_test }\OtherTok{\textless{}{-}}\NormalTok{ comparisons }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(mode }\SpecialCharTok{==} \StringTok{"Public transport"}\NormalTok{, district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{two\_boarding\_delta =}\NormalTok{ direct\_difference }\SpecialCharTok{+} \FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{]) }\SpecialCharTok{{-}}
+           \FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{]) }\SpecialCharTok{+}\NormalTok{ extra\_hours }\SpecialCharTok{*}\NormalTok{ half\_time\_value)}
+\NormalTok{commitment\_pass\_month }\OtherTok{\textless{}{-}}\NormalTok{ rates[}\StringTok{"fare\_365day"}\NormalTok{] }\SpecialCharTok{/} \DecValTok{12}
+\NormalTok{dearer\_grid }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(scenario\_rows}\SpecialCharTok{$}\NormalTok{delta[scenario\_rows}\SpecialCharTok{$}\NormalTok{district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\NormalTok{chunk\_results[[}\StringTok{"sensitivity"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"Computed \%s household/heating/time scenario rows and \%s travel{-}sensitivity rows; \%s noncentral grid rows are dearer than Kentron. This grid count is not a probability. Two boardings cost \%s AMD per commuter under the 30{-}day rule; the annual pass amortizes to \%s AMD/month but requires a different commitment."}\NormalTok{,}
+  \FunctionTok{nrow}\NormalTok{(scenario\_rows), }\FunctionTok{nrow}\NormalTok{(travel\_sensitivity), dearer\_grid, }\FunctionTok{money}\NormalTok{(}\FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{])), }\FunctionTok{money}\NormalTok{(commitment\_pass\_month))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} A sensitivity heatmap and retained
+scenario/travel tables, without interpreting grid size as sample size.
+
+\textbf{Actual result:} Computed 1584 household/heating/time scenario
+rows and 66 travel-sensitivity rows; 2 noncentral grid rows are dearer
+than Kentron. This grid count is not a probability. Two boardings cost
+9,000 AMD per commuter under the 30-day rule; the annual pass amortizes
+to 7,500 AMD/month but requires a different commitment.
+
+\textbf{Interpretation:} The grid exposes dependence on time, workers
+and heating. It does not assign probabilities to scenarios. Two-car
+cases assume separate commuting vehicles; shared rides could lower
+costs. Real traffic, timetables, taxi fares, social discounts and every
+possible household are not observed or exhaustively modeled.
+
+\textbf{Connection to our hypothesis:} A finding that reverses in
+plausible scenarios supports a conditional recommendation; it cannot
+justify a universal claim about peripheral living.
+
+\subsubsection{Chunk 14 --- Check aggregation and the narrower area
+band}\label{chunk-14-check-aggregation-and-the-narrower-area-band}
+
+\textbf{Research objective:} Assess whether a different summary
+construction changes the comparison.
+
+\textbf{What this code does:} Calculates listing-level modeled totals as
+an alternative summary and reports rent-only summaries for a narrower
+area band.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{individual\_public }\OtherTok{\textless{}{-}}\NormalTok{ analysis }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{mode =} \StringTok{"Public transport"}\NormalTok{,}
+  \AttributeTok{modeled\_transport =} \FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, rates[}\StringTok{"fare\_single"}\NormalTok{], rates[}\StringTok{"fare\_30day"}\NormalTok{]),}
+  \AttributeTok{modeled\_minutes =}\NormalTok{ round\_trip\_km }\SpecialCharTok{/} \DecValTok{12} \SpecialCharTok{*} \DecValTok{60} \SpecialCharTok{+} \DecValTok{30}\NormalTok{)}
+\NormalTok{individual\_car }\OtherTok{\textless{}{-}}\NormalTok{ analysis }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{mode =} \StringTok{"Private car"}\NormalTok{,}
+  \AttributeTok{modeled\_transport =} \FunctionTok{car\_cost}\NormalTok{(round\_trip\_km, }\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{10000}\NormalTok{),}
+  \AttributeTok{modeled\_minutes =}\NormalTok{ round\_trip\_freeflow\_minutes }\SpecialCharTok{*} \FloatTok{1.5} \SpecialCharTok{+} \DecValTok{10}\NormalTok{)}
+\NormalTok{individual\_totals }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(individual\_public, individual\_car) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{modeled\_total =}\NormalTok{ price\_original }\SpecialCharTok{+}\NormalTok{ utilities }\SpecialCharTok{+}\NormalTok{ modeled\_transport }\SpecialCharTok{+}
+    \FunctionTok{monthly\_hours}\NormalTok{(modeled\_minutes, }\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ half\_time\_value)}
+\NormalTok{alternative }\OtherTok{\textless{}{-}}\NormalTok{ individual\_totals }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(district, mode) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{median\_listing\_model\_total =} \FunctionTok{median}\NormalTok{(modeled\_total), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{)}
+\NormalTok{alternative\_central }\OtherTok{\textless{}{-}}\NormalTok{ alternative }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{==} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(mode, }\AttributeTok{alternative\_central =}\NormalTok{ median\_listing\_model\_total)}
+\NormalTok{aggregation\_check }\OtherTok{\textless{}{-}}\NormalTok{ alternative }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(alternative\_central, }\AttributeTok{by =} \StringTok{"mode"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{alternative\_difference =}\NormalTok{ median\_listing\_model\_total }\SpecialCharTok{{-}}\NormalTok{ alternative\_central) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(comparisons }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(district, mode, generalized\_difference), }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"district"}\NormalTok{, }\StringTok{"mode"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{sign\_changed =} \FunctionTok{sign}\NormalTok{(alternative\_difference) }\SpecialCharTok{!=} \FunctionTok{sign}\NormalTok{(generalized\_difference))}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(aggregation\_check }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(district, mode, generalized\_difference, alternative\_difference, sign\_changed), }\AttributeTok{digits =} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1828}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1828}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2473}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2473}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1398}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+district
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+mode
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+generalized\_difference
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+alternative\_difference
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+sign\_changed
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Ajapnyak & Private car & -131320 & -136090 & FALSE \\
+Ajapnyak & Public transport & -134689 & -139011 & FALSE \\
+Arabkir & Private car & -84294 & -82088 & FALSE \\
+Arabkir & Public transport & -87443 & -85847 & FALSE \\
+Avan & Private car & -98862 & -98887 & FALSE \\
+Avan & Public transport & -103553 & -103640 & FALSE \\
+Davtashen & Private car & -76172 & -76957 & FALSE \\
+Davtashen & Public transport & -81094 & -81902 & FALSE \\
+Erebuni & Private car & -142331 & -143572 & FALSE \\
+Erebuni & Public transport & -143786 & -145040 & FALSE \\
+Kanaker-Zeytun & Private car & -116503 & -118396 & FALSE \\
+Kanaker-Zeytun & Public transport & -120993 & -122599 & FALSE \\
+Malatia-Sebastia & Private car & -132618 & -125842 & FALSE \\
+Malatia-Sebastia & Public transport & -136504 & -129861 & FALSE \\
+Nor Nork & Private car & -124960 & -128018 & FALSE \\
+Nor Nork & Public transport & -129407 & -131553 & FALSE \\
+Nork-Marash & Private car & -86466 & -80472 & FALSE \\
+Nork-Marash & Public transport & -89007 & -83958 & FALSE \\
+Shengavit & Private car & -138684 & -139346 & FALSE \\
+Shengavit & Public transport & -141174 & -141564 & FALSE \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{narrow\_area }\OtherTok{\textless{}{-}}\NormalTok{ analysis }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(area\_m2 }\SpecialCharTok{\textgreater{}=} \DecValTok{55}\NormalTok{, area\_m2 }\SpecialCharTok{\textless{}=} \DecValTok{65}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(district) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{median\_rent =} \FunctionTok{median}\NormalTok{(price\_original), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(narrow\_area, }\AttributeTok{digits =} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lrr@{}}
+\toprule\noalign{}
+district & n & median\_rent \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Ajapnyak & 7 & 380000 \\
+Arabkir & 44 & 400000 \\
+Avan & 7 & 400000 \\
+Davtashen & 2 & 415000 \\
+Erebuni & 2 & 310000 \\
+Kanaker-Zeytun & 7 & 370000 \\
+Kentron & 38 & 524950 \\
+Malatia-Sebastia & 10 & 400000 \\
+Nor Nork & 6 & 275000 \\
+Nork-Marash & 2 & 375000 \\
+Shengavit & 3 & 285000 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chunk\_results[[}\StringTok{"robustness"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"Changing to medians of listing{-}level modeled totals changes \%s noncentral mode{-}comparison signs. The 55–65 m² rent{-}only subset contains \%s listings; its counts differ from the primary sample."}\NormalTok{,}
+  \FunctionTok{sum}\NormalTok{(aggregation\_check}\SpecialCharTok{$}\NormalTok{sign\_changed[aggregation\_check}\SpecialCharTok{$}\NormalTok{district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{]), }\FunctionTok{sum}\NormalTok{(narrow\_area}\SpecialCharTok{$}\NormalTok{n))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} An aggregation-sensitivity table and a clearly
+separate narrower-band rent table.
+
+\textbf{Actual result:} Changing to medians of listing-level modeled
+totals changes 0 noncentral mode-comparison signs. The 55--65 m²
+rent-only subset contains 128 listings; its counts differ from the
+primary sample.
+
+\textbf{Interpretation:} If signs remain unchanged, that supports
+stability to this particular summary choice, not robustness to
+unobserved renovation, agency selection or real congestion. A narrow
+size band can greatly reduce district support.
+
+\textbf{Connection to our hypothesis:} This checks whether the
+conditional finding is an artifact of one aggregation rule while
+acknowledging remaining confounding.
+
+\subsubsection{Chunk 15 --- Verify formulas and study
+boundaries}\label{chunk-15-verify-formulas-and-study-boundaries}
+
+\textbf{Research objective:} Ensure reported conclusions follow from
+executed calculations.
+
+\textbf{What this code does:} Runs hand-calculated cost checks,
+algebraic identities, sample checks and break-even substitution.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{9000}\NormalTok{) }\SpecialCharTok{==} \DecValTok{6600}\NormalTok{)}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{transit\_cost}\NormalTok{(}\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{9000}\NormalTok{) }\SpecialCharTok{==} \DecValTok{9000}\NormalTok{)}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{car\_cost}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{10000}\NormalTok{) }\SpecialCharTok{==} \DecValTok{23200}\NormalTok{)}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{monthly\_hours}\NormalTok{(}\DecValTok{60}\NormalTok{, }\DecValTok{22}\NormalTok{, }\DecValTok{1}\NormalTok{) }\SpecialCharTok{==} \DecValTok{22}\NormalTok{)}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all.equal}\NormalTok{(utilities, }\FloatTok{24769.36}\NormalTok{)))}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(}\FunctionTok{generalized\_cost}\NormalTok{(budgets}\SpecialCharTok{$}\NormalTok{rent, utilities, budgets}\SpecialCharTok{$}\NormalTok{transport, budgets}\SpecialCharTok{$}\NormalTok{hours, }\DecValTok{0}\NormalTok{) }\SpecialCharTok{==}\NormalTok{ budgets}\SpecialCharTok{$}\NormalTok{direct))}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(}\FunctionTok{abs}\NormalTok{(comparisons}\SpecialCharTok{$}\NormalTok{direct\_difference }\SpecialCharTok{{-}}\NormalTok{ (}\SpecialCharTok{{-}}\NormalTok{comparisons}\SpecialCharTok{$}\NormalTok{rent\_saved }\SpecialCharTok{+}\NormalTok{ comparisons}\SpecialCharTok{$}\NormalTok{extra\_transport)) }\SpecialCharTok{\textless{}} \FloatTok{0.000001}\NormalTok{))}
+\NormalTok{positive\_crossings }\OtherTok{\textless{}{-}}\NormalTok{ thresholds }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{is.finite}\NormalTok{(value\_of\_time\_threshold))}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(}\FunctionTok{abs}\NormalTok{(positive\_crossings}\SpecialCharTok{$}\NormalTok{direct\_difference }\SpecialCharTok{+}
+\NormalTok{                   positive\_crossings}\SpecialCharTok{$}\NormalTok{extra\_hours }\SpecialCharTok{*}\NormalTok{ positive\_crossings}\SpecialCharTok{$}\NormalTok{value\_of\_time\_threshold) }\SpecialCharTok{\textless{}} \FloatTok{0.000001}\NormalTok{))}
+
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{currency\_original }\SpecialCharTok{==} \StringTok{"AMD"}\NormalTok{), }\FunctionTok{all}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{rooms }\SpecialCharTok{==} \DecValTok{2}\NormalTok{),}
+          \FunctionTok{all}\NormalTok{(}\FunctionTok{between}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{area\_m2, }\DecValTok{45}\NormalTok{, }\DecValTok{75}\NormalTok{)), }\FunctionTok{all}\NormalTok{(}\FunctionTok{flag}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{furniture\_feature\_present)),}
+          \SpecialCharTok{!}\FunctionTok{any}\NormalTok{(analysis}\SpecialCharTok{$}\NormalTok{listing\_id }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"11834"}\NormalTok{, }\StringTok{"14196"}\NormalTok{, }\StringTok{"12868"}\NormalTok{, }\StringTok{"10570"}\NormalTok{)))}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{all}\NormalTok{(}\FunctionTok{is.finite}\NormalTok{(budgets}\SpecialCharTok{$}\NormalTok{direct)), }\FunctionTok{all}\NormalTok{(budgets}\SpecialCharTok{$}\NormalTok{hours }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{))}
+\NormalTok{chunk\_results[[}\StringTok{"validation"}\NormalTok{]] }\OtherTok{\textless{}{-}} \StringTok{"All executed sample, fare, utility, zero{-}time, additive{-}cost and positive{-}crossing checks passed. These checks do not validate source representativeness or unobserved quality."}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Expected output:} Execution continues only if all stated checks
+pass; otherwise rendering stops.
+
+\textbf{Actual result:} All executed sample, fare, utility, zero-time,
+additive-cost and positive-crossing checks passed. These checks do not
+validate source representativeness or unobserved quality.
+
+\textbf{Interpretation:} Numerical correctness and scientific validity
+are different. Correct arithmetic cannot repair a nonrepresentative
+sample or turn modeled utility use into observed spending. Independent
+QA also checks the source/code/document correspondence.
+
+\textbf{Connection to our hypothesis:} This protects the link between
+evidence and conclusions without claiming more validity than the study
+design permits.
+
+\subsubsection{Chunk 16 --- Save the executed results and
+provenance}\label{chunk-16-save-the-executed-results-and-provenance}
+
+\textbf{Research objective:} Keep the Word companion and final
+conclusions tied to this exact executed analysis.
+
+\textbf{What this code does:} Exports tables, actual-result narratives,
+references and environment information for verification and
+documentation.
+
+\textbf{Code:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(districts, }\StringTok{"outputs/district{-}summary.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(sample\_flow, }\StringTok{"outputs/sample{-}flow.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(route\_audit, }\StringTok{"outputs/route{-}audit.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(comparisons, }\StringTok{"outputs/baseline{-}comparisons.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(thresholds, }\StringTok{"outputs/break{-}even.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(scenario\_rows, }\StringTok{"outputs/sensitivity.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(travel\_sensitivity, }\StringTok{"outputs/travel{-}sensitivity.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(aggregation\_check, }\StringTok{"outputs/aggregation{-}check.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(narrow\_area, }\StringTok{"outputs/narrow{-}area{-}rents.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(transfer\_test, }\StringTok{"outputs/transfer{-}sensitivity.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{capture.output}\NormalTok{(}\FunctionTok{sessionInfo}\NormalTok{(), }\AttributeTok{file =} \StringTok{"outputs/session{-}info.txt"}\NormalTok{)}
+\NormalTok{chunk\_results[[}\StringTok{"export{-}results"}\NormalTok{]] }\OtherTok{\textless{}{-}} \StringTok{"Saved the executed summary, exclusion{-}flow, baseline, threshold, sensitivity and robustness tables, package session information, and matching Word{-}companion result narratives."}
+
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{chunks =}\NormalTok{ chunk\_results,}
+  \AttributeTok{summary =} \FunctionTok{list}\NormalTok{(}\AttributeTok{sample\_n =} \FunctionTok{nrow}\NormalTok{(analysis), }\AttributeTok{districts\_n =} \FunctionTok{nrow}\NormalTok{(districts),}
+    \AttributeTok{kentron\_rent\_amd =}\NormalTok{ central\_rent, }\AttributeTok{modeled\_winter\_utilities\_amd =}\NormalTok{ utilities,}
+    \AttributeTok{wage\_2025\_gross\_amd =}\NormalTok{ wage\_2025, }\AttributeTok{hourly\_benchmark\_amd =}\NormalTok{ hourly\_benchmark,}
+    \AttributeTok{half\_time\_value\_amd =}\NormalTok{ half\_time\_value, }\AttributeTok{cheaper\_half =}\NormalTok{ cheaper\_half,}
+    \AttributeTok{dearer\_scenario\_rows =}\NormalTok{ dearer\_grid,}
+    \AttributeTok{aggregation\_sign\_changes =} \FunctionTok{sum}\NormalTok{(aggregation\_check}\SpecialCharTok{$}\NormalTok{sign\_changed[aggregation\_check}\SpecialCharTok{$}\NormalTok{district }\SpecialCharTok{!=} \StringTok{"Kentron"}\NormalTok{]),}
+    \AttributeTok{sample\_kind =} \StringTok{"Single{-}agency convenience advertisements; not representative households"}\NormalTok{,}
+    \AttributeTok{cost\_kind =} \StringTok{"Modeled district budgets built from sample medians and declared assumptions"}\NormalTok{,}
+    \AttributeTok{p\_values =} \StringTok{"Not estimated: intended population inference unsupported"}\NormalTok{,}
+    \AttributeTok{confidence\_intervals =} \StringTok{"Not estimated; IQRs describe observed listing spread"}\NormalTok{),}
+  \AttributeTok{references =}\NormalTok{ jsonlite}\SpecialCharTok{::}\FunctionTok{fromJSON}\NormalTok{(}\StringTok{"references/reference{-}list.json"}\NormalTok{, }\AttributeTok{simplifyVector =} \ConstantTok{FALSE}\NormalTok{),}
+  \AttributeTok{software =}\NormalTok{ software, }\AttributeTok{package\_build\_warnings =}\NormalTok{ setup\_warnings)}
+\NormalTok{jsonlite}\SpecialCharTok{::}\FunctionTok{write\_json}\NormalTok{(results, }\StringTok{"outputs/results.json"}\NormalTok{, }\AttributeTok{pretty =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{auto\_unbox =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(cheaper\_half)}
+\end{Highlighting}
+\end{Shaded}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lrr@{}}
+\toprule\noalign{}
+mode & cheaper & comparisons \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Private car & 10 & 10 \\
+Public transport & 10 & 10 \\
+\end{longtable}
+}
+
+\textbf{Expected output:} Supporting CSV/JSON/session files and a final
+conditional sign-count table.
+
+\textbf{Actual result:} Saved the executed summary, exclusion-flow,
+baseline, threshold, sensitivity and robustness tables, package session
+information, and matching Word-companion result narratives.
+
+\textbf{Interpretation:} The Word builder reads these executed
+narratives and extracts the code from this Rmd, reducing the chance of
+mismatched values or chunk names. Re-render this analysis before
+rebuilding the companion after any substantive change.
+
+\textbf{Connection to our hypothesis:} This preserves an auditable path
+from source records through calculations to the stated conclusion.
+
+\subsection{Statistical
+interpretation}\label{statistical-interpretation}
+
+No population p-values or confidence intervals are reported. The
+advertised properties were not randomly sampled from Yerevan's rental
+stock, source IDs do not establish independent dwellings, and most cost
+inputs are modeled. Repeating a property across modes or time values
+creates scenarios, not additional data. The boxplot IQR is observed
+listing spread, not uncertainty about a population median. A bootstrap
+of this agency catalogue would not remove its selection bias.
+
+If a representative, independently sampled dataset became available, the
+analysis would need an explicit estimand and sampling/clustering design
+before selecting a test. A p-value would measure incompatibility with
+that model's null, not the probability that the hypothesis is true. A
+95\% confidence interval would describe a procedure's long-run coverage
+under its assumptions, not a 95\% chance that a fixed parameter lies in
+the computed interval. Statistical significance would not establish a
+practically important or causal effect. Here, model differences and
+sensitivity checks answer the defensible descriptive question.
+
+\subsection{Conditional conclusions and
+recommendations}\label{conditional-conclusions-and-recommendations}
+
+The executed comparison at half the gross hourly benchmark is:
+
+Private car: 10 of 10 non-Kentron district examples are cheaper than
+Kentron. Public transport: 10 of 10 non-Kentron district examples are
+cheaper than Kentron.
+
+This applies to \textbf{one commuter, 22 commuting days, the stated
+winter consumption and travel assumptions, and this agency's selected
+advertisements}. It does not mean that the same number of districts is
+cheaper for every renter or that any district is statistically proven
+cheaper. Direct and generalized costs must be read separately; the
+zero-time scenario remains the direct selected-cost outcome.
+
+At the baseline settings, the lowest modeled generalized example is
+Erebuni for public transport and Erebuni for private car. These are
+conditional example rankings, not guaranteed available apartments or a
+citywide optimal-location recommendation. Sparse districts deserve
+particular caution.
+
+The baseline model does not support the blanket claim that lower
+noncentral rents are necessarily erased by the selected extra costs. In
+the chosen household/heating/time grid, 2 noncentral rows reverse to a
+higher cost than Kentron. This count describes the chosen grid, not the
+likelihood that a household will face higher costs. The sensitivity
+figure shows the specified two-commuter winter stress comparison.
+
+A household can use the comparison by obtaining an actual rent quote,
+checking the condition and heating system, timing its own outward and
+return commute, and replacing our assumptions with its own fare/pass
+choice, driving costs and time value. Lower rent is financially
+advantageous when it exceeds the extra cash costs; it remains
+advantageous in generalized terms only when it also compensates for the
+household's value of additional time. The break-even table and
+sensitivity chart show where that conditional answer can reverse.
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  One agency's active catalogue is a convenience snapshot. It may
+  overrepresent certain prices, districts, building types or clients.
+  Asking rent is not agreed rent; creation date is not a known
+  price-update date, and active ads can have future or restricted
+  availability.
+\item
+  Furniture is advertised, renovation is unstandardized, and building
+  details are incomplete. Area differences remain inside the size band.
+  Neither narrow filtering nor the robustness checks makes this a causal
+  or quality-adjusted estimate.
+\item
+  District tags and coordinates may be approximate. Known placeholders,
+  explicit town mismatches and ambiguous border cases were removed;
+  remaining points were not ground-truthed. Public road routes use
+  OpenStreetMap contributors' data, with cached OSRM model outputs, not
+  live congestion or a transit timetable.
+\item
+  Winter consumption, access/waiting, congestion, marginal car costs and
+  time values are assumptions. Full car ownership, shared-car commuting,
+  actual taxi fares, summer/annual-average energy use and unsupported
+  budget components are outside the model. Longer ticket commitments and
+  eligible discounts can differ.
+\item
+  The 2025 national gross wage is a benchmark, not a 2026 personal net
+  wage. Heating stress is not a measured geographic effect. No universal
+  distance threshold, municipality-external comparison, or population
+  significance claim is supported.
+\item
+  Changing the aggregation to medians of listing-level modeled totals
+  changed 0 comparison signs; this is one limited robustness check, not
+  complete immunity to bias or changed assumptions.
+\end{itemize}
+
+\subsection{Reproducibility and academic
+transparency}\label{reproducibility-and-academic-transparency}
+
+The main source is this single Rmd. Supporting data, acquisition
+scripts, source metadata, frozen route replies, output tables and
+validation records remain in the project. A separate Word companion
+explains the same chunks and exact code. The report does not require a
+live website connection to re-run.
+
+This work used Codex for source discovery, code, analysis explanations,
+and verification, with independent methodological and QA reviews.
+Sources and all numerical statements must be checked, and the student
+should independently understand and explain the work. The repository's
+lecture examples do not establish the instructor's AI policy or this
+project's submission rubric; those remain to be confirmed before
+submission. The course's familiar ggplot2/dplyr patterns guide the code;
+advanced methods were not added solely for appearance.
+
+Existing package-build warnings recorded in this run:
+
+package `ggplot2' was built under R version 4.5.3; package `dplyr' was
+built under R version 4.5.3; package `tidyr' was built under R version
+4.5.3; package `knitr' was built under R version 4.5.3; package `scales'
+was built under R version 4.5.3; package `jsonlite' was built under R
+version 4.5.3
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\item
+  WSE.AM. Snapshot 2026-11-05.
+  \href{https://wse.am/en/apartments-for-rent-yerevan}{WSE.AM rental
+  catalogue and public property API}. Accessed 2026-11-05.
+\item
+  WSE.AM. Accessed 2026-11-05. \href{https://wse.am/robots.txt}{Public
+  property API access rules}. Accessed 2026-11-05.
+\item
+  Yerevan Municipality. 2025 onward.
+  \href{https://transport.yerevan.am/}{Unified public transport ticket
+  comparison}. Accessed 2026-11-05.
+\item
+  Electric Networks of Armenia. 2022 rates with 2025 amendments.
+  \href{https://www.ena.am/Info.aspx?id=11&lang=2}{Household electricity
+  tariffs}. Accessed 2026-11-05.
+\item
+  Public Services Regulatory Commission. 2022-03-01.
+  \href{https://www.psrc.am/contents/newsPress/gas-tariff-22}{Natural
+  gas tariff decision}. Accessed 2026-11-05.
+\item
+  Public Services Regulatory Commission. 2026.
+  \href{https://psrc.am/contents/page/posts/natural-gas-tariffs-for-residents-will-stay-unchanged}{Resident
+  gas tariffs unchanged from August 2026}. Accessed 2026-11-05.
+\item
+  Veolia Djur. 2025-11-26.
+  \href{https://www.veolia.am/en/news/2026-drinking-water-tariff-consumers-will-not-increase}{2026
+  drinking water tariff}. Accessed 2026-11-05.
+\item
+  Veolia Djur. 2025 tariff description.
+  \href{https://www.veolia.am/en/consumers/frequently-asked-questions}{Water
+  tariff units and metering FAQ}. Accessed 2026-11-05.
+\item
+  Armstat. Data updated 2026-06-10; observation 2025.
+  \href{https://sdg.armstat.am/8-5-1-a-iframe/}{SDG8.5.1.a average
+  monthly nominal wages and metadata}. Accessed 2026-11-05.
+\item
+  Project OSRM. v26.5.0 documentation.
+  \href{https://project-osrm.org/docs/v26.5.0/http}{OSRM HTTP API table
+  service}. Accessed 2026-11-05.
+\item
+  OpenStreetMap contributors. Accessed 2026-11-05.
+  \href{https://www.openstreetmap.org/copyright}{OpenStreetMap data
+  attribution and license}. Accessed 2026-11-05.
+\item
+  Habet Madoyan, American University of Armenia. Repository commit
+  1a74f34584c85b08b0f9a87d055b663d209df9de.
+  \href{https://github.com/ReneViva/DS116-Data-Visualization/tree/1a74f34584c85b08b0f9a87d055b663d209df9de}{DS116
+  lecture materials}. Accessed 2026-11-05.
+\item
+  ggplot2 authors. Installed version recorded in report.
+  \href{https://ggplot2.tidyverse.org/reference/}{ggplot2 reference}.
+  Accessed 2026-11-05.
+\item
+  dplyr authors. Installed version recorded in report.
+  \href{https://dplyr.tidyverse.org/reference/}{dplyr reference}.
+  Accessed 2026-11-05.
+\item
+  Yihui Xie and contributors. Installed version recorded in report.
+  \href{https://yihui.org/knitr/}{knitr documentation}. Accessed
+  2026-11-05.
+\end{itemize}
+
+R package versions are listed in the setup table; full session details
+are saved in outputs/session-info.txt.
+
+\end{document}

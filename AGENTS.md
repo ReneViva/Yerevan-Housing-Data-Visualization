@@ -2,6 +2,22 @@
 
 ## Approved work and approval gates
 
+### Approved visual simplification
+
+The latest user-approved revision replaces the verbose reading flow with six
+questions, charts and short takeaways. The editable Rmd reads four flat CSVs
+from data/ and calculates all analytical results itself. Keep setup, detailed
+methods and checks optional in HTML. The Word companion explains the exact nine
+chunks and includes all six charts; its code must be extracted from the Rmd.
+These instructions supersede the older requirement for a repeated long chunk
+template in the main report. Use the root Rmd and root Word file, figures/ for
+six PNGs, outputs/ for HTML/PDF and references/Sources_and_method.md for the
+concise active source note. Earlier references and technical scripts now live
+under _archive/previous-version; preserve all archived evidence byte-for-byte.
+Native Word rendering is verified as the available fallback for document QA.
+Do not install an office renderer. The pre-revision version is committed and
+tagged before-visual-simplification; do not rewrite that history.
+
 ### Current standing authorization
 
 On 2026-11-05, after setup, the user instructed "dont stop continue until the
