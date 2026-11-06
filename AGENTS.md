@@ -2,6 +2,14 @@
 
 ## Approved work and approval gates
 
+### Public repository authorization
+
+On 6 November 2026 the user explicitly requested publishing this project to
+their GitHub account and making it public. This authorizes the dedicated
+ReneViva/Yerevan-Housing-Data-Visualization repository, including the preserved
+previous-version tag. It supersedes the historical no-publication statements
+below for this repository. Keep credentials and ignored R session files local.
+
 ### Approved visual simplification
 
 The latest user-approved revision replaces the verbose reading flow with six

@@ -1,5 +1,14 @@
 # Yerevan housing and commuting costs
 
+DS116 Data Visualization project at the American University of Armenia.
+
+[R Markdown source](Yerevan_Housing_Research.Rmd) ·
+[Word code companion](Yerevan_Housing_Code_Companion.docx) ·
+[PDF report](outputs/Yerevan_Housing_Research.pdf)
+
+Download the repository and open `outputs/Yerevan_Housing_Research.html` to read
+the visual report with expandable code and full-size chart links.
+
 Open **YerevanHousing.Rproj** in RStudio, open **Yerevan_Housing_Research.Rmd**,
 and click **Knit**. The HTML and PDF appear in **outputs**. Open the HTML to read
 the six-chart story; use **Show** to reveal a chart's code. Select any chart to
@@ -24,4 +33,6 @@ The 276 advertisements describe one agency's sample. Rents are observed asking
 prices; travel times and household costs are modeled examples.
 
 The previous version is saved in local Git as `before-visual-simplification`
-(`abcf7d5`) and in `_archive/previous-version`. Nothing is published remotely.
+(`abcf7d5`) and in `_archive/previous-version`.
+
+Public repository: [ReneViva/Yerevan-Housing-Data-Visualization](https://github.com/ReneViva/Yerevan-Housing-Data-Visualization).
