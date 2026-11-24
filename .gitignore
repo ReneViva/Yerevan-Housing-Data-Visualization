@@ -29,3 +29,16 @@ __pycache__/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Claude Code machine-local settings
+.claude/settings.local.json
+
+# Knit in RStudio writes these next to the Rmd; the kept copies live in outputs/
+/Yerevan_Housing_Research.html
+/Yerevan_Housing_Research.pdf
+/Yerevan_Housing_Research.log
+/Yerevan_Housing_Research.tex
+
+# Copyrighted source pages kept only locally (README and hashes are committed)
+data/raw/taxi_traffic_2026-11-24/*.html
+data/raw/taxi_traffic_2026-11-24/*.jpg

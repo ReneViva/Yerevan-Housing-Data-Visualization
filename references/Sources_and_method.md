@@ -1,57 +1,72 @@
 # Sources and method
 
-The complete source list, including publishers, URLs, dates and access dates,
-is in **data/sources.csv** and the report's optional reference list.
+The full source list, with publishers, links and access dates, is in
+**data/sources.csv** and in the report's reference list.
 
-**data/rentals.csv** contains 276 already-cleaned native-AMD advertisements
-from WSE.AM, downloaded on 5 November 2026. They advertise two rooms, 45–75 m²
-and furniture, with usable road-route inputs. This file preserves the selected
-IDs, rents and route values from the previous analysis. The original 949-record
-extraction, screening decisions, duplicate/exclusion evidence and OSRM responses
-remain in **_archive/previous-version**. Collection and source-access records
-remain there too. Public access does not establish a redistribution license.
+## Data
 
-**data/tariffs.csv** holds the verified electricity, gas, water and public-fare
-facts. **data/wages.csv** contains Armstat's annual wage series; the model uses
-the 2025 national gross wage as a time-value benchmark. These source facts do
-not measure a household's consumption or take-home pay.
+- **data/rentals.csv**: 276 cleaned asking rents from WSE.AM, downloaded on
+  5 November 2026. Two rooms, 45–75 m², furniture advertised, priced in AMD. Each
+  row has the road distance and empty-road driving time to Republic Square and
+  back (OSRM, OpenStreetMap). The original 949-record extraction and screening
+  evidence are in **_archive/previous-version**. Public access is not a
+  redistribution licence.
+- **data/tariffs.csv**: official electricity, gas, water and bus-fare facts.
+- **data/wages.csv**: Armstat's average gross monthly wage; 2025 is used to value
+  time.
+- **data/taxi_tariffs.csv**: Yandex Go's official Yerevan rates for seven classes,
+  24 November 2026. The report uses Comfort, and Start for comparison.
+- **data/traffic_score_weekday.csv**: Yandex's 0–10 weekday traffic score,
+  07:00–22:00, read at 15-minute steps from a Yandex chart for February 2020.
+- **data/traffic_benchmarks.csv**: published traffic facts (Yandex, the Yerevan
+  mayor, Numbeo).
 
-The analysis compares named districts within Yerevan with Kentron and uses
-Republic Square as its shared destination. Outside Kentron does not mean
-outside the municipality. Road inputs are model outputs; public-transport
-speed, waiting, traffic adjustment, consumption, workdays, car costs and the
-value of time are explicit assumptions. The report separates cash costs from
-costs including time. Heating is counted once through gas.
+Raw pages and how each taxi and traffic number was made are in
+**data/raw/taxi_traffic_2026-11-24/README.md**.
 
-Each district budget combines medians of separate components; it is not the
-median of observed household bills. The sample is one agency's catalogue,
-not random sampling or verified completed leases. Small samples are marked.
-Quartiles describe the advertisements; they are not confidence intervals.
-Scenario counts are not probabilities. Unsupported population p-values are
-omitted. The full household/heating/time grid and primary calculations remain
-consistent with the previous version; supplementary investigations are archived.
+## Method in short
 
-The pinned DS116 course repository and the original course audit are preserved
-in **_archive/previous-version/references/course-requirements.md**. Requirements
-from previous homework remain distinct from confirmed project instructions.
-The executable Rmd and Word companion are the student's requested deliverables;
-HTML and PDF are supplied for reading. The project rubric, deadline and
-instructor's AI policy still require confirmation before submission.
-
-AI assisted research, code, writing and checking. The student should understand
-and independently explain the analysis. No missing academic rule is assumed.
+- Districts are compared with Kentron, with Republic Square as the shared
+  destination.
+- **Direct monthly cost** = rent + winter bills (heating counted once, as gas)
+  + transport. **Cost including time** adds commuting hours × a value of time.
+- **Bus:** 12 km/h on the road route + 15 minutes per trip; the cheaper of single
+  tickets or a 30-day pass.
+- **Road traffic (car and taxi):** time = empty-road time ×
+  (1 + 0.13 × (Yandex score − 2)). Trips leave at 08:45 (score 5.9) and 18:30
+  (score 7.8). Yandex does not publish how its score turns into minutes. The 0.13
+  gives about +75% at the evening peak, which matches the mayor's "70–80% longer
+  at rush hour" (October 2026). Numbeo users' car commutes (about 27 km/h against
+  42 km/h on empty roads) give the same stretch.
+- **Car:** traffic time + 5 minutes parking per trip; 60 AMD/km plus 10,000 AMD
+  parking a month.
+- **Taxi:** Yandex fare per trip = minimum price (covers 1 km and 2.5 min) +
+  price per km + price per minute, × surge, rounded up to the next 100 AMD. These
+  rules are from Yandex's fare page; the rates are maximums and exclude surge.
+  Waiting 3 minutes for the car counts as time, not money.
+- Each district budget combines the district's median rent and median route.
+  It is an example, not a real household bill.
+- No p-values: the ads are one agency's catalogue, not a random sample, and the
+  scenarios are not independent households.
 
 ## Why these charts
 
 | Question | Chart | Reason |
 |---|---|---|
-| Where is rent cheaper? | Boxplots | Show medians, variation and overlap across the observed advertisements |
-| How much longer is the commute? | Dumbbell | Connect the two modeled mode times for each district |
-| What does the budget include? | Stacked bars | Show the three cash components and their total |
-| How much saving remains? | Waterfall | Show how extra transport and valued time reduce the initial rent saving |
-| When can the answer change? | Heatmap | Compare stated time-value assumptions within one stress scenario |
-| When would saving disappear? | Dot plot | Compare all district–mode thresholds with the wage benchmark |
+| Where is rent cheaper? | Boxplots | Show medians, spread and overlap of the ads |
+| How does traffic change the trip? | Line chart by hour | Shows the Yandex traffic curve turned into minutes |
+| How long is the commute? | Grouped bars | Compare bus, car and taxi in each district |
+| What does a month cost? | Stacked bars, one panel per mode | Show rent, bills and transport adding up |
+| How much saving is left? | Grouped bars for the closest case | Show rent saved, extra costs and what remains |
+| Start or Comfort, with surge? | Small multiples of lines | Show when, if ever, the taxi saving reaches zero |
+| When can the answer change? | Heatmap | Compare a heavy winter across values of time |
+| When would the saving disappear? | Dot plot | Compare break-even values of time with the wage |
 
-The waterfall transparently selects the district containing the smallest
-remaining baseline saving. It explains that example; the calculations and
-written takeaway still cover all 20 noncentral district–mode comparisons.
+All charts use ggplot2 techniques from the DS116 lectures.
+
+## Course requirements
+
+The DS116 course repository and the original course audit are in
+**_archive/previous-version/references/course-requirements.md**. The project
+rubric, deadline and the instructor's AI policy still need confirmation before
+submission. AI assistance is recorded in **references/AI_assistance.md**.

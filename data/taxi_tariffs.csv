@@ -1,0 +1,8 @@
+service_class,url_slug,minimum_price_amd,minimum_includes_km,minimum_includes_min,city_amd_per_km,city_amd_per_min,suburb_amd_per_km,suburb_amd_per_min,free_wait_min,paid_wait_amd_per_min,phone_order_fee_amd,url,accessed
+Start,start,300,1,2.5,60,15,130,15,3,25,65,https://taxi.yandex.com/en_am/yerevan/tariff/start/,2026-11-24
+Comfort,business,400,1,2.5,80,20,170,20,3,30,65,https://taxi.yandex.com/en_am/yerevan/tariff/business/,2026-11-24
+Comfort+,comfortplus,500,1,2.5,100,25,220,25,3,35,65,https://taxi.yandex.com/en_am/yerevan/tariff/comfortplus/,2026-11-24
+Electro,standart,600,1,2.5,115,27,220,27,3,37,65,https://taxi.yandex.com/en_am/yerevan/tariff/standart/,2026-11-24
+Business,vip,700,1,2.5,130,30,220,30,3,40,65,https://taxi.yandex.com/en_am/yerevan/tariff/vip/,2026-11-24
+Premier,ultimate,1400,1,2.5,260,60,440,60,3,80,65,https://taxi.yandex.com/en_am/yerevan/tariff/ultimate/,2026-11-24
+Minivan,minivan,500,1,2.5,80,15,170,15,3,30,65,https://taxi.yandex.com/en_am/yerevan/tariff/minivan/,2026-11-24

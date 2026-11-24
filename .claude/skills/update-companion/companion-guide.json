@@ -1,0 +1,410 @@
+[
+  {
+    "label": "setup",
+    "title": "Set up the report",
+    "purpose": "Choose how every chunk and chart behaves before any analysis runs.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 3,
+        "explanation": "knitr::opts_chunk$set sets defaults for all chunks. echo = TRUE shows the code; message and warning = FALSE keep package messages out of the report. Charts are 9 by 5.5 inches at 150 dpi, drawn as PNG images and saved in the figures folder (fig.path)."
+      },
+      {
+        "start": 4,
+        "end": 4,
+        "explanation": "options(scipen = 999) tells R to print large numbers such as 500000 in full instead of scientific notation like 5e+05."
+      }
+    ],
+    "expected": "No visible output; the chunk is hidden with include = FALSE.",
+    "interpretation": "These settings make the report readable and save every chart automatically.",
+    "hypothesis": "Setup only; it does not test anything."
+  },
+  {
+    "label": "load",
+    "title": "Load the data and state the assumptions",
+    "purpose": "Read the five data files and write every assumption as a named number, so a reader can see and change it in one place.",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 2,
+        "explanation": "library loads ggplot2 for charts and dplyr for data steps such as group_by, mutate and filter."
+      },
+      {
+        "start": 4,
+        "end": 5,
+        "explanation": "theme_set(theme_bw()) gives every chart a white background, which makes light colours easier to see."
+      },
+      {
+        "start": 7,
+        "end": 11,
+        "explanation": "read.csv reads each CSV into a table: the rental ads, the utility and bus tariffs, the wages, the Yandex taxi rates and the Yandex traffic score by time of day."
+      },
+      {
+        "start": 13,
+        "end": 14,
+        "explanation": "rate is a tiny function. rate(\"fare_single\") finds the row named fare_single in the tariffs table and returns its value."
+      },
+      {
+        "start": 16,
+        "end": 18,
+        "explanation": "The household: one commuter who travels to the centre on 22 days a month."
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "explanation": "The 2025 average gross monthly wage divided by 176 working hours (22 days x 8 hours) gives an hourly wage. Half of it is used as the value of one hour of commuting."
+      },
+      {
+        "start": 25,
+        "end": 29,
+        "explanation": "Winter bills: 150 kWh of daytime and 50 kWh of night electricity, 100 cubic metres of gas (the heating) and 8 cubic metres of water, priced with the official tariffs. The same bill is used in every district."
+      },
+      {
+        "start": 31,
+        "end": 34,
+        "explanation": "k = 0.13 means each Yandex traffic point above 2 adds 13% to the empty-road driving time. The scores at 08:45 (trip to work) and 18:30 (trip home) are read from the traffic table."
+      },
+      {
+        "start": 36,
+        "end": 37,
+        "explanation": "A taxi passenger waits about 3 minutes for the car on each trip. This costs time, not money."
+      },
+      {
+        "start": 39,
+        "end": 48,
+        "explanation": "taxi_fare follows Yandex's published rules. match finds the row for the chosen class (Start or Comfort). The price is the minimum price, plus the price per km after the first 1 km, plus the price per minute after the first 2.5 minutes. pmax(..., 0) stops these extra parts from going below zero. The total is multiplied by any surge and rounded up to the next 100 AMD with ceiling."
+      }
+    ],
+    "expected": "No chart; the data and assumptions are stored for the next chunks.",
+    "interpretation": "Every later number is built from these inputs, so changing one assumption here changes the whole report.",
+    "hypothesis": "The assumptions describe the household and costs that the question compares."
+  },
+  {
+    "label": "rent",
+    "title": "Where is rent cheaper",
+    "purpose": "Compare asking rents across districts and build the district summary table used by every later chart.",
+    "figure": "figures/rent-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 7,
+        "explanation": "group_by(district) splits the ads by district. summarise makes one row per district: n counts the ads, and median gives the middle rent, road distance and empty-road driving time."
+      },
+      {
+        "start": 9,
+        "end": 9,
+        "explanation": "rent_kentron stores Kentron's median rent, the number every district is compared with."
+      },
+      {
+        "start": 11,
+        "end": 12,
+        "explanation": "order sorts the districts from cheapest to most expensive median rent. Later charts use this order."
+      },
+      {
+        "start": 14,
+        "end": 17,
+        "explanation": "paste0 builds labels such as \"Davtashen (n=9)\" so every chart shows how many ads a district has. left_join adds the label to each ad."
+      },
+      {
+        "start": 19,
+        "end": 31,
+        "explanation": "geom_boxplot draws one box per district: the box holds the middle half of the ads and the line is the median. coord_flip turns the boxes sideways so names are easy to read. Kentron is grey; rents are shown in thousands of AMD."
+      }
+    ],
+    "expected": "Horizontal boxplots of monthly rent for 11 districts.",
+    "interpretation": "Kentron has the highest median rent, but the boxes overlap, so a cheaper district does not guarantee a cheaper flat.",
+    "hypothesis": "This is the rent saving that commuting costs must be weighed against."
+  },
+  {
+    "label": "traffic",
+    "title": "How does traffic change the trip during the day",
+    "purpose": "Turn the Yandex traffic score into driving minutes and show how the trip changes through a weekday.",
+    "figure": "figures/traffic-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 3,
+        "explanation": "substr cuts \"08:45\" into \"08\" and \"45\"; as.numeric turns them into numbers, so 08:45 becomes 8.75 hours on the x-axis."
+      },
+      {
+        "start": 5,
+        "end": 11,
+        "explanation": "expand.grid makes every pair of time and district for three example districts. left_join adds the traffic score and the district's route. mutate applies the traffic equation: half the round-trip empty-road time, times 1 + 0.13 x (score - 2)."
+      },
+      {
+        "start": 13,
+        "end": 14,
+        "explanation": "factor sets the legend order to match the lines from top to bottom."
+      },
+      {
+        "start": 16,
+        "end": 30,
+        "explanation": "geom_line draws one line per district. geom_vline adds dotted lines at 08:45 and 18:30, the two trips used in the report. The caption repeats the equation."
+      }
+    ],
+    "expected": "Three lines of driving minutes from 07:00 to 22:00.",
+    "interpretation": "Traffic adds the most time around 18:30. Far districts gain more minutes because the model stretches every trip by the same percentage.",
+    "hypothesis": "Traffic is the reason car and taxi trips cost more time, and taxi trips more money, at rush hour."
+  },
+  {
+    "label": "commute",
+    "title": "How long is the commute",
+    "purpose": "Model a round trip to Republic Square by bus, car and taxi for every district.",
+    "figure": "figures/commute-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 4,
+        "explanation": "road_in and road_out are the one-way driving minutes at 08:45 and at 18:30, using the traffic equation."
+      },
+      {
+        "start": 6,
+        "end": 9,
+        "explanation": "Bus round trip: the road distance at 12 km/h, plus 30 minutes of walking and waiting (15 per trip)."
+      },
+      {
+        "start": 11,
+        "end": 13,
+        "explanation": "Car round trip: the two traffic times plus 10 minutes of parking and walking (5 per trip)."
+      },
+      {
+        "start": 15,
+        "end": 17,
+        "explanation": "Taxi round trip: the two traffic times plus 3 minutes of waiting for each car."
+      },
+      {
+        "start": 19,
+        "end": 19,
+        "explanation": "rbind stacks the three tables into one table called travel, with one row per district and mode."
+      },
+      {
+        "start": 21,
+        "end": 24,
+        "explanation": "One colour per mode, reused in later charts. mode_order keeps the same order everywhere."
+      },
+      {
+        "start": 26,
+        "end": 39,
+        "explanation": "geom_col with position = \"dodge\" puts the three modes side by side for each district. trip_minutes / 2 shows the average one-way trip."
+      }
+    ],
+    "expected": "Grouped horizontal bars of one-way minutes by district and mode.",
+    "interpretation": "The bus is the slowest mode from every district; car and taxi take similar times because they use the same roads.",
+    "hypothesis": "Longer trips are a cost of living farther out; the next charts give them a price."
+  },
+  {
+    "label": "budgets",
+    "title": "What does a month cost",
+    "purpose": "Add rent, winter bills and transport into one monthly cash budget for every district and mode.",
+    "figure": "figures/budgets-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 5,
+        "explanation": "The bus costs the cheaper of 44 single tickets or one 30-day pass; min picks the smaller number."
+      },
+      {
+        "start": 7,
+        "end": 15,
+        "explanation": "mutate adds the cost columns. A car costs 60 AMD per km plus 10,000 AMD parking. A taxi costs a Comfort fare in the morning and in the evening on every working day. ifelse picks the right transport cost for each mode. direct is rent + bills + transport; with_time also adds commuting hours times the value of time."
+      },
+      {
+        "start": 17,
+        "end": 24,
+        "explanation": "rbind builds a long table with one row per cost part (rent, utilities, transport), which is the shape ggplot needs for stacked bars."
+      },
+      {
+        "start": 26,
+        "end": 27,
+        "explanation": "factor sets the order of the stacked parts."
+      },
+      {
+        "start": 29,
+        "end": 45,
+        "explanation": "geom_col stacks the three parts into one bar per district. facet_wrap draws one panel per mode."
+      }
+    ],
+    "expected": "Three panels of stacked bars in thousand AMD per month.",
+    "interpretation": "Rent is the largest part everywhere. The bus costs the same everywhere, while a daily taxi grows with distance.",
+    "hypothesis": "This is the direct cash cost in the research question, before valuing time."
+  },
+  {
+    "label": "savings",
+    "title": "How much saving is left after commuting",
+    "purpose": "Compare every district with Kentron and show, for the closest case, where the rent saving goes.",
+    "figure": "figures/savings-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 8,
+        "explanation": "central keeps Kentron's costs for each mode, with new names so they can sit next to every district."
+      },
+      {
+        "start": 10,
+        "end": 18,
+        "explanation": "A Kentron renter does not need a taxi. So the taxi row of central is replaced by Kentron's bus row: a daily taxi user is compared with a Kentron renter who takes the bus."
+      },
+      {
+        "start": 20,
+        "end": 24,
+        "explanation": "left_join adds Kentron's numbers to each row. saving is Kentron's total minus the district's total, including time. direct_difference and extra_hours are kept for the break-even chart."
+      },
+      {
+        "start": 26,
+        "end": 27,
+        "explanation": "filter removes Kentron itself, leaving 30 district-mode comparisons."
+      },
+      {
+        "start": 29,
+        "end": 29,
+        "explanation": "cheaper counts how many comparisons save money."
+      },
+      {
+        "start": 31,
+        "end": 32,
+        "explanation": "which.min finds the comparison with the smallest saving; its district becomes the focus."
+      },
+      {
+        "start": 34,
+        "end": 38,
+        "explanation": "For the focus district, mutate splits the saving into rent saved, extra transport cost and the value of extra time."
+      },
+      {
+        "start": 40,
+        "end": 48,
+        "explanation": "rbind builds a long table with the four steps. Extra costs are made negative so they point down."
+      },
+      {
+        "start": 50,
+        "end": 52,
+        "explanation": "factor keeps the steps and modes in a sensible order."
+      },
+      {
+        "start": 54,
+        "end": 69,
+        "explanation": "geom_col draws side-by-side bars for the three modes; geom_hline marks zero; geom_text writes each value, below negative bars and above positive ones. paste(..., sep = \"\n\") puts each caption sentence on its own line."
+      }
+    ],
+    "expected": "Grouped bars for the focus district: rent saved, extra transport, extra time and saving left.",
+    "interpretation": "Even the closest case keeps a clear monthly saving; the taxi leaves the smallest one.",
+    "hypothesis": "This directly tests whether extra commuting costs outweigh the rent saving."
+  },
+  {
+    "label": "taxi_classes",
+    "title": "Start or Comfort and what if prices surge",
+    "purpose": "Show how the taxi saving changes for the cheaper Start class and the Comfort class as surge pricing rises from 1.0 to 2.0.",
+    "figure": "figures/taxi_classes-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 12,
+        "explanation": "expand.grid makes every combination of surge (1.0, 1.1 ... 2.0), class and district. left_join adds each district's route. mutate prices a month of morning and evening taxis with taxi_fare, works out the hours spent in taxis, values them, and builds the total monthly cost."
+      },
+      {
+        "start": 14,
+        "end": 19,
+        "explanation": "kentron_bus is the monthly total of a Kentron renter who takes the bus. saving is that total minus each taxi user's total. Kentron rows are removed."
+      },
+      {
+        "start": 21,
+        "end": 24,
+        "explanation": "At normal prices, class_gap is the average extra monthly cost of Comfort compared with Start."
+      },
+      {
+        "start": 26,
+        "end": 40,
+        "explanation": "geom_line draws one line per class. facet_wrap makes a small panel per district. geom_hline marks zero: below it, living in Kentron and taking the bus would be cheaper."
+      }
+    ],
+    "expected": "Ten small panels with two lines each, falling as surge rises.",
+    "interpretation": "Comfort always saves less than Start. Surge shrinks every saving; only the tightest case falls below zero, and only at very high surge.",
+    "hypothesis": "This shows how sure the taxi conclusion is when taxi prices are higher than normal."
+  },
+  {
+    "label": "stress",
+    "title": "When can the answer change",
+    "purpose": "Test the comparison under heavier assumptions: more commuters, more working days, extra heating and higher values of time.",
+    "figure": "figures/stress-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 8,
+        "explanation": "expand.grid makes every combination of 1 or 2 commuters, 16/22/26 days, four values of time, three extra-gas amounts, 11 districts and 3 modes."
+      },
+      {
+        "start": 10,
+        "end": 22,
+        "explanation": "left_join adds each district's trip. mutate prices transport for each mode, adds extra gas only outside Kentron, adds the value of time, and sums the total."
+      },
+      {
+        "start": 24,
+        "end": 26,
+        "explanation": "reference keeps Kentron's total for each combination."
+      },
+      {
+        "start": 28,
+        "end": 35,
+        "explanation": "As before, taxi users are compared with a Kentron renter who takes the bus, so the taxi reference is replaced by the bus reference."
+      },
+      {
+        "start": 37,
+        "end": 40,
+        "explanation": "saving is Kentron's total minus the district's total in the same combination."
+      },
+      {
+        "start": 42,
+        "end": 46,
+        "explanation": "outside keeps only the districts outside Kentron. reversals counts the cases where living outside costs more."
+      },
+      {
+        "start": 48,
+        "end": 50,
+        "explanation": "One heavy case is chosen for the chart: two commuters, 26 days and 150 extra cubic metres of gas."
+      },
+      {
+        "start": 52,
+        "end": 70,
+        "explanation": "geom_tile draws a coloured square for each district and value of time; geom_text writes the saving. scale_fill_gradient2 makes savings blue, losses red and zero white."
+      }
+    ],
+    "expected": "A heatmap with one panel per mode; blue cells save money, red cells cost more than Kentron.",
+    "interpretation": "Only heavy cases with two commuters make Kentron cheaper. They are what-if cases, not probabilities.",
+    "hypothesis": "This checks how much the conclusion depends on the household and winter assumptions."
+  },
+  {
+    "label": "threshold",
+    "title": "When would the saving disappear",
+    "purpose": "Find the value of one hour of commuting at which each district stops being cheaper than Kentron.",
+    "figure": "figures/threshold-1.png",
+    "blocks": [
+      {
+        "start": 1,
+        "end": 4,
+        "explanation": "If a district is cheaper in cash but takes more hours, the break-even value is the cash saving divided by the extra hours. Otherwise it is NA (not available)."
+      },
+      {
+        "start": 6,
+        "end": 6,
+        "explanation": "min with na.rm = TRUE finds the smallest break-even value, ignoring NA."
+      },
+      {
+        "start": 8,
+        "end": 9,
+        "explanation": "Taxi trips are faster than the bus from Kentron, so valuing time only adds to their saving; they have no break-even. This counts them."
+      },
+      {
+        "start": 11,
+        "end": 12,
+        "explanation": "filter keeps only the rows that have a break-even value."
+      },
+      {
+        "start": 14,
+        "end": 24,
+        "explanation": "geom_point draws one dot per district and mode; geom_vline marks the average hourly wage. A dot to the right of the line means time would have to be worth more than the average wage for Kentron to win."
+      }
+    ],
+    "expected": "Dot plots for bus and car with a dashed wage line.",
+    "interpretation": "Every break-even value is well above the average wage, so valuing time does not overturn the result.",
+    "hypothesis": "This is the generalized-cost test of the research question, using the value of time."
+  }
+]

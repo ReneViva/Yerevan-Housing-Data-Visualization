@@ -1,0 +1,18 @@
+metric,value,unit,period,source,url,accessed,note
+score_free_max,3,Yandex score,2018 onward,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,0-3 means roads are free
+score_loaded_max,6,Yandex score,2018 onward,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,4-6 means heavy traffic
+score_jam_max,10,Yandex score,2018 onward,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,7-10 means serious jams
+weekday_morning_peak_score,5.5,Yandex score,March 2018,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,Reported as 5-6 points at about 08:30; midpoint stored
+weekday_evening_peak_score,7.5,Yandex score,March 2018,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,Reported as 7-8 points at 17:30-18:40; midpoint stored
+saturday_daytime_score,4.5,Yandex score,March 2018,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,Reported as 4-5 points from 11:30 to 19:00
+sunday_max_score,3,Yandex score,March 2018,Yandex via Mediamax,https://mediamax.am/ru/news/yerevan/27738/,2026-11-24,Reported as rarely above 3 points
+weekday_average_score_pre_covid,5,Yandex score,early 2020,Yandex analyst via Mediamax,https://mediamax.am/ru/news/yerevan/38359/,2026-11-24,Average weekday score before the March 2020 quarantine
+rush_hour_bus_time_increase_low,70,percent,October 2026,Yerevan Mayor via PAN.am,https://www.pan.am/en/626214,2026-11-24,Rush-hour bus travel time increase versus the morning; stated as 70-80%
+rush_hour_bus_time_increase_high,80,percent,October 2026,Yerevan Mayor via PAN.am,https://www.pan.am/en/626214,2026-11-24,Rush-hour bus travel time increase versus the morning; stated as 70-80%
+myasnikyan_avg_speed_normal,22,km/h,October 2026,Yerevan Mayor via PAN.am,https://www.pan.am/en/626214,2026-11-24,Average speed on three-lane Myasnikyan Avenue
+myasnikyan_avg_speed_two_lanes_blocked,8,km/h,October 2026,Yerevan Mayor via PAN.am,https://www.pan.am/en/626214,2026-11-24,When a minor accident blocks two of three lanes
+car_commute_distance,9.87,km,survey of past 5 years,Numbeo (48 contributors),https://www.numbeo.com/traffic/in/Yerevan,2026-11-24,Crowd-sourced perceptions; one-way commute primarily by car
+car_commute_driving_time,22.30,min,survey of past 5 years,Numbeo (48 contributors),https://www.numbeo.com/traffic/in/Yerevan,2026-11-24,Crowd-sourced perceptions; one-way driving time
+car_commute_total_time,23.40,min,survey of past 5 years,Numbeo (48 contributors),https://www.numbeo.com/traffic/in/Yerevan,2026-11-24,Includes 1.10 min walking
+bus_commute_distance,9.89,km,survey of past 5 years,Numbeo (48 contributors),https://www.numbeo.com/traffic/in/Yerevan,2026-11-24,Crowd-sourced perceptions; one-way commute primarily by bus/trolleybus
+bus_commute_total_time,52.22,min,survey of past 5 years,Numbeo (48 contributors),https://www.numbeo.com/traffic/in/Yerevan,2026-11-24,Includes 7.67 min walking and 11.44 min waiting

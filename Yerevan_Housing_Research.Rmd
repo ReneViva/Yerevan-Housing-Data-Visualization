@@ -1,378 +1,592 @@
 ---
 title: "Does cheaper housing make life more expensive?"
-date: "Yerevan · 5 November 2026"
+subtitle: "Rent, commuting and winter bills in Yerevan"
+date: "DS116 Data Visualization · data from November 2026"
 output:
   html_document:
-    toc: false
     code_folding: hide
-    self_contained: true
-    theme: readable
-    highlight: textmate
-    mathjax: null
   pdf_document:
     latex_engine: xelatex
-    toc: false
-    fig_caption: false
-    keep_tex: false
-fontsize: 11pt
-papersize: a4
-geometry: margin=0.7in
-mainfont: Calibri
-monofont: Consolas
-knit: |
-  (function(input, ...) {
-    rmarkdown::render(input, output_format = "all", output_dir = "outputs",
-                      intermediates_dir = tempdir(), envir = new.env())
-  })
 ---
 
-<style>
-body { font-family: "Segoe UI", Arial, sans-serif; color: #243443; background: #fff; font-size: 17px; line-height: 1.65; }
-.main-container { max-width: 1040px !important; padding: 20px 30px 55px; }
-h1.title { font-size: 34px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; margin: 4px 0 8px; }
-h4.date { font-size: 14px; color: #526270; margin: 0 0 16px; }
-h2 { font-size: 26px; line-height: 1.25; font-weight: 650; margin: 45px 0 12px; }
-#where-is-rent-cheaper h2 { margin-top: 18px; }
-h3 { font-size: 20px; margin-top: 28px; }
-p { max-width: 78ch; margin-bottom: 12px; }
-p:has(img) { max-width: none; }
-p, li { overflow-wrap: anywhere; }
-.section > .row { margin-left: 0; margin-right: 0; }
-.section > .row > .col-md-12 { padding-left: 0; padding-right: 0; }
-img { width: 100%; height: auto; }
-.takeaway { font-size: 18px; line-height: 1.55; margin: 10px 0 28px; }
-.takeaway strong { color: #245f7d; }
-details { margin: 14px 0; padding: 14px 0; border-top: 1px solid #dbe1e6; }
-summary { cursor: pointer; font-size: 18px; font-weight: 600; color: #245f7d; }
-table { display: block; max-width: 100%; overflow-x: auto; font-size: 14px; }
-pre { max-width: 100%; overflow-x: auto; font-size: 13px; line-height: 1.5; }
-.code-folding-btn { margin: 8px 0; color: #245f7d; }
-a { color: #245f7d; text-underline-offset: 3px; }
-a:focus-visible, .main-container .btn:focus-visible, summary:focus-visible { outline: 3px solid #b45c32 !important; outline-offset: 3px; }
-::selection { background: #d5e8f1; color: #172b39; }
-@media (max-width: 600px) { .main-container { padding: 14px 16px 32px; } h1.title { font-size: 28px; } h2 { font-size: 23px; } body { font-size: 16px; } }
-</style>
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      fig.width = 9, fig.height = 5.5, dpi = 150,
+                      dev = "png", fig.path = "figures/")
+options(scipen = 999)
+```
 
-**Lower rent survives the baseline comparison.** Six charts compare real asking rents with modeled travel and winter bills.
+Someone works in the centre of Yerevan. Should they rent in Kentron, or in a
+cheaper district and commute by bus, by car or by Yandex Taxi? We compare real
+asking rents with modeled commuting costs and winter bills. Each section asks
+one question, shows one chart and gives a short answer.
 
-<p style="font-size:14px;color:#526270">Select a chart to open its full-size image.</p>
+## The data and our assumptions
 
-```{r prepare, include=FALSE}
-if (.Platform$OS.type == "windows") Sys.setlocale("LC_CTYPE", "English_United States.utf8")
+```{r load}
 library(ggplot2)
 library(dplyr)
-library(tidyr)
-options(tinytex.install_packages = FALSE, scipen = 999)
-rentals <- read.csv("data/rentals.csv", stringsAsFactors = FALSE)
+
+# White chart background for every chart
+theme_set(theme_bw())
+
+rentals <- read.csv("data/rentals.csv")
 tariffs <- read.csv("data/tariffs.csv")
-wages <- read.csv("data/wages.csv")
-sources <- read.csv("data/sources.csv", stringsAsFactors = FALSE)
-rate <- setNames(tariffs$value, tariffs$parameter)
-knitr::opts_chunk$set(echo = knitr::is_html_output(), message = FALSE,
-  warning = TRUE, dev = "png", dpi = 160, fig.show = "hold", fig.width = 9, fig.height = 5.5,
-  fig.path = file.path(normalizePath(tempdir(), winslash = "/"), "yerevan-chart-"),
-  out.width = "100%")
-dir.create("figures", showWarnings = FALSE)
-theme_set(theme_minimal(base_size = 12, base_family = "sans") + theme(plot.margin = margin(8, 24, 8, 8)))
-blue <- "#286C8E"
-orange <- "#AF572E"
-amd <- scales::label_number(scale = 0.001, suffix = "k", accuracy = 1)
-```
+wages   <- read.csv("data/wages.csv")
+taxi    <- read.csv("data/taxi_tariffs.csv")
+traffic <- read.csv("data/traffic_score_weekday.csv")
 
-## Where is rent cheaper?
+# Look up one tariff value by its name
+rate <- function(name) tariffs$value[tariffs$parameter == name]
 
-```{r rent, fig.link='../figures/01-rent.png', fig.alt='Open full-size boxplots of observed asking rent distributions by district'}
-districts <- rentals %>% group_by(district) %>% summarise(
-  n = n(), rent = median(rent_amd), q1 = quantile(rent_amd, 0.25),
-  q3 = quantile(rent_amd, 0.75), area = median(area_m2),
-  km = median(round_trip_km), minutes = median(freeflow_minutes), .groups = "drop")
-order <- districts$district[order(districts$rent)]
-district_labels <- setNames(paste0(districts$district, "  ·  n=", districts$n,
-  ifelse(districts$n < 10, "*", "")), districts$district)
-rent_plot <- ggplot(rentals, aes(rent_amd, factor(district, levels = order))) +
-  geom_boxplot(aes(fill = district == "Kentron"), width = 0.55, outlier.size = 1.3) +
-  scale_fill_manual(values = c("FALSE" = blue, "TRUE" = "#374151"), guide = "none") +
-  scale_y_discrete(labels = district_labels) + scale_x_continuous(labels = amd) +
-  labs(x = "Monthly asking rent (AMD)", y = NULL,
-       caption = "Boxes: middle 50% of ads. Line: median. Whiskers: up to 1.5 box lengths beyond box edges.\nDots: beyond whiskers. Two rooms, 45–75 m², furniture advertised. *Fewer than 10 ads: read cautiously.")
-rent_plot
-ggsave("figures/01-rent.png", rent_plot, width = 9, height = 5.5, dpi = 180)
-```
-
-<div class="takeaway">
-
-**Kentron has the highest median asking rent.** Its median is `r format(districts$rent[districts$district == "Kentron"], big.mark = ",")` AMD, compared with `r format(min(districts$rent), big.mark = ",")`–`r format(max(districts$rent[districts$district != "Kentron"]), big.mark = ",")` AMD elsewhere in this sample. The boxes show overlapping distributions, so district alone does not determine a listing's price.
-
-</div>
-
-::: {=latex}
-\newpage
-:::
-
-## How much longer is the commute?
-
-```{r commute, fig.link='../figures/02-commute.png', fig.alt='Open full-size chart of modeled one-way commute minutes by district and mode'}
-travel <- bind_rows(
-  districts %>% mutate(mode = "Public transport", trip_minutes = km / 12 * 60 + 30),
-  districts %>% mutate(mode = "Private car", trip_minutes = minutes * 1.5 + 10))
-commute_pairs <- travel %>% select(district, mode, trip_minutes) %>%
-  pivot_wider(names_from = mode, values_from = trip_minutes)
-commute_plot <- ggplot(travel, aes(trip_minutes / 2,
-  factor(district, levels = order), color = mode, shape = mode)) +
-  geom_segment(data = commute_pairs,
-    aes(x = `Private car` / 2, xend = `Public transport` / 2,
-        y = factor(district, levels = order), yend = factor(district, levels = order)), inherit.aes = FALSE,
-    color = "#BAC6CE", linewidth = 1.2) +
-  geom_point(size = 3.2) +
-  scale_color_manual(values = c("Private car" = blue, "Public transport" = "#657580"), name = NULL) +
-  scale_shape_manual(values = c("Private car" = 16, "Public transport" = 17), name = NULL) +
-  labs(x = "Modeled minutes per one-way journey", y = NULL,
-       caption = "Each connecting line shows the difference between the two modeled travel modes.\nDestination: Republic Square. Transit: 12 km/h + 15 min per leg; car: 1.5 × free-flow + 5 min per leg.") +
-  theme(legend.position = "bottom")
-commute_plot
-ggsave("figures/02-commute.png", commute_plot, width = 9, height = 5.5, dpi = 180)
-```
-
-<div class="takeaway">
-
-**Public transport takes longer in these modeled comparisons.** Longer connecting lines show a larger gap between the two modes. Kentron is closer to the shared destination. These are road-based scenarios—not timed journeys, live traffic, or actual bus routes.
-
-</div>
-
-::: {=latex}
-\newpage
-:::
-
-## What does the monthly budget include?
-
-```{r budgets, fig.link='../figures/03-budget.png', fig.alt='Open full-size chart of modeled rent, utility and transport components'}
-days <- 22
+# Household: one person commutes to the centre on 22 days a month
+days      <- 22
 commuters <- 1
-wage <- wages$Value[wages$Year == 2025]
-hourly <- wage / (22 * 8)
+
+# Value of time: half of the 2025 average gross hourly wage
+wage       <- wages$Value[wages$Year == 2025]
+hourly     <- wage / (22 * 8)
 time_value <- hourly / 2
-utilities <- 150 * rate["electric_day_low"] + 50 * rate["electric_night_low"] +
-  100 * rate["gas_per_1000m3"] / 1000 + 8 * rate["water_per_m3"]
-budgets <- travel %>% mutate(
-  transport = ifelse(mode == "Public transport",
-    commuters * pmin(2 * days * rate["fare_single"], rate["fare_30day"]),
-    commuters * (km * days * 60 + 10000)),
-  hours = trip_minutes * days * commuters / 60,
-  direct = rent + utilities + transport,
-  with_time = direct + hours * time_value)
-central <- budgets %>% filter(district == "Kentron") %>%
-  select(mode, central_direct = direct, central_hours = hours, central_total = with_time)
-comparisons <- budgets %>% left_join(central, by = "mode") %>% mutate(
-  saving = central_total - with_time, direct_difference = direct - central_direct,
-  extra_hours = hours - central_hours)
-components <- budgets %>% mutate(utilities = utilities) %>%
-  select(district, mode, rent, utilities, transport) %>%
-  pivot_longer(c(rent, utilities, transport), names_to = "component", values_to = "amd")
-components$component <- factor(components$component, levels = c("transport", "utilities", "rent"))
-budget_plot <- ggplot(components, aes(amd, factor(district, levels = order), fill = component)) +
-  geom_col(width = 0.65) + facet_wrap(~mode, nrow = 1) +
-  scale_fill_manual(values = c(rent = "#AFC8D5", utilities = "#657580", transport = blue), name = NULL) +
-  scale_x_continuous(labels = amd) +
-  labs(x = "Selected cash costs per month (AMD)", y = NULL,
-       caption = "Rent + modeled electricity, gas, water and commuting. One commuter, 22 return-commute days.\nSame winter consumption in every district; heating is included once through gas.") +
-  theme(legend.position = "bottom")
-budget_plot
-ggsave("figures/03-budget.png", budget_plot, width = 9, height = 5.5, dpi = 180)
-```
 
-<div class="takeaway">
+# Winter bills, the same in every district (heating is the gas)
+utilities <- 150 * rate("electric_day_low") +
+  50 * rate("electric_night_low") +
+  100 * rate("gas_per_1000m3") / 1000 +
+  8 * rate("water_per_m3")
 
-**Rent is the largest part of the selected budget.** Modeled winter utilities add `r format(round(utilities), big.mark = ",")` AMD everywhere. Public fares can be the same despite a longer journey; driving adds distance-dependent costs. Time is not a cash cost and is added in the next chart.
+# Traffic: each Yandex traffic point above 2 adds 13% to the empty-road time
+k <- 0.13
+score_morning <- traffic$yandex_score[traffic$time == "08:45"]
+score_evening <- traffic$yandex_score[traffic$time == "18:30"]
 
-</div>
+# Taxi: minutes spent waiting for the car on each trip
+taxi_wait <- 3
 
-::: {=latex}
-\newpage
-:::
-
-## How much saving remains after valuing time?
-
-```{r savings, fig.link='../figures/04-saving.png', fig.alt='Open full-size waterfall showing how rent savings are reduced by added transport and valued time'}
-noncentral <- comparisons %>% filter(district != "Kentron")
-focus_district <- noncentral$district[which.min(noncentral$saving)]
-central_transport <- budgets %>% filter(district == "Kentron") %>%
-  select(mode, transport_kentron = transport)
-focus <- noncentral %>% filter(district == focus_district) %>%
-  left_join(central_transport, by = "mode") %>% mutate(
-    rent_saved = districts$rent[districts$district == "Kentron"] - rent,
-    transport_added = transport - transport_kentron, time_added = extra_hours * time_value)
-waterfall <- focus %>% select(mode, rent_saved, transport_added, time_added, saving) %>%
-  mutate(transport_added = -transport_added, time_added = -time_added) %>%
-  pivot_longer(-mode, names_to = "step_name", values_to = "amount") %>%
-  group_by(mode) %>% mutate(step = row_number(),
-    end = ifelse(step == 4, amount, cumsum(amount)),
-    start = ifelse(step %in% c(1, 4), 0, end - amount),
-    kind = ifelse(step %in% c(1, 4), "Saving", "Added cost")) %>% ungroup()
-saving_plot <- ggplot(waterfall) +
-  geom_hline(yintercept = 0, color = "#374151") +
-  geom_rect(aes(xmin = step - 0.32, xmax = step + 0.32,
-    ymin = pmin(start, end), ymax = pmax(start, end), fill = kind)) +
-  geom_segment(data = filter(waterfall, step < 4),
-    aes(x = step + 0.32, xend = step + 0.68, y = end, yend = end), color = "#657580") +
-  geom_text(aes(step, pmax(start, end), label = amd(amount)), vjust = -0.6, size = 3.8) +
-  facet_wrap(~mode, nrow = 1) +
-  scale_fill_manual(values = c("Saving" = blue, "Added cost" = orange), guide = "none") +
-  scale_x_continuous(breaks = 1:4, labels = c("Rent\nsaved", "Extra\ntransport", "Extra\ntime", "Saving\nleft")) +
-  scale_y_continuous(labels = amd, expand = expansion(mult = c(0, 0.16))) +
-  labs(x = NULL, y = "Monthly saving relative to Kentron (AMD)",
-       subtitle = paste("Focus:", focus_district, "— the smallest remaining baseline saving"),
-       caption = "Blue: savings. Orange: extra costs. Equal utilities cancel in this comparison.\nTime is valued at half the gross hourly wage benchmark. These are modeled budgets, not observed bills.")
-saving_plot
-ggsave("figures/04-saving.png", saving_plot, width = 9, height = 5.5, dpi = 180)
-cheaper <- sum(noncentral$saving > 0)
-```
-
-<div class="takeaway">
-
-**Even the most exposed baseline example retains a saving.** The waterfall follows `r focus_district`, selected because it contains the smallest remaining saving. All `r cheaper` district–mode examples remain cheaper than Kentron at about `r round(time_value)` AMD/hour for time. These results apply to the stated sample and assumptions.
-
-</div>
-
-::: {=latex}
-\newpage
-:::
-
-## When can the answer change?
-
-```{r stress, fig.link='../figures/05-sensitivity.png', fig.alt='Open full-size heatmap of savings under heavier winter and commuting assumptions'}
-grid <- expand.grid(workers = c(1, 2), workdays = c(16, 22, 26),
-                    fraction = c(0, 0.25, 0.5, 1), extra_gas = c(0, 75, 150))
-scenarios <- merge(travel, grid, by = NULL) %>% mutate(
-  fare = workers * pmin(2 * workdays * rate["fare_single"], rate["fare_30day"]),
-  car = workers * (km * workdays * 60 + 10000),
-  gas_extra = ifelse(district == "Kentron", 0, extra_gas * rate["gas_per_1000m3"] / 1000),
-  total = rent + utilities + gas_extra + ifelse(mode == "Public transport", fare, car) +
-    trip_minutes * workdays * workers / 60 * fraction * hourly)
-scenario_central <- scenarios %>% filter(district == "Kentron") %>%
-  select(mode, workers, workdays, fraction, extra_gas, reference = total)
-scenarios <- scenarios %>% left_join(scenario_central,
-  by = c("mode", "workers", "workdays", "fraction", "extra_gas")) %>%
-  mutate(saving = reference - total)
-stress_rows <- scenarios %>% filter(workers == 2, workdays == 26,
-  extra_gas == 150, district != "Kentron")
-stress_plot <- ggplot(stress_rows, aes(factor(fraction),
-  factor(district, levels = order), fill = saving)) +
-  geom_tile(color = "white") + geom_text(aes(label = round(saving / 1000)), size = 3.5) +
-  facet_wrap(~mode, nrow = 1) +
-  scale_fill_gradient2(low = "#B65D34", mid = "#FAF9F5", high = "#78A4B8",
-    midpoint = 0, limits = c(-150000, 150000), breaks = c(-150000, 0, 150000), labels = amd) +
-  labs(x = "Time value as a fraction of the gross hourly benchmark", y = NULL, fill = "Saving",
-       caption = "A stress example: 2 commuters, 26 days, +150 m³ gas outside Kentron.\nCells show AMD thousands saved; negative values mean more expensive. These are assumptions, not probabilities.") +
-  theme(legend.position = "bottom")
-stress_plot
-ggsave("figures/05-sensitivity.png", stress_plot, width = 9, height = 5.5, dpi = 180)
-reversals <- sum(scenarios$saving < 0 & scenarios$district != "Kentron")
-```
-
-<div class="takeaway">
-
-**More commuting and heating can erase the saving in some cases.** The chosen grid contains `r reversals` more-expensive cases. The chart shows one heavy-commuting winter example; it does not estimate how often households face those conditions. Two-car cases assume separate journeys and vehicles.
-
-</div>
-
-::: {=latex}
-\newpage
-:::
-
-## When would the saving disappear?
-
-```{r threshold, fig.link='../figures/06-break-even.png', fig.alt='Open full-size dotplot of twenty break-even time values and the gross wage benchmark'}
-thresholds <- noncentral %>% mutate(
-  break_even = ifelse(direct_difference < 0 & extra_hours > 0,
-                     -direct_difference / extra_hours, NA_real_))
-threshold_plot <- ggplot(thresholds, aes(break_even,
-  factor(district, levels = order))) +
-  geom_point(color = blue, size = 3.5) +
-  geom_vline(xintercept = hourly, linetype = "dashed", color = orange, linewidth = 0.8) +
-  facet_wrap(~mode, nrow = 1) + scale_x_continuous(labels = amd) +
-  labs(x = "Break-even value of commuting time (AMD/hour)", y = NULL,
-       caption = "Each dot is a break-even threshold; below it, that district example remains cheaper.\nDashed line: gross wage benchmark. Other costs are held fixed; this is not a universal distance threshold.")
-threshold_plot
-ggsave("figures/06-break-even.png", threshold_plot, width = 9, height = 5.5, dpi = 180)
-lowest_threshold <- min(thresholds$break_even, na.rm = TRUE)
-```
-
-<div class="takeaway">
-
-**The answer depends on how you value extra time.** The lowest positive threshold is about `r format(round(lowest_threshold), big.mark = ",")` AMD/hour, above the `r format(round(hourly), big.mark = ",")` AMD/hour gross benchmark used here. This is a conditional calculation, and some district samples are small.
-
-</div>
-
-## What should a renter take from this?
-
-In the baseline model, the rent saving is large enough to cover the selected extra costs. A renter should still compare a real quote with their own commute, heating needs and value of time. The stress chart shows why the conclusion should remain conditional.
-
-The evidence does **not** support a blanket claim that cheaper noncentral housing always becomes more expensive. It also does not prove that every noncentral apartment is cheaper overall.
-
-## Assumptions and sources
-
-<details>
-<summary>Read the household and travel assumptions</summary>
-
-### The household example
-
-Two adults, one commuter, 22 return-commute days per 30-day month. Winter consumption is assumed to be 150 daytime plus 50 nighttime kWh, 100 m³ gas and 8 m³ metered water. Equal consumption is used across districts. These are not observed bills.
-
-Public transport uses the cheaper of single rides and one 30-day pass per commuter. Car costs assume 60 AMD/km plus 10,000 AMD monthly parking per commuter, excluding full vehicle ownership. Public time uses car-road distance at 12 km/h plus 15 minutes per leg; car time uses 1.5 times free-flow duration plus 5 minutes per leg. Neither is an observed peak journey or bus itinerary.
-
-Time is valued at half of Armstat's 2025 national gross monthly wage divided by 176 assumed paid hours. Zero time value gives the direct cash-cost result. Longer-pass commitments and social discounts are outside the baseline.
-
-### How the district budgets work
-
-Each example combines its sample-median asking rent with median round-trip road inputs. Those medians may come from different apartments. Adding these components creates a modeled district budget—not the median of actual household bills. Kentron has its own nonzero commute to Republic Square.
-
-Rent, modeled electricity/gas/water and commuting are included. Food, internet, building fees, moving costs, deposits and full car ownership are excluded. Heating is counted once through gas.
-
-</details>
-
-<details>
-<summary>Read about the sample, statistics and checks</summary>
-
-### Data and limitations
-
-The four CSVs in `data/` are the complete inputs. `rentals.csv` is already cleaned: 276 native-AMD, two-room, 45–75 m² advertisements with furniture advertised and usable route inputs. The original 949-record extraction, exclusion evidence and route replies are preserved in `_archive/previous-version/`.
-
-This is one agency's catalogue, retrieved on 5 November 2026—not random sampling or completed leases. Availability and last price-update dates are unverified. Condition and building information are incomplete, and district labels/coordinates may be approximate. These comparisons are not quality-adjusted or causal. Outside Kentron is not outside the Yerevan municipality; Abovyan and Masis are not compared.
-
-Boxes show listing quartiles, and whiskers extend to values within 1.5 box lengths; dots show values beyond them. These are not confidence intervals. We do not manufacture population p-values from convenience advertisements or scenario rows. The graphs communicate descriptive statistics and sensitivity to assumptions.
-
-The original broader checks included faster/slower travel, transfers, a narrower size band and alternative aggregation. Their evidence remains archived; the simplified report retains the same primary sample, baseline calculations and full household/heating/time grid.
-
-```{r checks, include=FALSE}
-stopifnot(nrow(rentals) == 276, !anyDuplicated(rentals$listing_id))
-stopifnot(all(rentals$rooms == 2), all(between(rentals$area_m2, 45, 75)))
-stopifnot(isTRUE(all.equal(as.numeric(utilities), 24769.36)))
-stopifnot(all(budgets$direct == budgets$rent + utilities + budgets$transport))
-stopifnot(all(abs(noncentral$direct_difference +
-  noncentral$extra_hours * thresholds$break_even) < 0.000001))
-```
-
-### Reproduce the report
-
-Open `YerevanHousing.Rproj`, open this Rmd, then click **Knit**. Both HTML and Unicode-capable PDF go into `outputs/`; the six chart images go into `figures/`. All calculations run here using local CSVs. No development scripts, downloads or new package installations are required during knitting. HTML code is folded; use its Code buttons to reveal the chart code. The matching Word file explains every chunk.
-
-AI assistance was used for research, coding, writing and verification. The student should understand the work and confirm the instructor's submission and AI policies. Existing package-build warnings from newer R patch versions are a known environment limitation; the report is checked by actual execution.
-
-</details>
-
-<details>
-<summary>Open the reference list</summary>
-
-### References
-
-```{r references, results='asis', echo=FALSE}
-for (i in seq_len(nrow(sources))) {
-  cat(sprintf("- %s. [%s](%s). %s. Accessed %s.\n\n",
-    sources$publisher[i], sources$title[i], sources$url[i],
-    sources$date[i], sources$accessed[i]))
+# Yandex fare for one trip, from the rules on the Yandex Yerevan fare page:
+# minimum price (covers 1 km and 2.5 min) + price per km + price per minute,
+# times any surge, rounded up to the next 100 AMD
+taxi_fare <- function(km, minutes, class, surge = 1) {
+  t <- taxi[match(class, taxi$service_class), ]
+  price <- t$minimum_price_amd +
+    t$city_amd_per_km * pmax(km - 1, 0) +
+    t$city_amd_per_min * pmax(minutes - 2.5, 0)
+  ceiling(surge * price / 100) * 100
 }
 ```
 
-Network estimates use OpenStreetMap contributors' data through OSRM. Source access does not establish an open redistribution license for the agency catalogue.
+`rentals.csv` has `r nrow(rentals)` advertisements for two-room, furnished
+apartments of 45–75 m² from one agency (WSE.AM), collected on 5 November 2026.
+Each row also has the road distance and empty-road driving time to Republic
+Square and back. The taxi prices are Yandex's official Yerevan rates, and the
+traffic score is Yandex's 0–10 rating of how busy the city's roads are.
 
-</details>
+## Where is rent cheaper?
+
+```{r rent}
+# One summary row per district
+districts <- rentals %>%
+  group_by(district) %>%
+  summarise(n = n(),
+            rent = median(rent_amd),
+            km = median(round_trip_km),
+            minutes = median(freeflow_minutes))
+
+rent_kentron <- districts$rent[districts$district == "Kentron"]
+
+# Districts ordered from cheapest to most expensive median rent
+district_order <- districts$district[order(districts$rent)]
+
+# Axis labels with the number of ads
+districts$label <- paste0(districts$district, " (n=", districts$n, ")")
+label_order <- districts$label[order(districts$rent)]
+rentals <- left_join(rentals, districts[c("district", "label")], by = "district")
+
+ggplot(rentals, aes(x = factor(label, levels = label_order),
+                    y = rent_amd / 1000,
+                    fill = district == "Kentron")) +
+  geom_boxplot(width = 0.6) +
+  coord_flip() +
+  scale_fill_manual(values = c("FALSE" = "#286C8E", "TRUE" = "grey40"),
+                    guide = "none") +
+  labs(title = "Monthly asking rent by district",
+       x = NULL,
+       y = "Monthly asking rent (thousand AMD)",
+       caption = paste("Boxes: middle half of the ads. Line: median.",
+                       "Fewer than 10 ads: read with care.",
+                       sep = "\n"))
+```
+
+**Answer.** Kentron has the highest median rent:
+`r format(rent_kentron, big.mark = ",")` AMD a month. Other districts range from
+`r format(min(districts$rent), big.mark = ",")` to
+`r format(max(districts$rent[districts$district != "Kentron"]), big.mark = ",")` AMD.
+The boxes overlap, so the district alone does not decide a flat's price.
+
+## How does traffic change the trip during the day?
+
+```{r traffic}
+# Turn "08:45" into 8.75 hours for the x-axis
+traffic$hour <- as.numeric(substr(traffic$time, 1, 2)) +
+  as.numeric(substr(traffic$time, 4, 5)) / 60
+
+# Road minutes to the centre at every time of day, for three districts
+by_hour <- expand.grid(time = traffic$time,
+                       district = c("Kentron", "Arabkir", "Avan"),
+                       stringsAsFactors = FALSE) %>%
+  left_join(traffic, by = "time") %>%
+  left_join(districts, by = "district") %>%
+  mutate(road_minutes = minutes / 2 * (1 + k * (yandex_score - 2)))
+
+by_hour$district <- factor(by_hour$district,
+                           levels = c("Avan", "Arabkir", "Kentron"))
+
+ggplot(by_hour, aes(x = hour, y = road_minutes, color = district)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = c(8.75, 18.5), linetype = "dotted") +
+  scale_x_continuous(breaks = seq(7, 22, by = 3)) +
+  scale_color_manual(values = c("Kentron" = "grey40",
+                                "Arabkir" = "#286C8E",
+                                "Avan" = "#AF572E")) +
+  labs(title = "Driving time to Republic Square through the day",
+       x = "Departure time (hour of a weekday)",
+       y = "Minutes, one way (modeled)",
+       color = NULL,
+       caption = paste("Empty-road time x (1 + 0.13 x (Yandex traffic score - 2)).",
+                       "Dotted lines: our trips, 08:45 and 18:30.",
+                       sep = "\n")) +
+  theme(legend.position = "bottom")
+```
+
+**Answer.** In this model, traffic stretches every trip, most at 18:30. A trip
+from Avan takes
+`r round(by_hour$road_minutes[by_hour$district == "Avan" & by_hour$time == "07:00"], 1)`
+minutes at 07:00 and
+`r round(by_hour$road_minutes[by_hour$district == "Avan" & by_hour$time == "18:30"], 1)`
+minutes at 18:30. Far districts lose more minutes because the model stretches
+each trip by the same percentage. The scores were read from Yandex's February
+2020 weekday chart.
+
+## How long is the commute?
+
+```{r commute}
+# Road minutes in the morning rush and the evening rush
+districts <- districts %>%
+  mutate(road_in = minutes / 2 * (1 + k * (score_morning - 2)),
+         road_out = minutes / 2 * (1 + k * (score_evening - 2)))
+
+# Round-trip minutes for each way of travelling
+public <- districts %>%
+  mutate(mode = "Public transport",
+         trip_minutes = km / 12 * 60 + 30)
+
+car <- districts %>%
+  mutate(mode = "Private car",
+         trip_minutes = road_in + road_out + 10)
+
+taxi_trips <- districts %>%
+  mutate(mode = "Taxi (Comfort)",
+         trip_minutes = road_in + road_out + 2 * taxi_wait)
+
+travel <- rbind(public, car, taxi_trips)
+
+mode_colors <- c("Public transport" = "#8DB3C7",
+                 "Private car" = "#286C8E",
+                 "Taxi (Comfort)" = "#AF572E")
+mode_order <- names(mode_colors)
+
+ggplot(travel, aes(x = factor(label, levels = label_order),
+                   y = trip_minutes / 2,
+                   fill = factor(mode, levels = rev(mode_order)))) +
+  geom_col(position = "dodge", width = 0.75) +
+  coord_flip() +
+  scale_fill_manual(values = mode_colors, breaks = mode_order) +
+  labs(title = "Average one-way trip to Republic Square",
+       x = NULL,
+       y = "Minutes, one way (modeled)",
+       fill = NULL,
+       caption = paste("Bus: 12 km/h + 15 min. Car: traffic time + 5 min parking.",
+                       "Taxi: traffic time + 3 min waiting.",
+                       sep = "\n")) +
+  theme(legend.position = "bottom")
+```
+
+**Answer.** The bus is the slowest way from every district. Car and taxi use
+the same roads, so they take almost the same time. Bus time does not use the
+traffic score: its 12 km/h is assumed to include traffic already. These are
+modeled times, not timed journeys.
+
+## What does a month cost?
+
+```{r budgets}
+# Monthly transport cost
+# Bus: cheaper of single tickets or a 30-day pass
+# Car: 60 AMD per km plus 10,000 AMD parking
+# Taxi: one Comfort ride in the morning and one in the evening
+bus_cost <- commuters * min(2 * days * rate("fare_single"), rate("fare_30day"))
+
+budgets <- travel %>%
+  mutate(car_cost = commuters * (km * days * 60 + 10000),
+         taxi_cost = commuters * days * (taxi_fare(km / 2, road_in, "Comfort") +
+                                         taxi_fare(km / 2, road_out, "Comfort")),
+         transport = ifelse(mode == "Public transport", bus_cost,
+                            ifelse(mode == "Private car", car_cost, taxi_cost)),
+         hours = trip_minutes * days * commuters / 60,
+         direct = rent + utilities + transport,
+         with_time = direct + hours * time_value)
+
+# Long table: one row per cost part
+components <- rbind(
+  data.frame(label = budgets$label, mode = budgets$mode,
+             part = "Rent", amd = budgets$rent),
+  data.frame(label = budgets$label, mode = budgets$mode,
+             part = "Utilities", amd = utilities),
+  data.frame(label = budgets$label, mode = budgets$mode,
+             part = "Transport", amd = budgets$transport))
+
+components$part <- factor(components$part,
+                          levels = c("Transport", "Utilities", "Rent"))
+
+ggplot(components, aes(x = factor(label, levels = label_order),
+                       y = amd / 1000,
+                       fill = part)) +
+  geom_col(width = 0.7) +
+  coord_flip() +
+  facet_wrap(~factor(mode, levels = mode_order)) +
+  scale_fill_manual(values = c("Rent" = "#8DB3C7",
+                               "Utilities" = "grey60",
+                               "Transport" = "#AF572E")) +
+  labs(title = "Monthly cash cost: rent + winter bills + commuting",
+       x = NULL,
+       y = "Thousand AMD per month",
+       fill = NULL,
+       caption = paste("Rent is the median asking rent (observed).",
+                       "Winter bills and transport are modeled.",
+                       sep = "\n")) +
+  theme(legend.position = "bottom")
+```
+
+**Answer.** Rent is the biggest part everywhere. Winter bills add
+`r format(round(utilities), big.mark = ",")` AMD in every district. A bus pass
+costs the same everywhere, but a daily taxi costs from
+`r format(min(budgets$taxi_cost), big.mark = ",")` AMD (Kentron) to
+`r format(max(budgets$taxi_cost), big.mark = ",")` AMD a month.
+
+## How much saving is left after commuting?
+
+```{r savings}
+# Compare every district with Kentron, for the same mode
+central <- budgets %>%
+  filter(district == "Kentron") %>%
+  select(mode,
+         central_direct = direct,
+         central_hours = hours,
+         central_total = with_time,
+         central_transport = transport)
+
+# A Kentron renter does not need a taxi:
+# compare taxi users with a Kentron renter who takes the bus
+taxi_central <- central %>%
+  filter(mode == "Public transport") %>%
+  mutate(mode = "Taxi (Comfort)")
+
+central <- central %>%
+  filter(mode != "Taxi (Comfort)") %>%
+  rbind(taxi_central)
+
+comparisons <- budgets %>%
+  left_join(central, by = "mode") %>%
+  mutate(saving = central_total - with_time,
+         direct_difference = direct - central_direct,
+         extra_hours = hours - central_hours)
+
+noncentral <- comparisons %>%
+  filter(district != "Kentron")
+
+cheaper <- sum(noncentral$saving > 0)
+
+# The district with the smallest saving left, over all three modes
+focus_district <- noncentral$district[which.min(noncentral$saving)]
+
+focus <- noncentral %>%
+  filter(district == focus_district) %>%
+  mutate(rent_saved = rent_kentron - rent,
+         transport_added = transport - central_transport,
+         time_added = extra_hours * time_value)
+
+steps <- rbind(
+  data.frame(mode = focus$mode, step = "Rent saved",
+             amd = focus$rent_saved),
+  data.frame(mode = focus$mode, step = "Extra transport",
+             amd = -focus$transport_added),
+  data.frame(mode = focus$mode, step = "Extra time",
+             amd = -focus$time_added),
+  data.frame(mode = focus$mode, step = "Saving left",
+             amd = focus$saving))
+
+steps$step <- factor(steps$step, levels = c("Rent saved", "Extra transport",
+                                            "Extra time", "Saving left"))
+steps$mode <- factor(steps$mode, levels = mode_order)
+
+ggplot(steps, aes(x = step, y = amd / 1000, fill = mode)) +
+  geom_col(position = "dodge", width = 0.75) +
+  geom_hline(yintercept = 0) +
+  geom_text(aes(label = round(amd / 1000),
+                vjust = ifelse(amd < 0, 1.5, -0.5)),
+            position = position_dodge(width = 0.75), size = 3.5) +
+  scale_fill_manual(values = mode_colors, breaks = mode_order) +
+  labs(title = paste("Living in", focus$label[1], "instead of Kentron"),
+       x = NULL,
+       y = "Thousand AMD per month",
+       fill = NULL,
+       caption = paste("Negative bars are extra costs.",
+                       "Taxi is compared with a Kentron renter who takes the bus.",
+                       "Saving left includes time, valued at half the hourly wage.",
+                       sep = "\n")) +
+  theme(legend.position = "bottom")
+```
+
+**Answer.** `r focus_district` (only `r focus$n[1]` ads) keeps the smallest
+saving. Even with a daily taxi, compared with a Kentron renter who takes the
+bus, it still saves
+`r format(round(focus$saving[focus$mode == "Taxi (Comfort)"]), big.mark = ",")`
+AMD a month. `r cheaper` of the `r nrow(noncentral)` district–mode examples stay
+cheaper than Kentron when time is valued at about `r round(time_value)` AMD an hour.
+
+## Start or Comfort, and what if prices surge?
+
+```{r taxi_classes}
+# Monthly cost with a daily taxi, for both classes and surge from 1.0 to 2.0
+surge_grid <- expand.grid(surge = seq(1, 2, by = 0.1),
+                          class = c("Start", "Comfort"),
+                          district = districts$district,
+                          stringsAsFactors = FALSE) %>%
+  left_join(districts, by = "district") %>%
+  mutate(taxi_month = commuters * days *
+           (taxi_fare(km / 2, road_in, class, surge) +
+            taxi_fare(km / 2, road_out, class, surge)),
+         taxi_hours = (road_in + road_out + 2 * taxi_wait) * days * commuters / 60,
+         time_cost = taxi_hours * time_value,
+         total = rent + utilities + taxi_month + time_cost)
+
+# Saving compared with a Kentron renter who takes the bus
+kentron_bus <- central$central_total[central$mode == "Public transport"]
+
+surge_grid <- surge_grid %>%
+  mutate(saving = kentron_bus - total) %>%
+  filter(district != "Kentron")
+
+# How much more Comfort costs than Start at normal prices
+normal <- surge_grid %>% filter(surge == 1)
+class_gap <- mean(normal$taxi_month[normal$class == "Comfort"] -
+                  normal$taxi_month[normal$class == "Start"])
+
+ggplot(surge_grid, aes(x = surge, y = saving / 1000, color = class)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  facet_wrap(~factor(label, levels = label_order), nrow = 2) +
+  scale_x_continuous(breaks = c(1, 1.5, 2)) +
+  scale_color_manual(values = c("Start" = "#286C8E", "Comfort" = "#AF572E"),
+                     breaks = c("Start", "Comfort")) +
+  labs(title = "Daily taxi from a cheaper district vs. Kentron by bus",
+       x = "Surge multiplier (1 = normal price)",
+       y = "Saving vs Kentron (thousand AMD per month)",
+       color = NULL,
+       caption = paste("Below the dashed line, Kentron with the bus is cheaper.",
+                       "Fares are rounded up to 100 AMD.",
+                       sep = "\n")) +
+  theme(legend.position = "bottom")
+```
+
+**Answer.** Outside Kentron, Comfort costs about
+`r format(round(class_gap), big.mark = ",")` AMD a month more than Start. Surge
+makes every saving smaller. At double prices the lowest saving is
+`r format(round(min(surge_grid$saving)), big.mark = ",")` AMD a month
+(`r surge_grid$district[which.min(surge_grid$saving)]`,
+`r surge_grid$class[which.min(surge_grid$saving)]`).
+`r ifelse(min(surge_grid$saving) > 0, "No district crosses the dashed line.", paste0("Only ", paste(unique(surge_grid$district[surge_grid$saving < 0]), collapse = ", "), " crosses the dashed line, and only at a surge of ", min(surge_grid$surge[surge_grid$saving < 0]), " or more."))`
+Yandex's rates are maximums, and a possible pickup fee is not included.
+
+## When can the answer change?
+
+```{r stress}
+# Every combination of heavier assumptions
+grid <- expand.grid(workers = c(1, 2),
+                    workdays = c(16, 22, 26),
+                    fraction = c(0, 0.25, 0.5, 1),
+                    extra_gas = c(0, 75, 150),
+                    district = districts$district,
+                    mode = c("Public transport", "Private car", "Taxi (Comfort)"),
+                    stringsAsFactors = FALSE)
+
+scenarios <- grid %>%
+  left_join(travel, by = c("district", "mode")) %>%
+  mutate(bus = workers * pmin(2 * workdays * rate("fare_single"),
+                             rate("fare_30day")),
+         car = workers * (km * workdays * 60 + 10000),
+         cab = workers * workdays * (taxi_fare(km / 2, road_in, "Comfort") +
+                                     taxi_fare(km / 2, road_out, "Comfort")),
+         transport = ifelse(mode == "Public transport", bus,
+                            ifelse(mode == "Private car", car, cab)),
+         gas_extra = ifelse(district == "Kentron", 0,
+                            extra_gas * rate("gas_per_1000m3") / 1000),
+         time_cost = trip_minutes * workdays * workers / 60 * fraction * hourly,
+         total = rent + utilities + gas_extra + transport + time_cost)
+
+reference <- scenarios %>%
+  filter(district == "Kentron") %>%
+  select(mode, workers, workdays, fraction, extra_gas, reference = total)
+
+# Taxi users are compared with a Kentron renter who takes the bus
+taxi_reference <- reference %>%
+  filter(mode == "Public transport") %>%
+  mutate(mode = "Taxi (Comfort)")
+
+reference <- reference %>%
+  filter(mode != "Taxi (Comfort)") %>%
+  rbind(taxi_reference)
+
+scenarios <- scenarios %>%
+  left_join(reference,
+            by = c("mode", "workers", "workdays", "fraction", "extra_gas")) %>%
+  mutate(saving = reference - total)
+
+# Count the cases where a cheaper district costs more than Kentron
+outside <- scenarios %>%
+  filter(district != "Kentron")
+
+reversals <- sum(outside$saving < 0)
+
+# Show one heavy case: 2 commuters, 26 days, extra 150 m3 gas outside Kentron
+stress_rows <- scenarios %>%
+  filter(workers == 2, workdays == 26, extra_gas == 150, district != "Kentron")
+
+ggplot(stress_rows, aes(x = factor(fraction),
+                        y = factor(label, levels = label_order),
+                        fill = saving / 1000)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = round(saving / 1000)), size = 3.2) +
+  facet_wrap(~factor(mode, levels = mode_order)) +
+  scale_fill_gradient2(low = "#B65D34", mid = "white", high = "#78A4B8",
+                       midpoint = 0, limits = c(-150, 150),
+                       breaks = c(-100, 0, 100)) +
+  labs(title = "Saving versus Kentron in a heavy winter (thousand AMD)",
+       x = "Value of time (share of the average hourly wage)",
+       y = NULL,
+       fill = "Saving",
+       caption = paste("2 commuters (separate trips), 26 days.",
+                       "+150 m3 gas outside Kentron.",
+                       "Taxi is compared with Kentron by bus.",
+                       "Negative means more expensive than Kentron.",
+                       sep = "\n")) +
+  theme(legend.position = "bottom")
+```
+
+**Answer.** Heavy commuting and extra heating can remove the saving. Of the
+`r nrow(outside)` combinations outside Kentron,
+`r reversals` are more expensive than Kentron:
+`r sum(outside$saving < 0 & outside$mode == "Taxi (Comfort)")` with a taxi,
+and `r sum(outside$saving < 0 & outside$workers == 2)` with two commuters.
+This count grows if traffic delays are larger than we assume and shrinks if
+they are smaller. These are what-if cases, not probabilities.
+
+## When would the saving disappear?
+
+```{r threshold}
+# The value of one hour at which the saving becomes zero
+thresholds <- noncentral %>%
+  mutate(break_even = ifelse(direct_difference < 0 & extra_hours > 0,
+                             -direct_difference / extra_hours, NA))
+
+lowest_threshold <- min(thresholds$break_even, na.rm = TRUE)
+
+# Taxi trips are faster than the bus from Kentron, so they have no break-even
+no_break_even <- sum(is.na(thresholds$break_even))
+
+points <- thresholds %>%
+  filter(!is.na(break_even))
+
+ggplot(points, aes(x = break_even / 1000,
+                   y = factor(label, levels = label_order))) +
+  geom_point(color = "#286C8E", size = 3.5) +
+  geom_vline(xintercept = hourly / 1000, linetype = "dashed", color = "#AF572E") +
+  facet_wrap(~factor(mode, levels = mode_order)) +
+  labs(title = "How much would an hour of commuting need to be worth?",
+       x = "Break-even value of time (thousand AMD per hour)",
+       y = NULL,
+       caption = paste("Dashed line: the average gross hourly wage.",
+                       "Left of a dot, that district is still cheaper.",
+                       sep = "\n"))
+```
+
+**Answer.** The lowest break-even value is about
+`r format(round(lowest_threshold), big.mark = ",")` AMD an hour, well above the
+average wage of `r format(round(hourly), big.mark = ",")` AMD an hour. For anyone
+whose commuting time is worth less than that, every cheaper district stays
+cheaper. The taxi has no dot: in all `r no_break_even` taxi examples, the taxi
+is faster than the bus from Kentron, so valuing time only adds to the saving.
+
+## Conclusion: where should a centre worker live?
+
+In our baseline, `r cheaper` of the `r nrow(noncentral)` district–mode examples
+are cheaper than Kentron, by bus, by car and by a daily Comfort taxi. The taxi
+leaves the smallest saving, because a fare grows with every extra kilometre and
+minute, while a bus pass costs the same everywhere:
+`r format(round(min(noncentral$saving[noncentral$mode == "Taxi (Comfort)"])), big.mark = ",")`
+AMD a month in `r focus_district`, compared with living in Kentron and taking
+the bus. At double taxi prices the smallest saving is
+`r format(round(min(surge_grid$saving)), big.mark = ",")` AMD a month`r ifelse(min(surge_grid$saving) < 0, paste0(": very heavy surge pricing can make Kentron the cheaper choice for a daily taxi user from ", paste(unique(surge_grid$district[surge_grid$saving < 0]), collapse = ", ")), "")`. In the
+stress test, Kentron wins in `r reversals` heavy what-if cases,
+`r sum(outside$saving < 0 & outside$workers == 2)` of them with two commuters. In all our baseline examples, a renter who
+works in the centre saves by living farther out, but should still check a real
+offer against their own commute.
+
+## Assumptions and limits
+
+- **Sample:** one agency's ads on 5 November 2026; asking prices, not signed
+  leases. Some districts have fewer than 10 ads.
+- **Household:** one commuter, 22 working days, a return trip each day: in at
+  08:45 and home at 18:30.
+- **Winter bills:** 150 kWh day and 50 kWh night electricity, 100 m³ gas,
+  8 m³ water, the same in every district. Heating is counted once, as gas.
+- **Travel:** road distances and empty-road times from OSRM (OpenStreetMap).
+  Bus time is 12 km/h plus 15 minutes of walking and waiting per trip.
+- **Traffic:** road time = empty-road time × (1 + 0.13 × (Yandex score − 2)).
+  Yandex does not publish how its score turns into minutes. We chose 0.13 so
+  that the evening peak (score 7.8) gives about +75%. Yerevan's mayor said in
+  October 2026 that rush-hour bus trips can take "as much as" 70–80% longer than
+  in the morning; we read "the morning" as empty roads (score 2). Because that
+  figure is a maximum, 0.13 probably overstates delays, which works against the
+  far districts. Numbeo's 48 self-reported car commutes (about 27 km/h) are
+  roughly consistent with it. The scores were read by hand from Yandex's
+  February 2020 weekday chart. They are a city-wide average, so every district
+  gets the same percentage stretch.
+- **Bus time** is not traffic-adjusted: its 12 km/h is assumed to include
+  traffic. Car cost per km ignores extra fuel used in traffic.
+- **Taxi:** Yandex Comfort rates from the official Yerevan fare page on
+  24 November 2026. These are maximum rates; surge and any pickup fee are not
+  included. Surge is tested separately. Taxi users are compared with a Kentron
+  renter who takes the bus, since a Kentron renter does not need a taxi.
+  Waiting for the car (3 minutes) costs time, not money.
+- **Time:** valued at half of the 2025 average gross wage divided by 176 hours.
+  A value of zero gives the cash-only result.
+- **District budgets** combine district medians; they are examples, not real
+  household bills.
+- **No p-values:** the ads are not a random sample, and the scenarios are not
+  independent households.
+
+## References
+
+- WSE.AM. [Rental catalogue and public property API](https://wse.am/en/apartments-for-rent-yerevan). Snapshot 5 November 2026.
+- WSE.AM. [Public property API access rules](https://wse.am/robots.txt). Accessed 5 November 2026.
+- Yerevan Municipality. [Unified public transport ticket comparison](https://transport.yerevan.am/). Accessed 5 November 2026.
+- Electric Networks of Armenia. [Household electricity tariffs](https://www.ena.am/Info.aspx?id=11&lang=2). Accessed 5 November 2026.
+- Public Services Regulatory Commission. [Natural gas tariff decision](https://www.psrc.am/contents/newsPress/gas-tariff-22), 1 March 2022, and [2026 no-change notice](https://psrc.am/contents/page/posts/natural-gas-tariffs-for-residents-will-stay-unchanged). Accessed 5 November 2026.
+- Veolia Djur. [2026 drinking water tariff](https://www.veolia.am/en/news/2026-drinking-water-tariff-consumers-will-not-increase) and [metering FAQ](https://www.veolia.am/en/consumers/frequently-asked-questions). Accessed 5 November 2026.
+- Armstat. [Average monthly nominal wages, SDG 8.5.1](https://sdg.armstat.am/8-5-1-a-iframe/). Accessed 5 November 2026.
+- Project OSRM. [OSRM HTTP API](https://project-osrm.org/docs/v26.5.0/http), with [OpenStreetMap data](https://www.openstreetmap.org/copyright). Accessed 5 November 2026.
+- Yandex Go. [Ride fares in Yerevan: Comfort](https://taxi.yandex.com/en_am/yerevan/tariff/business/) and [Start](https://taxi.yandex.com/en_am/yerevan/tariff/start/). Accessed 24 November 2026.
+- Mediamax. [Yandex.Traffic and the coronavirus in Yerevan](https://mediamax.am/ru/news/yerevan/38359/), 1 July 2020 (weekday traffic chart, February 2020). Accessed 24 November 2026.
+- PAN.am. [Yerevan mayor calls for measures to ease traffic jams](https://www.pan.am/en/626214), 12 October 2026. Accessed 24 November 2026.
+- Numbeo. [Traffic in Yerevan](https://www.numbeo.com/traffic/in/Yerevan). Accessed 24 November 2026.
+- Habet Madoyan. [DS116 lecture materials](https://github.com/ReneViva/DS116-Data-Visualization). American University of Armenia.
+- [ggplot2](https://ggplot2.tidyverse.org/reference/), [dplyr](https://dplyr.tidyverse.org/reference/) and [knitr](https://yihui.org/knitr/) documentation.
